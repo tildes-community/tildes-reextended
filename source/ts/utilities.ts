@@ -71,7 +71,7 @@ export function log(message: any, override = false): void {
     overrideStyle = 'background-color: #dc322f; margin-right: 9px;';
   }
 
-  if (debug || override || getManifest().nodeEnv === 'development') {
+  if (debug || override) {
     console.debug(prefix, overrideStyle, message);
   }
 }
