@@ -20,7 +20,7 @@ window.addEventListener(
     const {version} = browser.runtime.getManifest();
     versionSpan.setAttribute(
       'href',
-      `https://gitlab.com/tildes-community/tildes-reextended/-/tags/v${version}`
+      `https://gitlab.com/tildes-community/tildes-reextended/-/tags/${version}`
     );
     versionSpan.textContent = `v${version}`;
 
