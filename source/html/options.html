@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tildes ReExtended Options</title>
+  <link href="../assets/tildes-reextended-128.png" rel="shortcut icon"
+    type="image/x-icon">
+  <link href="../scss/options.scss" rel="stylesheet">
+</head>
+
+<body>
+  <div id="wrapper">
+    <header id="header">
+      <img src="../assets/tildes-reextended-128.png"
+        alt="Tildes ReExtended Logo">
+      <h1>
+        Tildes <span class="red-re">Re</span>Extended
+      </h1>
+      <a id="version" target="_blank" rel="noopener"></a>
+    </header>
+    <main id="main">
+      <div id="settings-list">
+        <a id="back-to-top-list">
+          Back To Top
+        </a>
+        <a id="jump-to-new-comment-list">
+          Jump To New Comment
+        </a>
+        <a id="user-labels-list">
+          User Labels
+        </a>
+        <a id="debug-list">
+          About & Info
+        </a>
+      </div>
+      <div id="settings-content">
+        <div id="back-to-top" class="setting">
+          <header>
+            <h2>Back To Top</h2>
+            <button id="back-to-top-button"></button>
+          </header>
+          <div class="content">
+            <p>
+              Adds a hovering button to the bottom-right of all pages (once
+              you've scrolled past a certain point) that when clicked will
+              scroll you back to the top.
+            </p>
+          </div>
+        </div>
+        <div id="jump-to-new-comment" class="setting">
+          <header>
+            <h2>Jump To New Comment</h2>
+            <button id="jump-to-new-comment-button"></button>
+          </header>
+          <div class="content">
+            <p>
+              Adds a hovering button to the bottom-right of comment sections to
+              automatically scroll to the next new comment.
+            </p>
+            <p>Requires you to have
+              <a href="https://tildes.net/settings/comment_visits"
+                target="_blank" rel="noopener">the "Mark New Comments"
+                feature</a>
+              enabled.
+            </p>
+          </div>
+        </div>
+        <div id="user-labels" class="setting">
+          <header>
+            <h2>User Labels</h2>
+            <button id="user-labels-button"></button>
+          </header>
+          <div class="content">
+            <p>
+              Adds the ability to add customizable labels to users. When in a
+              comments section or in the topic listing a username is visible, a
+              <code>[+]</code> will be next to it. Clicking on that will bring
+              up a dialog to add a label. The values you can customize are:
+            </p>
+            <details>
+              <summary></summary>
+              <ul>
+                <li>
+                  <b>Username</b>:
+                  specifies who the label will be applied to.
+                </li>
+                <li>
+                  <b>Priority</b>:
+                  determines the order of labels. If multiple labels have the
+                  same priority they will be sorted alphabetically. In the topic
+                  listing only the highest priority label will be shown.
+                </li>
+                <li>
+                  <b>Color</b>:
+                  will set the background color of the label. The foreground
+                  color
+                  is calculated to be black or white depending on the brightness
+                  of the background color.<br>
+                  Valid color values are 3, 4, 6 or 8 character hex colors and a
+                  special "transparent" value for a transparent background.<br>
+                  Next to the color input there is also a dropdown menu with
+                  various names, these are colors taken from the Tildes theme
+                  you're using. Note that if you add a label with one of these
+                  colors they won't change when you switch themes.
+                </li>
+                <li>
+                  <b>Text</b>:
+                  the text that will go in your label. If left empty, the label
+                  will be a 12 by 12 pixel square instead.
+                </li>
+              </ul>
+            </details>
+            <p>
+              To edit or remove labels, click on the labels wherever you see
+              them or
+              use the menu below.<a class="asterisk-link"
+                href="https://gitlab.com/tildes-community/tildes-reextended/issues/1"
+                target="_blank" rel="noopener"><small>*WIP</small></a>
+            </p>
+          </div>
+        </div>
+        <div id="debug" class="setting">
+          <header>
+            <h2>About & Info</h2>
+            <button id="debug-button"></button>
+          </header>
+          <div class="content">
+            <p>
+              When this feature is enabled, debug information will be logged to
+              the console.
+            </p>
+            <p>
+              Tildes <span class="red-re">Re</span>Extended is a recreation of
+              <a href="https://tildes.net/user/crius" target="_blank"
+                rel="noopener">Crius</a>' <a
+                href="https://github.com/theCrius/tildes-extended"
+                target="_blank" rel="noopener">Tildes Extended</a> web
+              extension, completely remade from scratch. Open-sourced under <a
+                href="https://gitlab.com/tildes-community/tildes-reextended/blob/master/License"
+                target="_blank" rel="noopener">the MIT license</a>
+              and maintained as a
+              <a href="https://gitlab.com/tildes-community" target="_blank"
+                rel="noopener">
+                Tildes Community project</a>.
+            </p>
+            <p>
+              You can report bugs or request features in <a
+                href="https://gitlab.com/tildes-community/tildes-reextended/issues"
+                target="_blank" rel="noopener">the GitLab issue tracker</a>
+              through the link at the bottom of this page or by
+              <a href="https://tildes.net/user/Bauke/new_message">private
+                messaging Bauke</a>
+              on Tildes. If you're reporting a bug through a private message,
+              please use the "Copy Bug Template" button below and fill out
+              the template in your message.
+            </p>
+          </div>
+          <div id="debug-buttons">
+            <button id="copy-bug-template-button">
+              Copy Bug Template
+            </button>
+            <button id="log-stored-data-button">
+              Log Stored Data
+            </button>
+            <button id="remove-all-data-button">
+              Remove All Data
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer id="footer">
+      <a id="report-a-bug" target="_blank" rel="noopener">
+        Report A Bug
+      </a>
+    </footer>
+  </div>
+  <script src="../ts/options.ts"></script>
+</body>
+
+</html>

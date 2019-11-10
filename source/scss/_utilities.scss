@@ -1,0 +1,95 @@
+$background: #002b36;
+$foreground: #fdf6e3;
+
+$red: #dc322f;
+$orange: #cb4b16;
+$yellow: #b58900;
+$green: #859900;
+$cyan: #2aa198;
+$blue: #268bd2;
+$violet: #6c71c4;
+$magenta: #d33682;
+
+$small-breakpoint: 600px;
+$medium-breakpoint: 900px;
+$large-breakpoint: 1200px;
+$extra-large-breakpoint: 1800px;
+
+.trx-flash-message {
+  align-items: center;
+  background-color: $background;
+  color: $foreground;
+  border: 0.25rem solid $blue;
+  bottom: 1vw;
+  display: flex;
+  justify-content: center;
+  margin-left: 1vw;
+  overflow: hidden;
+  opacity: 0;
+  padding: 1rem;
+  position: fixed;
+  transition: opacity 0.5s;
+  width: 30vw;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.trx-opaque {
+    opacity: 1;
+  }
+
+  &.trx-flash-error {
+    background-color: darken($red, 25%);
+    border-color: $red;
+  }
+}
+
+.trx-hidden {
+  // stylelint-disable-next-line declaration-no-important
+  display: none !important;
+}
+
+.trx-offscreen {
+  left: -250vw;
+  position: absolute;
+}
+
+@mixin invalid($color) {
+  .trx-invalid {
+    border-color: $color;
+  }
+}
+
+body {
+  @include invalid(#d91e18);
+
+  // stylelint-disable-next-line selector-class-pattern
+  &.theme- {
+    &atom-one-dark {
+      @include invalid(#E06C75);
+    }
+
+    &black {
+      @include invalid(#f00);
+    }
+
+    &dracula {
+      @include invalid(#ff5555);
+    }
+
+    &gruvbox-dark,
+    &gruvbox-light {
+      @include invalid(#fb4934);
+    }
+
+    &solarized-dark,
+    &solarized-light {
+      @include invalid(#dc322f);
+    }
+
+    &zenburn {
+      @include invalid(#dc8c6c);
+    }
+  }
+}

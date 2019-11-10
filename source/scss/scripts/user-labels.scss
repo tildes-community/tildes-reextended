@@ -1,0 +1,101 @@
+@import '../utilities';
+
+.trx-user-label {
+  color: #fff;
+  display: inline-block;
+  min-height: 12px;
+  min-width: 12px;
+
+  &,
+  &-add {
+    font-style: initial;
+    margin: 0 2px;
+    padding: 0 2px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &-add {
+    background-color: #0002;
+  }
+}
+
+.trx-bright {
+  color: #000;
+}
+
+#trx-user-label-form {
+  border: 1px solid;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  position: absolute;
+  width: 325px;
+
+  > div:nth-child(1),
+  > div:nth-child(2) {
+    display: flex;
+
+    > label,
+    > input {
+      &:nth-of-type(1) {
+        margin-right: 4px;
+        width: 75%;
+      }
+
+      &:nth-of-type(2) {
+        width: calc(25% - 4px);
+      }
+    }
+  }
+}
+
+#trx-user-label-form-color {
+  display: flex;
+
+  > input {
+    margin-right: 4px;
+    width: 50%;
+  }
+
+  > select {
+    width: 50%;
+  }
+}
+
+#trx-user-label-input {
+  display: flex;
+
+  > input {
+    margin-right: 4px;
+    width: 50%;
+  }
+
+  > #trx-user-label-preview {
+    align-items: center;
+    border: 1px solid;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    width: 50%;
+
+    &.trx-bright {
+      color: #000;
+    }
+  }
+}
+
+#trx-user-label-actions {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+body.theme-black {
+  .trx-user-label-add {
+    background-color: #fff2;
+  }
+}

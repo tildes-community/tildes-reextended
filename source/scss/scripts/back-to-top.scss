@@ -1,0 +1,11 @@
+@import '../utilities';
+
+#trx-back-to-top {
+  bottom: 2vh;
+  position: fixed;
+  right: 2vw;
+}
+
+#trx-jump-to-new-comment:not(.trx-hidden) + #trx-back-to-top {
+  bottom: 6.5vh;
+}
