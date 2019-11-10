@@ -5,7 +5,8 @@ import {
   log,
   isColorBright,
   getCurrentThemeKey,
-  querySelector
+  querySelector,
+  isValidTildesUsername
 } from '../../utilities';
 import {themeColors, ThemeKey} from '../../theme-colors';
 
@@ -95,8 +96,8 @@ export function getLabelFormValues(): Except<UserLabel, 'id'> | undefined {
     username: usernameInput.value.toLowerCase()
   };
 
-  if (data.username.length < 3) {
-    log('No username was provided to add a label to.', true);
+  if (!isValidTildesUsername(data.username)) {
+    log(`Invalid Tildes username detected: ${data.username}`);
     usernameInput.classList.add('trx-invalid');
     return undefined;
   }

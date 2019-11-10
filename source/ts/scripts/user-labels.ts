@@ -192,6 +192,7 @@ function addLabelsToUsernames(settings: Settings): void {
     const username: string = element
       .textContent!.replace(/@/g, '')
       .toLowerCase();
+
     const addLabelSpan: HTMLSpanElement = createElementFromString(
       `<span class="trx-user-label-add" data-trx-username="${username}">[+]</span>`
     );
