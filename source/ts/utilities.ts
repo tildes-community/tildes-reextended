@@ -43,14 +43,12 @@ export const defaultSettings: Settings = {
 let debug = true;
 
 export async function getSettings(): Promise<Settings> {
-  // TODO: Replace local storage with sync storage once the extension has been
-  // deployed to AMO and we get a permanent ID. https://bugzil.la/1323228
-  const localSettings: any = await browser.storage.local.get(defaultSettings);
+  const syncSettings: any = await browser.storage.sync.get(defaultSettings);
   const settings: Settings = {
-    data: {...defaultSettings.data, ...localSettings.data},
-    features: {...defaultSettings.features, ...localSettings.features}
+    data: {...defaultSettings.data, ...syncSettings.data},
+    features: {...defaultSettings.features, ...syncSettings.features}
   };
-  debug = localSettings.features.debug;
+  debug = syncSettings.features.debug;
   // If we're in development, force debug output.
   if (getManifest().nodeEnv === 'development') {
     debug = true;
@@ -62,7 +60,7 @@ export async function getSettings(): Promise<Settings> {
 export async function setSettings(
   newSettings: Partial<Settings>
 ): Promise<void> {
-  return browser.storage.local.set(newSettings);
+  return browser.storage.sync.set(newSettings);
 }
 
 export function log(message: any, override = false): void {

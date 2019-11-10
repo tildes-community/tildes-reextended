@@ -221,7 +221,7 @@ async function removeAllDataHandler(event: MouseEvent): Promise<void> {
     return;
   }
 
-  await browser.storage.local.clear();
+  await browser.storage.sync.clear();
   flashMessage(
     'Data removed, reloading this page to reinitialize default settings.'
   );
