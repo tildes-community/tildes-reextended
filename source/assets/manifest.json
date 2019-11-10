@@ -46,5 +46,10 @@
         "../ts/scripts/user-labels.ts"
       ]
     }
-  ]
+  ],
+  "applications": {
+    "gecko": {
+      "id": "{3a6a9b87-5ea1-441c-98d8-e27a1a0958c8}"
+    }
+  }
 }
