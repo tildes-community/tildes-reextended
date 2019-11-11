@@ -20,16 +20,16 @@ $extra-large-breakpoint: 1800px;
   background-color: $background;
   color: $foreground;
   border: 0.25rem solid $blue;
-  bottom: 1vw;
+  bottom: 20px;
   display: flex;
   justify-content: center;
-  margin-left: 1vw;
+  left: 20px;
   overflow: hidden;
   opacity: 0;
   padding: 1rem;
   position: fixed;
   transition: opacity 0.5s;
-  width: 30vw;
+  width: 350px;
 
   &:hover {
     cursor: pointer;
