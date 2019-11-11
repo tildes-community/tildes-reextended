@@ -5,6 +5,7 @@
   "description": "An updated and reimagined recreation of Tildes Extended to enhance and improve the experience of Tildes.net.",
   "version": "0.1.1",
   "permissions": [
+    "downloads",
     "storage",
     "*://tildes.net/*"
   ],

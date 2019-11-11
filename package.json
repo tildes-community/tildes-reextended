@@ -74,8 +74,10 @@
       "ts"
     ],
     "global": [
+      "Blob",
       "confirm",
       "document",
+      "FileReader",
       "performance",
       "window"
     ],

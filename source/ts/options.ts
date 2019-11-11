@@ -1,6 +1,11 @@
 import platform from 'platform';
 import {browser} from 'webextension-polyfill-ts';
 import {
+  importSettingsHandler,
+  importFileHandler,
+  exportSettingsHandler
+} from './import-export';
+import {
   getSettings,
   Settings,
   camelToKebab,
@@ -32,6 +37,19 @@ window.addEventListener(
         `https://gitlab.com/tildes-community/tildes-reextended/issues/new?issue[description]=${createReportTemplate()}`
       )
     );
+
+    const importSettingsButton: HTMLButtonElement = querySelector(
+      '#import-button'
+    );
+    importSettingsButton.addEventListener('click', importSettingsHandler);
+
+    const importFileInput: HTMLInputElement = querySelector('#import-file');
+    importFileInput.addEventListener('change', importFileHandler);
+
+    const exportSettingsButton: HTMLButtonElement = querySelector(
+      '#export-button'
+    );
+    exportSettingsButton.addEventListener('click', exportSettingsHandler);
 
     const copyBugTemplateButton: HTMLButtonElement = querySelector(
       '#copy-bug-template-button'

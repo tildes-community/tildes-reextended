@@ -200,6 +200,28 @@ p > .red-re {
   }
 }
 
+#import-export {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+
+  > button {
+    border: none;
+    color: $foreground;
+    background-color: $cyan;
+    padding: 1rem;
+
+    &:hover {
+      background-color: darken($cyan, 10%);
+    }
+
+    &:last-child {
+      margin-left: 1rem;
+    }
+  }
+}
+
 #footer {
   align-items: center;
   display: flex;

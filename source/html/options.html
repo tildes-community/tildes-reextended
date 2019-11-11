@@ -157,6 +157,16 @@
               please use the "Copy Bug Template" button below and fill out
               the template in your message.
             </p>
+            <form id="import-export">
+              <input class="trx-hidden" accept="application/json" type="file"
+                id="import-file">
+              <button id="import-button">Import Settings</button>
+              <button id="export-button">Export Settings</button>
+            </form>
+            <p>
+              When importing settings, note that your current settings will be
+              deleted and overwritten with the new ones.
+            </p>
           </div>
           <div id="debug-buttons">
             <button id="copy-bug-template-button">
