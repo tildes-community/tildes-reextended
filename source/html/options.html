@@ -26,6 +26,9 @@
         <a id="back-to-top-list">
           Back To Top
         </a>
+        <a id="hide-votes-list">
+          Hide Votes
+        </a>
         <a id="jump-to-new-comment-list">
           Jump To New Comment
         </a>
@@ -51,6 +54,38 @@
               you've scrolled past a certain point) that when clicked will
               scroll you back to the top.
             </p>
+          </div>
+        </div>
+        <div id="hide-votes" class="setting">
+          <header>
+            <h2>Hide Votes</h2>
+            <button id="hide-votes-button"></button>
+          </header>
+          <div class="content">
+            <p>
+              Select which vote counts you don't want to see, "Comments" and
+              "Topics" will hide the votes on other people's comments/topics
+              while "Own Comments/Topics" will hide the votes on your own
+              comments/topics.
+            </p>
+            <form>
+              <div>
+                <input type="checkbox" id="hide-votes-comments">
+                <label for="hide-votes-comments">Comments</label>
+              </div>
+              <div>
+                <input type="checkbox" id="hide-votes-topics">
+                <label for="hide-votes-topics">Topics</label>
+              </div>
+              <div>
+                <input type="checkbox" id="hide-votes-own-comments">
+                <label for="hide-votes-own-comments">Own Comments</label>
+              </div>
+              <div>
+                <input type="checkbox" id="hide-votes-own-topics">
+                <label for="hide-votes-own-topics">Own Topics</label>
+              </div>
+            </form>
           </div>
         </div>
         <div id="jump-to-new-comment" class="setting">

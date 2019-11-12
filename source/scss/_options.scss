@@ -200,6 +200,16 @@ p > .red-re {
   }
 }
 
+#hide-votes {
+  form {
+    margin-left: 1rem;
+
+    > div {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
 #import-export {
   align-items: center;
   display: flex;

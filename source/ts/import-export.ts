@@ -62,6 +62,10 @@ export async function importFileHandler(event: Event): Promise<void> {
             });
           }
         }
+
+        if (typeof data.data.hideVotes !== 'undefined') {
+          newSettings.data.hideVotes = data.data.hideVotes;
+        }
       }
 
       if (typeof data.features !== 'undefined') {

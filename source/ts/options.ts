@@ -20,6 +20,7 @@ import {
 window.addEventListener(
   'load',
   async (): Promise<void> => {
+    const settings: Settings = await getSettings();
     // Grab the version anchor from the header and add the tag link to it.
     const versionSpan: HTMLAnchorElement = querySelector('#version');
     const {version} = browser.runtime.getManifest();
@@ -36,6 +37,23 @@ window.addEventListener(
       encodeURI(
         `https://gitlab.com/tildes-community/tildes-reextended/issues/new?issue[description]=${createReportTemplate()}`
       )
+    );
+
+    ['comments', 'topics', 'own-comments', 'own-topics'].forEach(
+      (val: string): void => {
+        const hideCheckbox: HTMLInputElement = querySelector(
+          `#hide-votes-${val}`
+        );
+        const settingsKey: string = kebabToCamel(val);
+        hideCheckbox.checked = settings.data.hideVotes[settingsKey];
+        hideCheckbox.addEventListener(
+          'change',
+          async (): Promise<void> => {
+            settings.data.hideVotes[settingsKey] = hideCheckbox.checked;
+            await setSettings(settings);
+          }
+        );
+      }
     );
 
     const importSettingsButton: HTMLButtonElement = querySelector(
@@ -65,10 +83,6 @@ window.addEventListener(
       '#remove-all-data-button'
     );
     removeAllDataButton.addEventListener('click', removeAllDataHandler);
-
-    // Get the settings and add a bunch of behaviours for them.
-    const settings: Settings = await getSettings();
-    // log(settings);
 
     // Set the latest feature to active.
     const latestActiveListItem: HTMLAnchorElement = querySelector(

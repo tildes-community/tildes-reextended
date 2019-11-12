@@ -46,7 +46,8 @@
         "../ts/scripts/jump-to-new-comment.ts",
         "../ts/scripts/back-to-top.ts",
         "../ts/scripts/user-labels.ts",
-        "../ts/scripts/markdown-toolbar.ts"
+        "../ts/scripts/markdown-toolbar.ts",
+        "../ts/scripts/hide-votes.ts"
       ]
     }
   ],

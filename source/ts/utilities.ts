@@ -11,6 +11,13 @@ export interface UserLabel {
 
 export interface Settings {
   data: {
+    hideVotes: {
+      comments: boolean;
+      topics: boolean;
+      ownComments: boolean;
+      ownTopics: boolean;
+      [index: string]: boolean;
+    };
     latestActiveFeatureTab: string;
     userLabels: UserLabel[];
     version?: string;
@@ -18,6 +25,7 @@ export interface Settings {
   features: {
     backToTop: boolean;
     debug: boolean;
+    hideVotes: boolean;
     jumpToNewComment: boolean;
     markdownToolbar: boolean;
     userLabels: boolean;
@@ -27,12 +35,19 @@ export interface Settings {
 
 export const defaultSettings: Settings = {
   data: {
+    hideVotes: {
+      comments: true,
+      topics: true,
+      ownComments: true,
+      ownTopics: true
+    },
     latestActiveFeatureTab: 'debug',
     userLabels: []
   },
   features: {
     backToTop: true,
     debug: false,
+    hideVotes: false,
     jumpToNewComment: true,
     markdownToolbar: true,
     userLabels: true
