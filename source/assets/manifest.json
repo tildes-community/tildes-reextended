@@ -39,12 +39,14 @@
       "css": [
         "../scss/scripts/jump-to-new-comment.scss",
         "../scss/scripts/back-to-top.scss",
-        "../scss/scripts/user-labels.scss"
+        "../scss/scripts/user-labels.scss",
+        "../scss/scripts/markdown-toolbar.scss"
       ],
       "js": [
         "../ts/scripts/jump-to-new-comment.ts",
         "../ts/scripts/back-to-top.ts",
-        "../ts/scripts/user-labels.ts"
+        "../ts/scripts/user-labels.ts",
+        "../ts/scripts/markdown-toolbar.ts"
       ]
     }
   ],

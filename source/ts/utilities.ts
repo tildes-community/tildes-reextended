@@ -19,6 +19,7 @@ export interface Settings {
     backToTop: boolean;
     debug: boolean;
     jumpToNewComment: boolean;
+    markdownToolbar: boolean;
     userLabels: boolean;
     [index: string]: boolean;
   };
@@ -33,6 +34,7 @@ export const defaultSettings: Settings = {
     backToTop: true,
     debug: false,
     jumpToNewComment: true,
+    markdownToolbar: true,
     userLabels: true
   }
 };
