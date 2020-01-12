@@ -27,8 +27,15 @@ function clickHandler(): void {
   // Scroll to the first new comment and remove the `.is-comment-new` class
   // from it.
   const newestComment: HTMLElement = querySelector('.comment.is-comment-new');
-  // TODO: Check if the new comment is collapsed or is inside a collapsed
-  // comment and uncollapse it if so.
+  if (newestComment.offsetParent === null) {
+    // TODO: Instead of expanding all comments, only expand the ones necessary
+    // to make the comment visible.
+    const expandAllButton: HTMLButtonElement = querySelector(
+      '[data-js-comment-expand-all-button]'
+    );
+    expandAllButton.click();
+  }
+
   newestComment.scrollIntoView({behavior: 'smooth'});
   // TODO: Don't immediately remove the class after scrolling to it. But remove
   // it when scrolling to the next new comment after this one. I've decided to
