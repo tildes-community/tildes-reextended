@@ -89,7 +89,11 @@ export function log(message: any, override = false): void {
   }
 
   if (debug || override) {
-    console.debug(prefix, overrideStyle, message);
+    if (overrideStyle.length > 0) {
+      console.debug(prefix, overrideStyle, message);
+    } else {
+      console.debug(prefix, message);
+    }
   }
 }
 
