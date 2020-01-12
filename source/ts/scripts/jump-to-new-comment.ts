@@ -23,10 +23,30 @@ import {
   document.body.append(jumpToNewCommentButton);
 })();
 
+let previousComment: HTMLElement | null = null;
+
 function clickHandler(): void {
-  // Scroll to the first new comment and remove the `.is-comment-new` class
-  // from it.
-  const newestComment: HTMLElement = querySelector('.comment.is-comment-new');
+  if (previousComment !== null) {
+    previousComment.classList.remove('is-comment-new');
+  }
+
+  // If there's no new comments left, remove the button.
+  if (document.querySelectorAll('.comment.is-comment-new').length === 0) {
+    const jumpToNewCommentButton: HTMLAnchorElement = querySelector(
+      '#trx-jump-to-new-comment'
+    );
+    jumpToNewCommentButton.remove();
+  }
+
+  const newestComment: HTMLElement | null = document.querySelector(
+    '.comment.is-comment-new'
+  );
+
+  if (newestComment === null) {
+    return;
+  }
+
+  // If the newest comment is invisible, expand all comments to make it visible.
   if (newestComment.offsetParent === null) {
     // TODO: Instead of expanding all comments, only expand the ones necessary
     // to make the comment visible.
@@ -37,17 +57,5 @@ function clickHandler(): void {
   }
 
   newestComment.scrollIntoView({behavior: 'smooth'});
-  // TODO: Don't immediately remove the class after scrolling to it. But remove
-  // it when scrolling to the next new comment after this one. I've decided to
-  // leave this as a TODO as it complicates the code a little bit and it's only
-  // a QOL feature.
-  newestComment.classList.remove('is-comment-new');
-
-  // If there's no new comments left, remove the button.
-  if (document.querySelectorAll('.comment.is-comment-new').length === 0) {
-    const jumpToNewCommentButton: HTMLAnchorElement = querySelector(
-      '#trx-jump-to-new-comment'
-    );
-    jumpToNewCommentButton.remove();
-  }
+  previousComment = newestComment;
 }
