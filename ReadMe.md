@@ -19,7 +19,7 @@ Some functionality has also been extended more:
 
 * [x] The "Back To Top" button has been separated out into its own feature. It used to be apart of the "Jump To New Comments" one.
 * [ ] The "Random Tildes Logo" feature now picks from theme-appropriate logos instead of a regular tilde character. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/7)
-* [ ] The "Jump To New Comment" button now uncollapses comments if the new one is collapsed or is inside a collapsed one. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/8)
+* [x] The "Jump To New Comment" button now uncollapses comments if the new one is collapsed or is inside a collapsed one.
 
 #### User Labels
 
@@ -34,15 +34,11 @@ Some functionality has also been extended more:
 And various new features have been added such as:
 
 * [ ] Hide (and unhide) topics from the topic listing. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/3)
-* [ ] Hide all vote counts. Or all but your own. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/4)
+* [x] Hide all vote counts. Or all but your own.
 * [ ] Anonymize usernames while adding a unique color to usernames for easy recognition. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/5)
 * [ ] Assign unique colors to people's usernames. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/6)
-* [ ] Export and import your settings. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/2)
+* [x] Export and import your settings.
 
 ## License
 
 Licensed under [MIT](License).
-
-<div align="center">
-  <img alt="Tildes ReExtended" src="source/assets/tildes-reextended-128.png" width="128px" height="128px">
-</div>
