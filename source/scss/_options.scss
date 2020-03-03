@@ -6,7 +6,7 @@ html {
 }
 
 body {
-  background-color: darken($background, 5%);
+  background-color: adjust-color($background, $lightness: -5%);
   color: $foreground;
   font-family: sans-serif;
   font-size: 2rem;
@@ -14,7 +14,7 @@ body {
 
 a,
 a:visited {
-  color: lighten($blue, 10%);
+  color: adjust-color($blue, $lightness: 10%);
 
   &:hover {
     color: $magenta;
@@ -39,7 +39,7 @@ button {
 }
 
 code {
-  background-color: darken($background, 5%);
+  background-color: adjust-color($background, $lightness: -5%);
 }
 
 details {
@@ -123,8 +123,8 @@ p > .red-re {
   margin-right: 1rem;
 
   > a {
-    background-color: lighten($background, 5%);
-    border-bottom: 0.25rem solid darken($background, 5%);
+    background-color: adjust-color($background, $lightness: 5%);
+    border-bottom: 0.25rem solid adjust-color($background, $lightness: -5%);
     color: $foreground;
     padding: 2rem;
 
@@ -133,12 +133,12 @@ p > .red-re {
     }
 
     &:hover:not(.active) {
-      background-color: darken($blue, 20%);
+      background-color: adjust-color($blue, $lightness: -20%);
       cursor: pointer;
     }
 
     &.active {
-      background-color: darken($blue, 10%);
+      background-color: adjust-color($blue, $lightness: -10%);
     }
   }
 }
@@ -163,7 +163,7 @@ p > .red-re {
       min-width: 10rem;
 
       &:hover {
-        background-color: darken($red, 10%);
+        background-color: adjust-color($red, $lightness: -10%);
       }
     }
   }
@@ -175,7 +175,7 @@ p > .red-re {
       background-color: $green;
 
       &:hover {
-        background-color: darken($green, 10%);
+        background-color: adjust-color($green, $lightness: -10%);
       }
     }
   }
@@ -223,7 +223,7 @@ p > .red-re {
     padding: 1rem;
 
     &:hover {
-      background-color: darken($cyan, 10%);
+      background-color: adjust-color($cyan, $lightness: -10%);
     }
 
     &:last-child {
@@ -254,7 +254,7 @@ p > .red-re {
   background-color: $blue;
 
   &:hover {
-    background-color: darken($blue, 10%);
+    background-color: adjust-color($blue, $lightness: -10%);
   }
 }
 
@@ -262,7 +262,7 @@ p > .red-re {
   background-color: $red;
 
   &:hover {
-    background-color: darken($red, 10%);
+    background-color: adjust-color($red, $lightness: -10%);
   }
 }
 

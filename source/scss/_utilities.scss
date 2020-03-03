@@ -40,7 +40,7 @@ $extra-large-breakpoint: 1800px;
   }
 
   &.trx-flash-error {
-    background-color: darken($red, 25%);
+    background-color: adjust-color($red, $lightness: -25%);
     border-color: $red;
   }
 }

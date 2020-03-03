@@ -118,7 +118,7 @@ window.addEventListener(
         // Set the button text to enable/disable based on the current setting.
         const toggleButton: HTMLButtonElement = querySelector(`#${id}-button`);
         toggleButton.addEventListener('click', toggleButtonClickHandler);
-        toggleButton.textContent = value === true ? 'Enabled' : 'Disabled';
+        toggleButton.textContent = value ? 'Enabled' : 'Disabled';
 
         // Add a checkmark to the list item if the feature is enabled.
         const listItem: HTMLAnchorElement = querySelector(`#${id}-list`);
@@ -156,7 +156,7 @@ async function toggleButtonClickHandler(event: MouseEvent): Promise<void> {
   await setSettings(settings);
 
   // Update the button text.
-  target.textContent = wantedSettingValue === true ? 'Enabled' : 'Disabled';
+  target.textContent = wantedSettingValue ? 'Enabled' : 'Disabled';
 
   // Grab the equivalent list item and update the checkmark.
   const listItem: HTMLAnchorElement = querySelector(
@@ -274,12 +274,12 @@ function createReportTemplate(): string {
 <h3>Info</h3>\n
 | Type | Value |
 |------|-------|
-| Operating System | ${platform.os} |
-| Browser | ${platform.name} ${platform.version} (${platform.layout}) |\n`;
+| Operating System | ${platform.os!.toString()} |
+| Browser | ${platform.name!} ${platform.version!} (${platform.layout!}) |\n`;
   // The platform manufacturer and product can be null in certain cases (such as
   // desktops) so only when they're both not null include them.
   if (platform.manufacturer !== null && platform.product !== null) {
-    reportTemplate += `| Device | ${platform.manufacturer} ${platform.product} |\n`;
+    reportTemplate += `| Device | ${platform.manufacturer!} ${platform.product!} |\n`;
   }
 
   reportTemplate += `\n<h3>The Problem</h3>

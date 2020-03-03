@@ -23,7 +23,8 @@ import git from 'simple-git/promise';
 
   if (manifestJSON.version !== packageJSON.version) {
     console.log(
-      `manifest.json and package.json versions are not the same:\n${manifestJSON.version} | ${packageJSON.version}`
+      `manifest.json and package.json versions are not the same:\n` +
+        `${String(manifestJSON.version)} | ${String(packageJSON.version)}`
     );
     return;
   }
@@ -39,7 +40,7 @@ import git from 'simple-git/promise';
         description: `${currentVersion} -> ${semver.inc(
           currentVersion,
           'major'
-        )}`,
+        )!}`,
         value: 'major'
       },
       {
@@ -47,7 +48,7 @@ import git from 'simple-git/promise';
         description: `${currentVersion} -> ${semver.inc(
           currentVersion,
           'minor'
-        )}`,
+        )!}`,
         value: 'minor'
       },
       {
@@ -55,7 +56,7 @@ import git from 'simple-git/promise';
         description: `${currentVersion} -> ${semver.inc(
           currentVersion,
           'patch'
-        )}`,
+        )!}`,
         value: 'patch'
       }
     ] as Array<prompts.Choice & {description?: string}> | undefined,
@@ -70,7 +71,7 @@ import git from 'simple-git/promise';
     case 'patch':
       break;
     default:
-      console.log(`Unknown input: ${input.type}`);
+      console.log(`Unknown input: ${String(input.type)}`);
       return;
   }
 

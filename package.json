@@ -58,7 +58,8 @@
     "rules": {
       "scss/at-rule-no-unknown": null,
       "at-rule-no-unknown": null,
-      "block-no-empty": null
+      "block-no-empty": null,
+      "no-descending-specificity": null
     }
   },
   "xo": {
@@ -83,6 +84,8 @@
           "SwitchCase": 1
         }
       ],
+      "@typescript-eslint/member-ordering": "off",
+      "unicorn/prefer-modern-dom-apis": "off",
       "capitalized-comments": "off",
       "no-await-in-loop": "off"
     },
