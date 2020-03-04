@@ -14,7 +14,8 @@ import {
   querySelector,
   setSettings,
   createElementFromString,
-  flashMessage
+  flashMessage,
+  querySelectorAll
 } from './utilities';
 
 window.addEventListener(
@@ -30,14 +31,32 @@ window.addEventListener(
     );
     versionSpan.textContent = `v${version}`;
 
-    // Grab the "Report A Bug" anchor and add a prefilled GitLab issue URL to it.
-    const reportAnchor: HTMLAnchorElement = querySelector('#report-a-bug');
-    reportAnchor.setAttribute(
-      'href',
-      encodeURI(
-        `https://gitlab.com/tildes-community/tildes-reextended/issues/new?issue[description]=${createReportTemplate()}`
-      )
+    const gitlabReportTemplate: string = createReportTemplate('gitlab');
+    const tildesReportTemplate: string = createReportTemplate('tildes');
+    // Grab the "Report A Bug" anchors and add a prefilled template for them.
+    const gitlabReportAnchors: HTMLAnchorElement[] = querySelectorAll(
+      '.report-a-bug-gitlab'
     );
+    for (const element of gitlabReportAnchors) {
+      element.setAttribute(
+        'href',
+        encodeURI(
+          `https://gitlab.com/tildes-community/tildes-reextended/issues/new?issue[description]=${gitlabReportTemplate}`
+        )
+      );
+    }
+
+    const tildesReportAnchors: HTMLAnchorElement[] = querySelectorAll(
+      '.report-a-bug-tildes'
+    );
+    for (const element of tildesReportAnchors) {
+      element.setAttribute(
+        'href',
+        encodeURI(
+          `https://tildes.net/user/Bauke/new_message?subject=Tildes ReExtended Bug&message=${tildesReportTemplate}`
+        )
+      );
+    }
 
     ['comments', 'topics', 'own-comments', 'own-topics'].forEach(
       (val: string): void => {
@@ -217,7 +236,7 @@ async function listItemClickHandler(event: MouseEvent): Promise<void> {
 function copyBugTemplateHandler(event: MouseEvent): void {
   event.preventDefault();
   const temporaryElement: HTMLTextAreaElement = createElementFromString(
-    `<textarea>${createReportTemplate()}</textarea>`
+    `<textarea>${createReportTemplate('tildes')}</textarea>`
   );
   temporaryElement.classList.add('trx-offscreen');
   document.body.append(temporaryElement);
@@ -262,14 +281,21 @@ async function removeAllDataHandler(event: MouseEvent): Promise<void> {
   }, 2500);
 }
 
-function createReportTemplate(): string {
+function createReportTemplate(location: 'gitlab' | 'tildes'): string {
+  let introText =
+    "Thank you for taking the time to report a bug! Don't forget to fill in an\n  appropriate title above, and make sure the information below is correct.";
+
+  if (location === 'tildes') {
+    introText =
+      'Thank you for taking the time to report a bug! Please make sure the\n  information below is correct.';
+  }
+
   // Set the headers using HTML tags, these can't be with #-style Markdown
   // headers as they'll be interpreted as an ID instead of Markdown content
   // and so GitLab won't add it to the description.
   let reportTemplate = `<h2>Bug Report</h2>
 <!--
-  Thank you for taking the time to report a bug! Don't forget to fill in an
-  appropriate title above, and make sure the information below is correct.
+  ${introText}
 -->
 <h3>Info</h3>\n
 | Type | Value |

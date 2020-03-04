@@ -147,6 +147,15 @@ export function querySelector<T extends Element>(selector: string): T {
   return document.querySelector<T>(selector)!;
 }
 
+export function querySelectorAll<T extends Element>(selector: string): T[] {
+  const elements: T[] = [];
+  for (const element of document.querySelectorAll<T>(selector)) {
+    elements.push(element);
+  }
+
+  return elements;
+}
+
 export function createElementFromString<T extends Element>(input: string): T {
   const template: HTMLTemplateElement = document.createElement('template');
   template.innerHTML = input.trim();

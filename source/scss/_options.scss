@@ -237,6 +237,10 @@ p > .red-re {
   display: flex;
   justify-content: center;
   padding: 2rem 0;
+
+  p {
+    margin: 0;
+  }
 }
 
 #copy-bug-template-button,
