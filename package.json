@@ -2,7 +2,7 @@
   "name": "tildes-reextended",
   "description": "An updated and reimagined recreation of Tildes Extended to enhance and improve the experience of Tildes.net.",
   "license": "MIT",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "repository": "https://gitlab.com/tildes-community/tildes-reextended",
   "authors": [
     "Bauke <me@bauke.xyz>"
