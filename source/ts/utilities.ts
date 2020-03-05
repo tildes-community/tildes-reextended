@@ -287,8 +287,8 @@ export function flashMessage(message: string, error = false): void {
 // https://gitlab.com/tildes/tildes/blob/master/tildes/tildes/schemas/user.py
 export function isValidTildesUsername(username: string): boolean {
   return (
-    username.length > 2 &&
-    username.length < 20 &&
+    username.length >= 3 &&
+    username.length <= 20 &&
     /^[a-z0-9]([a-z0-9]|[_-](?![_-]))*[a-z0-9]$/i.exec(username) !== null
   );
 }
