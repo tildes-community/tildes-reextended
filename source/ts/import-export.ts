@@ -30,6 +30,7 @@ export async function importFileHandler(event: Event): Promise<void> {
     async (): Promise<void> => {
       let data: Partial<Settings>;
       try {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         data = JSON.parse(reader.result!.toString());
       } catch (error) {
         log(error, true);
@@ -56,7 +57,7 @@ export async function importFileHandler(event: Event): Promise<void> {
                 ? label.color
                 : themeColors.white.backgroundAlt,
               id: newSettings.data.userLabels.length + 1,
-              priority: isNaN(label.priority) ? 0 : label.priority,
+              priority: Number.isNaN(label.priority) ? 0 : label.priority,
               text: typeof label.text === 'undefined' ? 'Label' : label.text,
               username: label.username
             });

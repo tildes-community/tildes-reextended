@@ -147,7 +147,7 @@ function addToolbarToTextareas(): void {
     // When the dropdown value changes, add the snippet.
     markdownSelect.addEventListener('change', (): void => {
       const snippet: MarkdownSnippet | undefined = markdownSnippets.find(
-        val => val.name === markdownSelect.value
+        (value) => value.name === markdownSelect.value
       );
       if (typeof snippet === 'undefined') {
         return;

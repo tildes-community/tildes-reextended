@@ -215,13 +215,13 @@ export function isColorBright(color: string): boolean {
   if (color.length === 3) {
     color = color
       .split('')
-      .map(val => val.repeat(2))
+      .map((value) => value.repeat(2))
       .join('');
   }
 
-  const red: number = parseInt(color.slice(0, 2), 16);
-  const green: number = parseInt(color.slice(2, 4), 16);
-  const blue: number = parseInt(color.slice(4, 6), 16);
+  const red: number = Number.parseInt(color.slice(0, 2), 16);
+  const green: number = Number.parseInt(color.slice(2, 4), 16);
+  const blue: number = Number.parseInt(color.slice(4, 6), 16);
   const brightness: number = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
   return brightness > 128;
 }
@@ -238,10 +238,10 @@ export function appendStyleAttribute(element: Element, styles: string): void {
 export function isValidHexColor(color: string): boolean {
   // Overly verbose validation for 3/4/6/8-character hex colors.
   if (
-    /^#[a-f0-9]{6}$/i.exec(color) === null &&
-    /^#[a-f0-9]{3}$/i.exec(color) === null &&
-    /^#[a-f0-9]{8}$/i.exec(color) === null &&
-    /^#[a-f0-9]{4}$/i.exec(color) === null
+    /^#[a-f\d]{6}$/i.exec(color) === null &&
+    /^#[a-f\d]{3}$/i.exec(color) === null &&
+    /^#[a-f\d]{8}$/i.exec(color) === null &&
+    /^#[a-f\d]{4}$/i.exec(color) === null
   ) {
     return false;
   }
@@ -289,6 +289,6 @@ export function isValidTildesUsername(username: string): boolean {
   return (
     username.length >= 3 &&
     username.length <= 20 &&
-    /^[a-z0-9]([a-z0-9]|[_-](?![_-]))*[a-z0-9]$/i.exec(username) !== null
+    /^[a-z\d]([a-z\d]|[_-](?![_-]))*[a-z\d]$/i.exec(username) !== null
   );
 }

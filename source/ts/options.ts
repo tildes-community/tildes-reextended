@@ -59,11 +59,11 @@ window.addEventListener(
     }
 
     ['comments', 'topics', 'own-comments', 'own-topics'].forEach(
-      (val: string): void => {
+      (value: string): void => {
         const hideCheckbox: HTMLInputElement = querySelector(
-          `#hide-votes-${val}`
+          `#hide-votes-${value}`
         );
-        const settingsKey: string = kebabToCamel(val);
+        const settingsKey: string = kebabToCamel(value);
         hideCheckbox.checked = settings.data.hideVotes[settingsKey];
         hideCheckbox.addEventListener(
           'change',

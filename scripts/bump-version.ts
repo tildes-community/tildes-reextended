@@ -11,15 +11,13 @@ import git from 'simple-git/promise';
   );
   const packageJSONPath: string = join(__dirname, '../package.json');
 
-  const manifestJSON: any = JSON.parse((await fs.readFile(
-    manifestJSONPath,
-    'UTF8'
-  )) as string);
+  const manifestJSON: any = JSON.parse(
+    await fs.readFile(manifestJSONPath, 'utf8')
+  );
 
-  const packageJSON: any = JSON.parse((await fs.readFile(
-    packageJSONPath,
-    'UTF8'
-  )) as string);
+  const packageJSON: any = JSON.parse(
+    await fs.readFile(packageJSONPath, 'utf8')
+  );
 
   if (manifestJSON.version !== packageJSON.version) {
     console.log(

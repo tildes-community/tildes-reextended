@@ -135,11 +135,11 @@ let theme: typeof themeColors[ThemeKey];
   const commentObserver = new window.MutationObserver(
     async (mutations: MutationRecord[]): Promise<void> => {
       const commentElements: HTMLElement[] = mutations
-        .map(val => val.target as HTMLElement)
+        .map((value) => value.target as HTMLElement)
         .filter(
-          val =>
-            val.classList.contains('comment-itself') ||
-            val.classList.contains('comment')
+          (value) =>
+            value.classList.contains('comment-itself') ||
+            value.classList.contains('comment')
         );
       if (commentElements.length === 0) {
         return;
@@ -205,7 +205,7 @@ function addLabelsToUsernames(settings: Settings): void {
     }
 
     const userLabels: UserLabel[] = settings.data.userLabels.filter(
-      val => val.username === username
+      (value) => value.username === username
     );
     if (userLabels.length === 0) {
       if (
@@ -285,7 +285,7 @@ async function saveUserLabel(): Promise<void> {
 
   const existingID = Number(existingIDString);
   const existingLabel: UserLabel | undefined = settings.data.userLabels.find(
-    val => val.id === existingID
+    (value) => value.id === existingID
   );
   if (typeof existingLabel === 'undefined') {
     log(`Tried to find label with ID that doesn't exist: ${existingID}`, true);
@@ -293,7 +293,7 @@ async function saveUserLabel(): Promise<void> {
   }
 
   const existingLabelIndex: number = settings.data.userLabels.findIndex(
-    val => val.id === existingID
+    (value) => value.id === existingID
   );
   settings.data.userLabels.splice(existingLabelIndex, 1);
   settings.data.userLabels.push({
@@ -320,7 +320,7 @@ async function removeUserLabel(): Promise<void> {
 
   const settings: Settings = await getSettings();
   const labelIndex: number = settings.data.userLabels.findIndex(
-    val => val.id === id
+    (value) => value.id === id
   );
   if (typeof findLabelByID(id) === 'undefined') {
     log(
@@ -345,7 +345,7 @@ export async function findLabelByID(
     settings = await getSettings();
   }
 
-  return settings.data.userLabels.find(val => val.id === id);
+  return settings.data.userLabels.find((value) => value.id === id);
 }
 
 async function getHighestLabelID(settings?: Settings): Promise<number> {
@@ -357,5 +357,5 @@ async function getHighestLabelID(settings?: Settings): Promise<number> {
     return 0;
   }
 
-  return Math.max(...settings.data.userLabels.map(val => val.id));
+  return Math.max(...settings.data.userLabels.map((value) => value.id));
 }
