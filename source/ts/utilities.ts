@@ -65,7 +65,7 @@ export async function getSettings(): Promise<Settings> {
     data: {...defaultSettings.data, ...syncSettings.data},
     features: {...defaultSettings.features, ...syncSettings.features}
   };
-  debug = syncSettings.features.debug;
+  debug = settings.features.debug;
   // If we're in development, force debug output.
   if (getManifest().nodeEnv === 'development') {
     debug = true;
