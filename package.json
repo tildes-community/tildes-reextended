@@ -9,11 +9,11 @@
   ],
   "private": true,
   "scripts": {
-    "watch": "NODE_ENV=development parcel source/assets/manifest.json -d build/ --no-hmr",
+    "watch": "NODE_ENV=development parcel source/manifest.json -d build/ --no-hmr",
     "start": "web-ext run --source-dir build/ --bc",
     "start:chromium": "yarn start --chromium-profile chromium/ --keep-profile-changes --target chromium --start-url \"chrome://extensions\"",
     "start:firefox": "yarn start --firefox-profile firefox/ --keep-profile-changes --target firefox-desktop --start-url \"about:debugging#/runtime/this-firefox\"",
-    "build": "yarn clean && parcel build source/assets/manifest.json -d build/ && web-ext build --source-dir build/ && yarn zip-source",
+    "build": "yarn clean && parcel build source/manifest.json -d build/ && web-ext build --source-dir build/ && yarn zip-source",
     "zip-source": "zip -r web-ext-artifacts/tildes_reextended-source.zip ReadMe.md yarn.lock tsconfig.json package.json .gitignore License source/ scripts/ .vscode/",
     "clean": "trash .cache build/ web-ext-artifacts/",
     "bump": "ts-node scripts/bump-version.ts && yarn build",

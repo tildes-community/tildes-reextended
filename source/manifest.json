@@ -11,23 +11,23 @@
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'; style-src 'unsafe-inline'",
   "web_accessible_resources": [
-    "./**"
+    "./assets/**"
   ],
   "icons": {
-    "128": "./tildes-reextended-128.png"
+    "128": "./assets/tildes-reextended-128.png"
   },
   "background": {
     "scripts": [
-      "../ts/background.ts"
+      "./ts/background.ts"
     ]
   },
   "browser_action": {
     "default_icon": {
-      "128": "./tildes-reextended-128.png"
+      "128": "./assets/tildes-reextended-128.png"
     }
   },
   "options_ui": {
-    "page": "../html/options.html",
+    "page": "./html/options.html",
     "open_in_tab": true
   },
   "content_scripts": [
@@ -37,17 +37,17 @@
       ],
       "run_at": "document_end",
       "css": [
-        "../scss/scripts/jump-to-new-comment.scss",
-        "../scss/scripts/back-to-top.scss",
-        "../scss/scripts/user-labels.scss",
-        "../scss/scripts/markdown-toolbar.scss"
+        "./scss/scripts/jump-to-new-comment.scss",
+        "./scss/scripts/back-to-top.scss",
+        "./scss/scripts/user-labels.scss",
+        "./scss/scripts/markdown-toolbar.scss"
       ],
       "js": [
-        "../ts/scripts/jump-to-new-comment.ts",
-        "../ts/scripts/back-to-top.ts",
-        "../ts/scripts/user-labels.ts",
-        "../ts/scripts/markdown-toolbar.ts",
-        "../ts/scripts/hide-votes.ts"
+        "./ts/scripts/jump-to-new-comment.ts",
+        "./ts/scripts/back-to-top.ts",
+        "./ts/scripts/user-labels.ts",
+        "./ts/scripts/markdown-toolbar.ts",
+        "./ts/scripts/hide-votes.ts"
       ]
     }
   ],

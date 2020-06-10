@@ -5,10 +5,7 @@ import semver from 'semver';
 import git from 'simple-git/promise';
 
 (async (): Promise<void> => {
-  const manifestJSONPath: string = join(
-    __dirname,
-    '../source/assets/manifest.json'
-  );
+  const manifestJSONPath: string = join(__dirname, '../source/manifest.json');
   const packageJSONPath: string = join(__dirname, '../package.json');
 
   const manifestJSON: any = JSON.parse(
