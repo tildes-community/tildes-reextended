@@ -25,7 +25,7 @@ $extra-large-breakpoint: 1800px;
   justify-content: center;
   left: 20px;
   overflow: hidden;
-  opacity: 0;
+  opacity: 0%;
   padding: 1rem;
   position: fixed;
   transition: opacity 0.5s;
@@ -36,7 +36,7 @@ $extra-large-breakpoint: 1800px;
   }
 
   &.trx-opaque {
-    opacity: 1;
+    opacity: 100%;
   }
 
   &.trx-flash-error {
