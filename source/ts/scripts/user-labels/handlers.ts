@@ -2,11 +2,11 @@ import {
   log,
   isValidHexColor,
   UserLabel,
-  getCurrentThemeKey,
-  querySelector
+  querySelector,
+  getCSSCustomPropertyValue
 } from '../../utilities';
 import {findLabelByID} from '../user-labels';
-import {themeColors, ThemeKey} from '../../theme-colors';
+import {themeColors} from '../../theme-colors';
 import {
   getLabelForm,
   setLabelFormColor,
@@ -19,8 +19,6 @@ import {
   updatePreview
 } from './label-form';
 
-const theme: typeof themeColors[ThemeKey] = themeColors[getCurrentThemeKey()];
-
 export function addLabelHandler(
   event: MouseEvent,
   element: HTMLSpanElement
@@ -30,7 +28,7 @@ export function addLabelHandler(
   setLabelFormTitle('Add New Label');
   setLabelFormUsername(element.getAttribute('data-trx-username')!);
   setLabelFormPriority(0);
-  setLabelFormColor(theme.backgroundAlt);
+  setLabelFormColor(getCSSCustomPropertyValue(themeColors.backgroundSecondary));
   setLabelFormText('');
   showLabelForm(element);
   updatePreview();

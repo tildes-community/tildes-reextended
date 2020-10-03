@@ -9,7 +9,6 @@ import {
   isValidHexColor,
   setSettings
 } from './utilities';
-import {themeColors} from './theme-colors';
 
 export async function importSettingsHandler(event: MouseEvent): Promise<void> {
   event.preventDefault();
@@ -53,9 +52,7 @@ export async function importFileHandler(event: Event): Promise<void> {
             }
 
             newSettings.data.userLabels.push({
-              color: isValidHexColor(label.color)
-                ? label.color
-                : themeColors.white.backgroundAlt,
+              color: isValidHexColor(label.color) ? label.color : '#f0f',
               id: newSettings.data.userLabels.length + 1,
               priority: Number.isNaN(label.priority) ? 0 : label.priority,
               text: typeof label.text === 'undefined' ? 'Label' : label.text,

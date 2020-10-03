@@ -4,13 +4,10 @@ import {
   UserLabel,
   log,
   isColorBright,
-  getCurrentThemeKey,
   querySelector,
   isValidTildesUsername
 } from '../../utilities';
-import {themeColors, ThemeKey} from '../../theme-colors';
-
-const theme: typeof themeColors[ThemeKey] = themeColors[getCurrentThemeKey()];
+import {themeColors} from '../../theme-colors';
 
 export function getLabelForm(): HTMLFormElement {
   return querySelector('#trx-user-label-form');
@@ -134,11 +131,12 @@ export function updatePreview(color?: string, text?: string): void {
   const labelPreview: HTMLDivElement = querySelector('#trx-user-label-preview');
   labelPreview.setAttribute(
     'style',
-    `background-color: ${color}; border-color: ${theme.foregroundAlt};`
+    `background-color: ${color}; ` +
+      `border-color: var(${themeColors.foregroundSecondary});`
   );
   labelPreview.firstElementChild!.textContent = text;
 
-  if (isColorBright(color)) {
+  if (isColorBright(color.trim())) {
     labelPreview.classList.add('trx-bright');
   } else {
     labelPreview.classList.remove('trx-bright');

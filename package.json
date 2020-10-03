@@ -69,6 +69,7 @@
       "confirm",
       "document",
       "FileReader",
+      "getComputedStyle",
       "performance",
       "window"
     ],

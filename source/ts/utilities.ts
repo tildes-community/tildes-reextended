@@ -1,5 +1,4 @@
 import {browser, Manifest} from 'webextension-polyfill-ts';
-import {themeColors, ThemeKey} from './theme-colors';
 
 export interface UserLabel {
   color: string;
@@ -171,31 +170,8 @@ export function getManifest(): {nodeEnv?: string} & Manifest.ManifestBase {
   return {...manifest};
 }
 
-export function getCurrentThemeKey(): ThemeKey {
-  const body: HTMLBodyElement = querySelector('body');
-  const classes: string | null = body.getAttribute('class');
-  if (classes === null || !classes.includes('theme-')) {
-    return 'white';
-  }
-
-  const themeIndex: number = classes.indexOf('theme-');
-  const themeKey: ThemeKey = kebabToCamel(
-    classes.slice(
-      themeIndex + 'theme-'.length,
-      classes.includes(' ', themeIndex)
-        ? classes.indexOf(' ', themeIndex)
-        : classes.length
-    )
-  ) as ThemeKey;
-  if (typeof themeColors[themeKey] === 'undefined') {
-    log(
-      `Attempted to retrieve theme key that's not defined: "${themeKey}" Using the white theme as fallback.`,
-      true
-    );
-    return 'white';
-  }
-
-  return themeKey;
+export function getCSSCustomPropertyValue(property: string): string {
+  return getComputedStyle(document.body).getPropertyValue(property);
 }
 
 // Adapted from https://stackoverflow.com/a/12043228/12251171.

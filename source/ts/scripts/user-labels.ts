@@ -1,6 +1,6 @@
 import {Except} from 'type-fest';
 import debounce from 'debounce';
-import {ColorKey, ThemeKey, themeColors} from '../theme-colors';
+import {ColorKey, themeColors} from '../theme-colors';
 import {
   getSettings,
   Settings,
@@ -8,7 +8,7 @@ import {
   createElementFromString,
   UserLabel,
   isInTopicListing,
-  getCurrentThemeKey,
+  getCSSCustomPropertyValue,
   isColorBright,
   setSettings,
   appendStyleAttribute,
@@ -28,16 +28,12 @@ import {
   labelColorInputHandler
 } from './user-labels/handlers';
 
-let theme: typeof themeColors[ThemeKey];
-
 (async (): Promise<void> => {
   const settings: Settings = await getSettings();
   if (!settings.features.userLabels) {
     return;
   }
 
-  const themeKey: ThemeKey = getCurrentThemeKey();
-  theme = themeColors[themeKey];
   addLabelsToUsernames(settings);
   const existingLabelForm: HTMLElement | null = document.querySelector(
     '#trx-user-label-form'
@@ -47,10 +43,13 @@ let theme: typeof themeColors[ThemeKey];
   }
 
   const themeSelectOptions: string[] = [];
-  for (const color in theme) {
-    if (Object.hasOwnProperty.call(theme, color)) {
+  for (const color in themeColors) {
+    if (Object.hasOwnProperty.call(themeColors, color)) {
+      const colorValue = getCSSCustomPropertyValue(
+        themeColors[color as ColorKey]
+      );
       themeSelectOptions.push(
-        `<option value="${theme[color as ColorKey]}">${color}</option>`
+        `<option value="${colorValue}">${color}</option>`
       );
     }
   }
@@ -88,7 +87,8 @@ let theme: typeof themeColors[ThemeKey];
   document.body.append(labelForm);
   labelForm.setAttribute(
     'style',
-    `background-color: ${theme.background}; border-color: ${theme.foregroundAlt};`
+    `background-color: var(${themeColors.backgroundPrimary});` +
+      `border-color: var(${themeColors.foregroundSecondary});`
   );
 
   const labelColorInput: HTMLInputElement = querySelector(
@@ -103,7 +103,9 @@ let theme: typeof themeColors[ThemeKey];
     '#trx-user-label-form-color > select'
   );
   presetColorSelect.addEventListener('change', presetColorSelectHandler);
-  presetColorSelect.value = theme.backgroundAlt;
+  presetColorSelect.value = getCSSCustomPropertyValue(
+    themeColors.backgroundSecondary
+  );
 
   const labelTextInput: HTMLInputElement = querySelector(
     '#trx-user-label-input > input'
@@ -113,8 +115,8 @@ let theme: typeof themeColors[ThemeKey];
   const labelPreview: HTMLDivElement = querySelector('#trx-user-label-preview');
   labelPreview.setAttribute(
     'style',
-    `background-color: ${theme.background};` +
-      `border-color: ${theme.foregroundAlt};`
+    `background-color: var(${themeColors.backgroundPrimary});` +
+      `border-color: var(${themeColors.foregroundSecondary});`
   );
 
   const formSaveButton: HTMLAnchorElement = querySelector(
@@ -201,7 +203,10 @@ function addLabelsToUsernames(settings: Settings): void {
     );
     if (!isInTopicListing()) {
       element.insertAdjacentElement('afterend', addLabelSpan);
-      appendStyleAttribute(addLabelSpan, `color: ${theme.foreground};`);
+      appendStyleAttribute(
+        addLabelSpan,
+        `color: var(${themeColors.foregroundPrimary});`
+      );
     }
 
     const userLabels: UserLabel[] = settings.data.userLabels.filter(
@@ -214,7 +219,10 @@ function addLabelsToUsernames(settings: Settings): void {
           !element.nextElementSibling.className.includes('trx-user-label'))
       ) {
         element.insertAdjacentElement('afterend', addLabelSpan);
-        appendStyleAttribute(addLabelSpan, `color: ${theme.foreground};`);
+        appendStyleAttribute(
+          addLabelSpan,
+          `color: var(${themeColors.foregroundPrimary});`
+        );
       }
 
       continue;
@@ -248,7 +256,7 @@ function addLabelsToUsernames(settings: Settings): void {
         'style',
         `background-color: ${userLabel.color};`
       );
-      if (isColorBright(userLabel.color)) {
+      if (isColorBright(userLabel.color.trim())) {
         userLabelSpan.classList.add('trx-bright');
       } else {
         userLabelSpan.classList.remove('trx-bright');
