@@ -17,11 +17,13 @@ export interface Settings {
       ownTopics: boolean;
       [index: string]: boolean;
     };
+    knownGroups: string[];
     latestActiveFeatureTab: string;
     userLabels: UserLabel[];
     version?: string;
   };
   features: {
+    autocomplete: boolean;
     backToTop: boolean;
     debug: boolean;
     hideVotes: boolean;
@@ -40,10 +42,48 @@ export const defaultSettings: Settings = {
       ownComments: true,
       ownTopics: true
     },
+    // If groups are added or removed from Tildes this does not necessarily need
+    // to be updated. There is a helper function available to update it whenever
+    // the user goes to "/groups", where all the groups are easily available. So
+    // scripts that use this should call that function when they are run.
+    knownGroups: [
+      '~anime',
+      '~arts',
+      '~books',
+      '~comp',
+      '~creative',
+      '~design',
+      '~enviro',
+      '~finance',
+      '~food',
+      '~games',
+      '~games.game_design',
+      '~games.tabletop',
+      '~health',
+      '~health.coronavirus',
+      '~hobbies',
+      '~humanities',
+      '~lgbt',
+      '~life',
+      '~misc',
+      '~movies',
+      '~music',
+      '~news',
+      '~science',
+      '~space',
+      '~sports',
+      '~talk',
+      '~tech',
+      '~test',
+      '~tildes',
+      '~tildes.official',
+      '~tv'
+    ],
     latestActiveFeatureTab: 'debug',
     userLabels: []
   },
   features: {
+    autocomplete: true,
     backToTop: true,
     debug: false,
     hideVotes: false,
@@ -267,4 +307,24 @@ export function isValidTildesUsername(username: string): boolean {
     username.length <= 20 &&
     /^[a-z\d]([a-z\d]|[_-](?![_-]))*[a-z\d]$/i.exec(username) !== null
   );
+}
+
+// This function will update the saved known groups when we're in the Tildes
+// group listing. Any script that uses the known groups should call this before
+// running.
+export async function extractAndSaveGroups(
+  settings: Settings
+): Promise<Settings> {
+  if (window.location.pathname !== '/groups') {
+    return Promise.reject(new Error('Not in /groups.'));
+  }
+
+  const groups: string[] = [...document.querySelectorAll('.link-group')].map(
+    (value) => value.textContent!
+  );
+
+  settings.data.knownGroups = groups;
+  await setSettings(settings);
+  log('Updated saved groups.', true);
+  return settings;
 }
