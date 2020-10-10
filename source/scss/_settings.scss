@@ -1,0 +1,126 @@
+.setting {
+  &.enabled {
+    --setting-color: var(--green);
+    --setting-color-alt: var(--dark-green);
+  }
+
+  &.disabled {
+    --setting-color: var(--red);
+    --setting-color-alt: var(--dark-red);
+  }
+
+  header {
+    border-bottom: 2px solid var(--setting-color);
+    display: flex;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+
+    h2 {
+      margin-right: auto;
+    }
+
+    button {
+      background-color: var(--setting-color);
+      color: var(--foreground);
+      border: none;
+      font-weight: bold;
+      min-width: 10rem;
+      padding: 4px 0;
+
+      &:hover {
+        background-color: var(--setting-color-alt);
+        cursor: pointer;
+      }
+    }
+  }
+
+  .content {
+    br {
+      margin-bottom: 8px;
+    }
+
+    code {
+      background-color: var(--background-primary);
+    }
+
+    p {
+      line-height: 125%;
+      margin-bottom: 8px;
+    }
+  }
+
+  .info {
+    border: 1px solid var(--blue);
+    padding: 8px;
+  }
+
+  .divider {
+    border-top: 1px solid var(--blue);
+    margin: 16px 0;
+  }
+
+  .button {
+    --button-color: var(--blue);
+    --button-color-alt: var(--dark-blue);
+    background-color: var(--button-color);
+    border: none;
+    color: var(--foreground);
+    font-weight: bold;
+    min-width: 15rem;
+    padding: 8px 0;
+
+    &:hover {
+      background-color: var(--button-color-alt);
+      cursor: pointer;
+    }
+
+    &.destructive {
+      --button-color: var(--red);
+      --button-color-alt: var(--dark-red);
+    }
+  }
+
+  .import-export {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 8px;
+
+    p {
+      grid-column: 1 / 3;
+      margin: 0;
+    }
+  }
+
+  .misc-utilities .inner {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+
+    label {
+      cursor: pointer;
+      display: inline-flex;
+      user-select: none;
+    }
+
+    input {
+      cursor: pointer;
+      margin-right: 8px;
+    }
+  }
+
+  .user-label-values {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: square;
+    padding: 8px 8px 8px 24px;
+  }
+}

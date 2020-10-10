@@ -1,0 +1,146 @@
+@import 'reset';
+@import 'variables';
+@import 'colors';
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background-color: var(--background-primary);
+  color: var(--foreground);
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  gap: 16px;
+  margin: 16px;
+}
+
+a {
+  color: var(--light-blue);
+
+  &:hover {
+    color: var(--magenta);
+  }
+}
+
+details {
+  border: 1px solid var(--blue);
+
+  &[open] summary {
+    border-bottom: 1px solid var(--blue);
+  }
+
+  summary {
+    padding: 8px;
+
+    &:hover {
+      background-color: var(--blue);
+      cursor: pointer;
+    }
+  }
+
+  .inner {
+    padding: 8px;
+  }
+}
+
+.main-wrapper,
+.page-header,
+.page-footer {
+  margin-left: auto;
+  margin-right: auto;
+  width: $large-breakpoint;
+
+  @media (max-width: $large-breakpoint) {
+    width: 100%;
+  }
+}
+
+.page-header {
+  align-items: center;
+  display: flex;
+
+  img {
+    height: 4rem;
+  }
+
+  h1 {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    margin-right: auto;
+  }
+
+  .version {
+    align-self: flex-end;
+    border-bottom-width: 2px;
+    font-weight: bold;
+  }
+}
+
+.page-footer {
+  background-color: var(--background-secondary);
+  padding: 16px;
+
+  a {
+    font-weight: bold;
+  }
+
+  p:not(:last-child) {
+    margin-bottom: 8px;
+  }
+}
+
+.main-wrapper {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: $large-breakpoint / 4 auto;
+}
+
+.page-aside {
+  background-color: var(--background-secondary);
+  padding: 8px;
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    border: 1px solid transparent;
+    font-weight: bold;
+    padding: 8px;
+
+    &:hover {
+      background-color: var(--light-blue);
+      border-color: var(--light-blue);
+      cursor: pointer;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 8px;
+    }
+
+    &.active {
+      border-color: var(--light-blue);
+    }
+
+    &.enabled {
+      display: flex;
+
+      &::after {
+        color: var(--light-green);
+        content: '●';
+        margin-left: auto;
+      }
+    }
+  }
+}
+
+.page-main {
+  background-color: var(--background-secondary);
+  padding: 16px;
+}
+
+@import 'shared';
+@import 'settings';

@@ -1,0 +1,23 @@
+body {
+  $accents: (
+    'red' #dc322f,
+    'orange' #cb4b16,
+    'yellow' #b58900,
+    'green' #859900,
+    'cyan' #2aa198,
+    'blue' #268bd2,
+    'violet' #6c71c4,
+    'magenta' #d33682,
+  );
+
+  --background-primary: #{adjust-color(#002b36, $lightness: -5%)};
+  --background-secondary: #002b36;
+  --background-tertiary: #000;
+  --foreground: #fdf6e3;
+
+  @each $name, $color in $accents {
+    --#{$name}: #{$color};
+    --light-#{$name}: #{adjust-color($color, $lightness: 10%)};
+    --dark-#{$name}: #{adjust-color($color, $lightness: -10%)};
+  }
+}

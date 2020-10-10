@@ -1,0 +1,13 @@
+.trx-autocomplete {
+  background-color: var(--background-secondary-color);
+  border: 1px solid var(--border-color);
+  font-size: 80%;
+  max-height: 8rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: absolute;
+
+  li {
+    margin: 0;
+  }
+}

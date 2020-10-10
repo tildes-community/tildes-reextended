@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
     "esModuleInterop": true,
+    "lib": [
+      "ES2019"
+    ],
     "module": "commonjs",
     "outDir": "build/",
     "strict": true,
@@ -11,8 +14,7 @@
     ],
   },
   "include": [
-    "source/ts/**/*.ts",
-    "scripts/*.ts"
+    "source/**/*.ts",
   ],
   "exclude": [
     "node_modules/"

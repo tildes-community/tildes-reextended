@@ -2,48 +2,42 @@
   "name": "tildes-reextended",
   "description": "An updated and reimagined recreation of Tildes Extended to enhance and improve the experience of Tildes.net.",
   "license": "MIT",
-  "version": "0.3.3",
   "repository": "https://gitlab.com/tildes-community/tildes-reextended",
   "authors": [
     "Bauke <me@bauke.xyz>"
   ],
   "private": true,
   "scripts": {
-    "watch": "NODE_ENV=development parcel source/manifest.json -d build/ --no-hmr",
+    "watch": "NODE_ENV=development parcel 'source/manifest.json' -d 'build/' --no-hmr",
     "start": "web-ext run --source-dir build/ --bc",
     "start:chromium": "yarn start --chromium-profile chromium/ --keep-profile-changes --target chromium --start-url \"chrome://extensions\"",
     "start:firefox": "yarn start --firefox-profile firefox/ --keep-profile-changes --target firefox-desktop --start-url \"about:debugging#/runtime/this-firefox\"",
-    "build": "yarn clean && parcel build source/manifest.json -d build/ && web-ext build --source-dir build/ && yarn zip-source",
-    "zip-source": "zip -r web-ext-artifacts/tildes_reextended-source.zip ReadMe.md yarn.lock tsconfig.json package.json .gitignore License source/ scripts/ .vscode/",
     "clean": "trash .cache build/ web-ext-artifacts/",
-    "bump": "ts-node scripts/bump-version.ts && yarn build",
-    "test": "xo && stylelint 'source/scss/**/*.scss'"
+    "build": "yarn clean && parcel build 'source/manifest.json' -d 'build/' && web-ext build --source-dir 'build/' && yarn zip-source",
+    "zip-source": "zip -r web-ext-artifacts/tildes_reextended-source.zip README.md yarn.lock tsconfig.json package.json .gitignore LICENSE source/",
+    "test": "xo && stylelint 'source/scss/**/*.scss' && tsc --noEmit"
   },
   "dependencies": {
     "caret-pos": "^2.0.0",
     "debounce": "^1.2.0",
+    "htm": "^3.0.4",
     "modern-normalize": "^1.0.0",
     "platform": "^1.3.6",
+    "preact": "^10.5.3",
     "webextension-polyfill-ts": "^0.20.0"
   },
   "devDependencies": {
     "@types/debounce": "^1.2.0",
     "@types/platform": "^1.3.3",
-    "@types/prompts": "^2.0.9",
-    "@types/semver": "^7.3.4",
     "eslint-config-xo-typescript": "^0.33.0",
+    "husky": "^4.3.0",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-web-extension": "^1.6.1",
-    "prompts": "^2.3.2",
     "sass": "^1.26.11",
-    "semver": "^7.3.2",
-    "simple-git": "^2.20.1",
     "stylelint": "^13.7.2",
     "stylelint-config-xo-scss": "^0.13.0",
     "stylelint-config-xo-space": "^0.14.0",
     "trash-cli": "^3.1.0",
-    "ts-node": "^9.0.0",
-    "type-fest": "^0.17.0",
     "typescript": "^4.0.3",
     "web-ext": "^5.1.0",
     "web-ext-types": "^3.2.1",
@@ -55,42 +49,36 @@
       "stylelint-config-xo-space"
     ],
     "ignoreFiles": [
+      "source/**/*.ts",
       "build/**"
     ],
     "rules": {
       "scss/at-rule-no-unknown": null,
+      "at-rule-empty-line-before": null,
       "at-rule-no-unknown": null,
       "block-no-empty": null,
       "no-descending-specificity": null
     }
   },
   "xo": {
-    "global": [
-      "Blob",
-      "confirm",
+    "globals": [
       "document",
-      "FileReader",
-      "getComputedStyle",
-      "performance",
       "window"
-    ],
-    "ignores": [
-      "build/",
-      "public/"
     ],
     "prettier": true,
     "rules": {
       "@typescript-eslint/no-implicit-any-catch": "off",
-      "@typescript-eslint/member-ordering": "off",
-      "@typescript-eslint/no-loop-func": "off",
-      "unicorn/prefer-dataset": "off",
-      "unicorn/prefer-modern-dom-apis": "off",
-      "capitalized-comments": "off",
-      "no-await-in-loop": "off"
+      "@typescript-eslint/no-loop-func": "off"
     },
     "space": true
   },
   "browserslist": [
     "last 2 Chrome versions"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test",
+      "pre-push": "yarn test"
+    }
+  }
 }
