@@ -35,7 +35,9 @@ export function HideVotesSetting(props: SettingProps): TRXComponent {
             <input
               type="checkbox"
               checked=${checked[target]}
-              onClick=${() => toggle(target)}
+              onClick=${() => {
+                toggle(target);
+              }}
             />
             ${label}
           </label>

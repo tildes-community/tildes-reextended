@@ -73,9 +73,9 @@ export class AutocompleteFeature extends Component<Props, State> {
 
       if (event.key === prefix && !activeElement.getAttribute(dataAttribute)) {
         activeElement.setAttribute(dataAttribute, 'true');
-        activeElement.addEventListener('keyup', (event) =>
-          this.textareaInputHandler(event, prefix, target, values)
-        );
+        activeElement.addEventListener('keyup', (event) => {
+          this.textareaInputHandler(event, prefix, target, values);
+        });
 
         this.textareaInputHandler(event, prefix, target, values);
       }

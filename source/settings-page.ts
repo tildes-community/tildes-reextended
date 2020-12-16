@@ -93,7 +93,9 @@ function App(props: Props) {
         key=${key}
         class="${activeFeature === key ? 'active' : ''}
       ${enabledFeatures.has(key) ? 'enabled' : ''}"
-        onClick="${() => setActiveFeature(key)}"
+        onClick="${() => {
+          setActiveFeature(key);
+        }}"
       >
         ${value}
       </li>`

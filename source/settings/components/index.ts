@@ -20,7 +20,13 @@ function Header(props: SettingProps): TRXComponent {
 
   return html`<header>
     <h2>${props.title}</h2>
-    <button onClick="${() => toggleFeature(props.feature)}">${enabled}</button>
+    <button
+      onClick="${() => {
+        toggleFeature(props.feature);
+      }}"
+    >
+      ${enabled}
+    </button>
   </header>`;
 }
 

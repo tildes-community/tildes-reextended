@@ -100,8 +100,9 @@ export class UserLabelsFeature extends Component<Props, State> {
       const addLabel = html`
         <span
           class="trx-user-label-add"
-          onClick=${(event: MouseEvent) =>
-            this.addLabelHandler(event, username)}
+          onClick=${(event: MouseEvent) => {
+            this.addLabelHandler(event, username);
+          }}
         >
           [+]
         </span>
@@ -139,9 +140,9 @@ export class UserLabelsFeature extends Component<Props, State> {
           ${userLabel.text}
         </span>`);
 
-        label.addEventListener('click', (event: MouseEvent) =>
-          this.editLabelHandler(event, userLabel.id)
-        );
+        label.addEventListener('click', (event: MouseEvent) => {
+          this.editLabelHandler(event, userLabel.id);
+        });
 
         element.after(label);
         label.setAttribute('style', `background-color: ${userLabel.color};`);
@@ -312,9 +313,9 @@ export class UserLabelsFeature extends Component<Props, State> {
       return;
     }
 
-    querySelectorAll(`[data-trx-label-id="${id}"]`).map((value) =>
-      value.remove()
-    );
+    querySelectorAll(`[data-trx-label-id="${id}"]`).forEach((value) => {
+      value.remove();
+    });
 
     settings.data.userLabels.splice(index, 1);
     void setSettings(settings);

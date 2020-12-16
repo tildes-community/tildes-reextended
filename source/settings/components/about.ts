@@ -17,7 +17,7 @@ async function logSettings() {
 
 export function AboutSetting(props: SettingProps): TRXComponent {
   const importSettings = () => {
-    (document.querySelector('#import-settings') as HTMLInputElement).click();
+    document.querySelector<HTMLElement>('#import-settings')!.click();
   };
 
   const communityLink = html`

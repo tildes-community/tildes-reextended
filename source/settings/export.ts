@@ -23,6 +23,8 @@ export async function exportSettings(event: MouseEvent): Promise<void> {
     // According to MDN, when creating an object URL we should also revoke it
     // when "it's safe to do so" to prevent excessive memory/storage use.
     // 60 seconds should probably be enough time to download the settings.
-    setTimeout(() => URL.revokeObjectURL(objectURL), 60 * 1000);
+    setTimeout(() => {
+      URL.revokeObjectURL(objectURL);
+    }, 60 * 1000);
   }
 }
