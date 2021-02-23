@@ -51,10 +51,12 @@ export async function getSettings(): Promise<Settings> {
     features: {...defaultSettings.features, ...syncSettings.features}
   };
 
-  window.TildesReExtended.debug = settings.features.debug;
-  // If we're in development, force debug output.
-  if (getManifest().nodeEnv === 'development') {
-    window.TildesReExtended.debug = true;
+  if (window?.TildesReExtended !== undefined) {
+    window.TildesReExtended.debug = settings.features.debug;
+    // If we're in development, force debug output.
+    if (getManifest().nodeEnv === 'development') {
+      window.TildesReExtended.debug = true;
+    }
   }
 
   return settings;

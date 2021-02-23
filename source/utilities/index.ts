@@ -48,3 +48,4 @@ export * from './groups';
 export * from './query-selectors';
 export * from './report-a-bug';
 export * from './validators';
+export * from './version';

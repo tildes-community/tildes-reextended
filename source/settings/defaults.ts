@@ -56,7 +56,8 @@ export const defaultSettings: Settings = {
       '~tv'
     ],
     latestActiveFeatureTab: 'debug',
-    userLabels: []
+    userLabels: [],
+    version: '0.0.0'
   },
   features: {
     autocomplete: true,
