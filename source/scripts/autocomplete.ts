@@ -113,7 +113,7 @@ export class AutocompleteFeature extends Component<Props, State> {
 
     // If there is any whitespace in the input or there is no input at all,
     // return early. Usernames cannot have whitespace in them.
-    if (/\s/.exec(input) || input === '') {
+    if (/\s/.test(input) || input === '') {
       this.hide(target);
       return;
     }

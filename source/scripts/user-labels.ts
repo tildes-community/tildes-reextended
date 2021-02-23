@@ -313,9 +313,9 @@ export class UserLabelsFeature extends Component<Props, State> {
       return;
     }
 
-    querySelectorAll(`[data-trx-label-id="${id}"]`).forEach((value) => {
+    for (const value of querySelectorAll(`[data-trx-label-id="${id}"]`)) {
       value.remove();
-    });
+    }
 
     settings.data.userLabels.splice(index, 1);
     void setSettings(settings);
