@@ -10,19 +10,15 @@ export type SettingProps = {
   title: string;
 };
 
-function toggleFeature(feature: string) {
-  const {toggleFeature: toggle} = useContext(AppContext);
-  toggle(feature);
-}
-
 function Header(props: SettingProps): TRXComponent {
+  const context = useContext(AppContext);
   const enabled = props.enabled ? 'Enabled' : 'Disabled';
 
   return html`<header>
     <h2>${props.title}</h2>
     <button
       onClick="${() => {
-        toggleFeature(props.feature);
+        context.toggleFeature(props.feature);
       }}"
     >
       ${enabled}
