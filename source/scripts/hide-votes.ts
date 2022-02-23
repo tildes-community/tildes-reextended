@@ -2,22 +2,7 @@ import Settings from '../settings.js';
 import {log, querySelectorAll} from '../utilities/exports.js';
 
 export function runHideVotesFeature(settings: Settings) {
-  const observer = new window.MutationObserver(() => {
-    observer.disconnect();
-    hideVotes(settings);
-    startObserver();
-  });
-
-  function startObserver() {
-    observer.observe(document, {
-      childList: true,
-      subtree: true,
-    });
-  }
-
   hideVotes(settings);
-  startObserver();
-
   log('Hide Votes: Initialized.');
 }
 

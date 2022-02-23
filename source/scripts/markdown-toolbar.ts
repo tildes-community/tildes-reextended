@@ -75,25 +75,7 @@ const snippets: MarkdownSnippet[] = [
 }));
 
 export function runMarkdownToolbarFeature() {
-  // Create an observer that will add toolbars whenever
-  // a new Markdown form is created (like when clicking Reply).
-  const observer = new window.MutationObserver(() => {
-    observer.disconnect();
-    addToolbarsToTextareas();
-    startObserver();
-  });
-
-  function startObserver() {
-    observer.observe(document, {
-      childList: true,
-      subtree: true,
-    });
-  }
-
-  // Run once when the page loads.
   addToolbarsToTextareas();
-  startObserver();
-
   log('Markdown Toolbar: Initialized.');
 }
 

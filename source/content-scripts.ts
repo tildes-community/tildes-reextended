@@ -34,12 +34,49 @@ async function initialize() {
     }
   }
 
-  // Object to hold the active components we are going to render.
-  const components: Record<string, TRXComponent | undefined> = {};
+  const observerFeatures: Array<() => any> = [];
+  const observer = new window.MutationObserver(() => {
+    log('Page mutation detected, rerunning features.');
+    observer.disconnect();
+    for (const feature of observerFeatures) {
+      feature();
+    }
+
+    startObserver();
+  });
+
+  function startObserver() {
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  }
 
   if (settings.features.anonymizeUsernames) {
-    runAnonymizeUsernamesFeature();
+    observerFeatures.push(() => {
+      runAnonymizeUsernamesFeature();
+    });
   }
+
+  if (settings.features.hideVotes) {
+    observerFeatures.push(() => {
+      runHideVotesFeature(settings);
+    });
+  }
+
+  if (settings.features.markdownToolbar) {
+    observerFeatures.push(() => {
+      runMarkdownToolbarFeature();
+    });
+  }
+
+  // Initialize all the observer-dependent features first.
+  for (const feature of observerFeatures) {
+    feature();
+  }
+
+  // Object to hold the active components we are going to render.
+  const components: Record<string, TRXComponent | undefined> = {};
 
   if (settings.features.autocomplete) {
     components.autocomplete = html`
@@ -51,16 +88,8 @@ async function initialize() {
     components.backToTop = html`<${BackToTopFeature} />`;
   }
 
-  if (settings.features.hideVotes) {
-    runHideVotesFeature(settings);
-  }
-
   if (settings.features.jumpToNewComment) {
     components.jumpToNewComment = html`<${JumpToNewCommentFeature} />`;
-  }
-
-  if (settings.features.markdownToolbar) {
-    runMarkdownToolbarFeature();
   }
 
   if (settings.features.userLabels) {
@@ -87,6 +116,11 @@ async function initialize() {
     document.body,
     replacement,
   );
+
+  // Start the mutation observer only when some features depend on it are enabled.
+  if (observerFeatures.length > 0) {
+    startObserver();
+  }
 
   const initializedIn = window.performance.now() - start;
   log(`Initialized in approximately ${initializedIn} milliseconds.`);

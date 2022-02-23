@@ -1,22 +1,7 @@
 import {log, querySelectorAll} from '../utilities/exports.js';
 
 export function runAnonymizeUsernamesFeature() {
-  const observer = new window.MutationObserver(() => {
-    observer.disconnect();
-    anonymizeUsernames();
-    startObserver();
-  });
-
-  function startObserver() {
-    observer.observe(document, {
-      childList: true,
-      subtree: true,
-    });
-  }
-
   const count = anonymizeUsernames();
-  startObserver();
-
   log(`Anonymize Usernames: Initialized for ${count} user links.`);
 }
 
