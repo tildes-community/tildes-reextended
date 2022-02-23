@@ -1,13 +1,14 @@
 import {html} from 'htm/preact';
 import {Component} from 'preact';
-import {log, querySelector, querySelectorAll} from '..';
+
+import {log, querySelector, querySelectorAll} from '../utilities/exports.js';
 
 type Props = Record<string, unknown>;
 
 type State = {
   hidden: boolean;
   newCommentCount: number;
-  previousComment: HTMLElement | null;
+  previousComment: HTMLElement | undefined;
 };
 
 export class JumpToNewCommentFeature extends Component<Props, State> {
@@ -19,14 +20,14 @@ export class JumpToNewCommentFeature extends Component<Props, State> {
     this.state = {
       hidden: false,
       newCommentCount,
-      previousComment: null
+      previousComment: undefined,
     };
 
     if (newCommentCount === 0) {
       log('Jump To New Comment: 0 new comments found, not doing anything.');
     } else {
       log(
-        `Jump To New Comment: Initialized for ${newCommentCount} new comments.`
+        `Jump To New Comment: Initialized for ${newCommentCount} new comments.`,
       );
     }
   }
@@ -37,7 +38,7 @@ export class JumpToNewCommentFeature extends Component<Props, State> {
     this.state.previousComment?.classList.remove('is-comment-new');
 
     const newestComment = document.querySelector<HTMLElement>(
-      '.comment.is-comment-new'
+      '.comment.is-comment-new',
     );
 
     // If there are no new comments left, hide the button.
@@ -67,12 +68,14 @@ export class JumpToNewCommentFeature extends Component<Props, State> {
     const commentsLeft = querySelectorAll('.comment.is-comment-new').length;
     const hidden = this.state.hidden ? 'trx-hidden' : '';
 
-    return html`<a
-      id="trx-jump-to-new-comment"
-      class="btn btn-primary ${hidden}"
-      onClick="${this.jump}"
-    >
-      Jump To New Comment (${commentsLeft}/${this.state.newCommentCount})
-    </a>`;
+    return html`
+      <a
+        id="trx-jump-to-new-comment"
+        class="btn btn-primary ${hidden}"
+        onClick="${this.jump}"
+      >
+        Jump To New Comment (${commentsLeft}/${this.state.newCommentCount})
+      </a>
+    `;
   }
 }

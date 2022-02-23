@@ -95,7 +95,7 @@ details {
 .main-wrapper {
   display: grid;
   gap: 16px;
-  grid-template-columns: $large-breakpoint / 4 auto;
+  grid-template-columns: calc($large-breakpoint / 4) auto;
 }
 
 .page-aside {
@@ -142,5 +142,6 @@ details {
   padding: 16px;
 }
 
+/* stylelint-disable no-invalid-position-at-import-rule */
 @import 'shared';
 @import 'settings';

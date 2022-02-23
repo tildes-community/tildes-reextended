@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 body {
   $accents: (
     'red' #dc322f,
@@ -10,14 +12,16 @@ body {
     'magenta' #d33682,
   );
 
-  --background-primary: #{adjust-color(#002b36, $lightness: -5%)};
+  --background-primary: #{color.adjust(#002b36, $lightness: -5%)};
   --background-secondary: #002b36;
   --background-tertiary: #000;
   --foreground: #fdf6e3;
 
   @each $name, $color in $accents {
+    /* stylelint-disable custom-property-pattern */
     --#{$name}: #{$color};
-    --light-#{$name}: #{adjust-color($color, $lightness: 10%)};
-    --dark-#{$name}: #{adjust-color($color, $lightness: -10%)};
+    --light-#{$name}: #{color.adjust($color, $lightness: 10%)};
+    --dark-#{$name}: #{color.adjust($color, $lightness: -10%)};
+    /* stylelint-enable */
   }
 }

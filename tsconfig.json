@@ -2,19 +2,18 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "lib": [
-      "ES2019"
+      "ES2020"
     ],
-    "module": "commonjs",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
     "outDir": "build/",
     "strict": true,
-    "target": "es6",
-    "typeRoots": [
-      "node_modules/@types",
-      "node_modules/web-ext-types"
-    ],
+    "target": "esnext"
   },
   "include": [
     "source/**/*.ts",
+    "vite.config.ts"
   ],
   "exclude": [
     "node_modules/"

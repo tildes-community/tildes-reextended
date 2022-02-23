@@ -1,16 +1,16 @@
 import debounce from 'debounce';
 import {Component, render} from 'preact';
 import {html} from 'htm/preact';
+
+import Settings from '../settings.js';
 import {
   createElementFromString,
   isColorBright,
   isValidHexColor,
   log,
   querySelectorAll,
-  setSettings,
-  Settings,
-  themeColors
-} from '..';
+  themeColors,
+} from '../utilities/exports.js';
 
 type Props = {
   settings: Settings;
@@ -20,9 +20,9 @@ type State = {
   color: string;
   selectedColor: string;
   hidden: boolean;
-  id: number | null;
+  id: number | undefined;
   priority: number;
-  target: HTMLElement | null;
+  target: HTMLElement | undefined;
   text: string;
   username: string;
 };
@@ -33,7 +33,7 @@ const colorPattern: string = [
   '[a-f\\d]{6}|',
   '[a-f\\d]{4}|',
   '[a-f\\d]{3})',
-  '|transparent)$' // "Transparent" is also allowed in the input.
+  '|transparent)$', // "Transparent" is also allowed in the input.
 ].join('');
 
 export class UserLabelsFeature extends Component<Props, State> {
@@ -48,12 +48,12 @@ export class UserLabelsFeature extends Component<Props, State> {
     this.state = {
       color: selectedColor,
       hidden: true,
-      id: null,
+      id: undefined,
       text: '',
       priority: 0,
       selectedColor,
-      target: null,
-      username: ''
+      target: undefined,
+      username: '',
     };
 
     const count = this.addLabelsToUsernames(querySelectorAll('.link-user'));
@@ -94,7 +94,7 @@ export class UserLabelsFeature extends Component<Props, State> {
       const userLabels = sortedLabels.filter(
         (value) =>
           value.username === username &&
-          (onlyID === undefined ? true : value.id === onlyID)
+          (onlyID === undefined ? true : value.id === onlyID),
       );
 
       const addLabel = html`
@@ -174,10 +174,10 @@ export class UserLabelsFeature extends Component<Props, State> {
         target,
         username,
         color: selectedColor,
-        id: null,
+        id: undefined,
         text: '',
         priority: 0,
-        selectedColor
+        selectedColor,
       });
     }
   };
@@ -190,12 +190,12 @@ export class UserLabelsFeature extends Component<Props, State> {
       this.hide();
     } else {
       const label = this.props.settings.data.userLabels.find(
-        (value) => value.id === id
+        (value) => value.id === id,
       );
       if (label === undefined) {
         log(
           'User Labels: Tried to edit label with ID that could not be found.',
-          true
+          true,
         );
         return;
       }
@@ -203,7 +203,7 @@ export class UserLabelsFeature extends Component<Props, State> {
       this.setState({
         hidden: false,
         target,
-        ...label
+        ...label,
       });
     }
   };
@@ -233,11 +233,11 @@ export class UserLabelsFeature extends Component<Props, State> {
 
   priorityChange = (event: Event) => {
     this.setState({
-      priority: Number((event.target as HTMLInputElement).value)
+      priority: Number((event.target as HTMLInputElement).value),
     });
   };
 
-  save = (event: MouseEvent) => {
+  save = async (event: MouseEvent) => {
     event.preventDefault();
     const {color, id, text, priority, username} = this.state;
     if (color === '' || username === '') {
@@ -247,7 +247,7 @@ export class UserLabelsFeature extends Component<Props, State> {
 
     const {settings} = this.props;
     // If no ID is present then save a new label otherwise edit the existing one.
-    if (id === null) {
+    if (id === undefined) {
       let newID = 1;
       if (settings.data.userLabels.length > 0) {
         newID = settings.data.userLabels.sort((a, b) => b.id - a.id)[0].id + 1;
@@ -258,13 +258,13 @@ export class UserLabelsFeature extends Component<Props, State> {
         id: newID,
         priority,
         text,
-        username
+        username,
       });
 
       this.addLabelsToUsernames(querySelectorAll('.link-user'), newID);
     } else {
       const index = settings.data.userLabels.findIndex(
-        (value) => value.id === id
+        (value) => value.id === id,
       );
       settings.data.userLabels.splice(index, 1);
       settings.data.userLabels.push({
@@ -272,7 +272,7 @@ export class UserLabelsFeature extends Component<Props, State> {
         color,
         priority,
         text,
-        username
+        username,
       });
 
       const elements = querySelectorAll(`[data-trx-label-id="${id}"]`);
@@ -288,27 +288,27 @@ export class UserLabelsFeature extends Component<Props, State> {
       }
     }
 
-    void setSettings(settings);
+    await settings.save();
     this.props.settings = settings;
     this.hide();
   };
 
-  remove = (event: MouseEvent) => {
+  remove = async (event: MouseEvent) => {
     event.preventDefault();
     const {id} = this.state;
-    if (id === null) {
-      log('User Labels: Tried remove label when ID was null.');
+    if (id === undefined) {
+      log('User Labels: Tried remove label when ID was undefined.');
       return;
     }
 
     const {settings} = this.props;
     const index = settings.data.userLabels.findIndex(
-      (value) => value.id === id
+      (value) => value.id === id,
     );
     if (index === undefined) {
       log(
         `User Labels: Tried to remove label with ID ${id} that could not be found.`,
-        true
+        true,
       );
       return;
     }
@@ -318,7 +318,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     }
 
     settings.data.userLabels.splice(index, 1);
-    void setSettings(settings);
+    await settings.save();
     this.props.settings = settings;
     this.hide();
   };
@@ -331,7 +331,7 @@ export class UserLabelsFeature extends Component<Props, State> {
           <option value="${bodyStyle.getPropertyValue(value).trim()}">
             ${name}
           </option>
-        `
+        `,
     );
 
     const bright = isColorBright(this.state.color) ? 'trx-bright' : '';
@@ -342,7 +342,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     let left = 0;
 
     const target = this.state.target;
-    if (target !== null) {
+    if (target !== undefined) {
       const bounds = target.getBoundingClientRect();
       top = bounds.y + bounds.height + 4 + window.scrollY;
       left = bounds.x + window.scrollX;
@@ -351,80 +351,82 @@ export class UserLabelsFeature extends Component<Props, State> {
     const position = `left: ${left}px; top: ${top}px;`;
     const previewStyle = `background-color: ${color}`;
 
-    return html`<form class="trx-user-label-form ${hidden}" style="${position}">
-      <div class="trx-label-username-priority">
-        <label class="trx-label-username">
-          Add New Label
-          <input
-            type="text"
-            class="form-input"
-            placeholder="Username"
-            value="${username}"
-            required
-          />
-        </label>
+    return html`
+      <form class="trx-user-label-form ${hidden}" style="${position}">
+        <div class="trx-label-username-priority">
+          <label class="trx-label-username">
+            Add New Label
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Username"
+              value="${username}"
+              required
+            />
+          </label>
 
-        <label class="trx-label-priority">
-          Priority
-          <input
-            type="number"
-            class="form-input"
-            value="${priority}"
-            onChange=${this.priorityChange}
-            required
-          />
-        </label>
-      </div>
-
-      <div>
-        <label for="trx-label-color-input">Pick A Color</label>
-
-        <div class="trx-label-grid">
-          <input
-            id="trx-label-color-input"
-            type="text"
-            class="form-input"
-            placeholder="Color"
-            value="${color}"
-            onInput=${debounce(this.colorChange, 250)}
-            pattern="${colorPattern}"
-            required
-          />
-
-          <select
-            class="form-select"
-            value="${selectedColor}"
-            onChange="${this.colorChange}"
-          >
-            ${themeSelectOptions}
-          </select>
+          <label class="trx-label-priority">
+            Priority
+            <input
+              type="number"
+              class="form-input"
+              value="${priority}"
+              onChange=${this.priorityChange}
+              required
+            />
+          </label>
         </div>
-      </div>
 
-      <div>
-        <label for="trx-label-input">Label</label>
+        <div>
+          <label for="trx-label-color-input">Pick A Color</label>
 
-        <div class="trx-label-grid">
-          <input
-            id="trx-label-input"
-            type="text"
-            class="form-input"
-            placeholder="Text"
-            value="${label}"
-            onInput=${debounce(this.labelChange, 250)}
-          />
+          <div class="trx-label-grid">
+            <input
+              id="trx-label-color-input"
+              type="text"
+              class="form-input"
+              placeholder="Color"
+              value="${color}"
+              onInput=${debounce(this.colorChange, 250)}
+              pattern="${colorPattern}"
+              required
+            />
 
-          <div class="trx-label-preview ${bright}" style="${previewStyle}">
-            <p>${label}</p>
+            <select
+              class="form-select"
+              value="${selectedColor}"
+              onChange="${this.colorChange}"
+            >
+              ${themeSelectOptions}
+            </select>
           </div>
         </div>
-      </div>
 
-      <div class="trx-label-actions">
-        <a class="btn-post-action" onClick=${this.save}>Save</a>
-        <a class="btn-post-action" onClick=${this.hide}>Close</a>
-        <a class="btn-post-action" onClick=${this.remove}>Remove</a>
-      </div>
-    </form>`;
+        <div>
+          <label for="trx-label-input">Label</label>
+
+          <div class="trx-label-grid">
+            <input
+              id="trx-label-input"
+              type="text"
+              class="form-input"
+              placeholder="Text"
+              value="${label}"
+              onInput=${debounce(this.labelChange, 250)}
+            />
+
+            <div class="trx-label-preview ${bright}" style="${previewStyle}">
+              <p>${label}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="trx-label-actions">
+          <a class="btn-post-action" onClick=${this.save}>Save</a>
+          <a class="btn-post-action" onClick=${this.hide}>Close</a>
+          <a class="btn-post-action" onClick=${this.remove}>Remove</a>
+        </div>
+      </form>
+    `;
   }
 }

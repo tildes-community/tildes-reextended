@@ -1,23 +1,24 @@
+import './scss/scripts.scss';
+
 import {html} from 'htm/preact';
 import {render} from 'preact';
+
 import {
   AutocompleteFeature,
   BackToTopFeature,
-  extractAndSaveGroups,
-  getSettings,
-  initialize,
   JumpToNewCommentFeature,
-  log,
+  UserLabelsFeature,
   runHideVotesFeature,
   runMarkdownToolbarFeature,
-  TRXComponent,
-  UserLabelsFeature
-} from '.';
+} from './scripts/exports.js';
+import Settings from './settings.js';
+import {extractGroups, initializeGlobals, log} from './utilities/exports.js';
 
-window.addEventListener('load', async () => {
+async function initialize() {
   const start = window.performance.now();
-  initialize();
-  const settings = await getSettings();
+  initializeGlobals();
+  const settings = await Settings.fromSyncStorage();
+  window.TildesReExtended.debug = settings.features.debug;
 
   // Any features that will use `settings.data.knownGroups` should be added to
   // this array so that when groups are changed on Tildes, TRX can still update
@@ -25,7 +26,11 @@ window.addEventListener('load', async () => {
   const usesKnownGroups = [settings.features.autocomplete];
   // Only when any of the features that uses this data try to save the groups.
   if (usesKnownGroups.some((value) => value)) {
-    settings.data.knownGroups = await extractAndSaveGroups(settings);
+    const knownGroups = extractGroups();
+    if (knownGroups !== undefined) {
+      settings.data.knownGroups = knownGroups;
+      await settings.save();
+    }
   }
 
   // Object to hold the active components we are going to render.
@@ -68,14 +73,18 @@ window.addEventListener('load', async () => {
   // The jump to new comment button must come right before
   // the back to top button. The CSS depends on them being in this order.
   render(
-    html`<div id="trx-container">
-      ${components.jumpToNewComment} ${components.backToTop}
-      ${components.autocomplete} ${components.userLabels}
-    </div>`,
+    html`
+      <div id="trx-container">
+        ${components.jumpToNewComment} ${components.backToTop}
+        ${components.autocomplete} ${components.userLabels}
+      </div>
+    `,
     document.body,
-    replacement
+    replacement,
   );
 
   const initializedIn = window.performance.now() - start;
   log(`Initialized in approximately ${initializedIn} milliseconds.`);
-});
+}
+
+void initialize();

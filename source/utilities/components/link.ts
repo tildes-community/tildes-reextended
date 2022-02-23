@@ -1,17 +1,13 @@
 import {html} from 'htm/preact';
-import {TRXComponent} from '..';
 
-type LinkProps = {
+type Props = {
   class: string;
   text: string;
   url: string;
 };
 
-/**
- * A `<a />` helper component with `target="_blank"` and `rel="noopener"`.
- * @param props Link properties.
- */
-export function Link(props: LinkProps): TRXComponent {
+/** An `<a />` helper component with `target="_blank"` and `rel="noopener"`. */
+export function Link(props: Props): TRXComponent {
   return html`
     <a
       class="${props.class}"

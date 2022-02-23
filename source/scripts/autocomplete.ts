@@ -1,7 +1,9 @@
 import {offset, Offset} from 'caret-pos';
 import {html} from 'htm/preact';
 import {Component} from 'preact';
-import {log, querySelectorAll, Settings} from '..';
+
+import Settings from '../settings.js';
+import {log, querySelectorAll} from '../utilities/exports.js';
 
 type Props = {
   settings: Settings;
@@ -11,11 +13,11 @@ type State = {
   groups: Set<string>;
   groupsHidden: boolean;
   groupsMatches: Set<string>;
-  groupsPosition: Offset | null;
+  groupsPosition: Offset | undefined;
   usernames: Set<string>;
   usernamesHidden: boolean;
   usernamesMatches: Set<string>;
-  usernamesPosition: Offset | null;
+  usernamesPosition: Offset | undefined;
 };
 
 export class AutocompleteFeature extends Component<Props, State> {
@@ -24,27 +26,27 @@ export class AutocompleteFeature extends Component<Props, State> {
 
     // Get all the groups without their leading tildes.
     const groups = props.settings.data.knownGroups.map((value) =>
-      value.startsWith('~') ? value.slice(1) : value
+      value.startsWith('~') ? value.slice(1) : value,
     );
 
     // Get all the usernames on the page without their leading @s, and get
     // all the username from the saved user labels.
     const usernames = [
       ...querySelectorAll('.link-user').map((value) =>
-        value.textContent!.replace(/^@/, '').toLowerCase()
+        value.textContent!.replace(/^@/, '').toLowerCase(),
       ),
-      ...props.settings.data.userLabels.map((value) => value.username)
+      ...props.settings.data.userLabels.map((value) => value.username),
     ].sort((a, b) => a.localeCompare(b));
 
     this.state = {
       groups: new Set(groups),
       groupsHidden: true,
       groupsMatches: new Set(groups),
-      groupsPosition: null,
+      groupsPosition: undefined,
       usernames: new Set(usernames),
       usernamesHidden: true,
       usernamesMatches: new Set(usernames),
-      usernamesPosition: null
+      usernamesPosition: undefined,
     };
 
     // Add a keydown listener for the entire page.
@@ -52,7 +54,7 @@ export class AutocompleteFeature extends Component<Props, State> {
 
     log(
       `Autocomplete: Initialized with ${this.state.groups.size} groups and ` +
-        `${this.state.usernames.size} usernames.`
+        `${this.state.usernames.size} usernames.`,
     );
   }
 
@@ -67,7 +69,7 @@ export class AutocompleteFeature extends Component<Props, State> {
     const createHandler = (
       prefix: string,
       target: string,
-      values: Set<string>
+      values: Set<string>,
     ) => {
       const dataAttribute = `data-trx-autocomplete-${target}`;
 
@@ -89,7 +91,7 @@ export class AutocompleteFeature extends Component<Props, State> {
     event: KeyboardEvent,
     prefix: string,
     target: string,
-    values: Set<string>
+    values: Set<string>,
   ) => {
     const textarea = event.target as HTMLTextAreaElement;
     const text = textarea.value;
@@ -120,7 +122,7 @@ export class AutocompleteFeature extends Component<Props, State> {
 
     // Find all the values that match the input using `includes`.
     const matches = new Set<string>(
-      [...values].filter((value) => value.includes(input.toLowerCase()))
+      [...values].filter((value) => value.includes(input.toLowerCase())),
     );
 
     // If there are no matches, return early.
@@ -138,11 +140,11 @@ export class AutocompleteFeature extends Component<Props, State> {
   update = (target: string, matches: Set<string>) => {
     if (target === 'groups') {
       this.setState({
-        groupsMatches: matches
+        groupsMatches: matches,
       });
     } else if (target === 'usernames') {
       this.setState({
-        usernamesMatches: matches
+        usernamesMatches: matches,
       });
     }
   };
@@ -151,12 +153,12 @@ export class AutocompleteFeature extends Component<Props, State> {
     if (target === 'groups') {
       this.setState({
         groupsHidden: false,
-        groupsPosition: position
+        groupsPosition: position,
       });
     } else if (target === 'usernames') {
       this.setState({
         usernamesHidden: false,
-        usernamesPosition: position
+        usernamesPosition: position,
       });
     }
   };
@@ -172,10 +174,10 @@ export class AutocompleteFeature extends Component<Props, State> {
   render() {
     // Create the list of groups and usernames.
     const groups = [...this.state.groupsMatches].map(
-      (value) => html`<li>~${value}</li>`
+      (value) => html`<li>~${value}</li>`,
     );
     const usernames = [...this.state.usernamesMatches].map(
-      (value) => html`<li>@${value}</li>`
+      (value) => html`<li>@${value}</li>`,
     );
 
     // Create the CSS class whether or not to hide the autocomplete.

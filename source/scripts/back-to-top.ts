@@ -1,7 +1,8 @@
 import debounce from 'debounce';
 import {html} from 'htm/preact';
 import {Component} from 'preact';
-import {log} from '..';
+
+import {log} from '../utilities/exports.js';
 
 type Props = Record<string, unknown>;
 
@@ -13,7 +14,7 @@ export class BackToTopFeature extends Component<Props, State> {
   constructor() {
     super();
     this.state = {
-      hidden: true
+      hidden: true,
     };
 
     // Add a "debounced" handler to the scroll listener, this will make it so
@@ -37,12 +38,14 @@ export class BackToTopFeature extends Component<Props, State> {
   render() {
     const hidden = this.state.hidden ? 'trx-hidden' : '';
 
-    return html`<a
-      id="trx-back-to-top"
-      class="btn btn-primary ${hidden}"
-      onClick=${this.scrollToTop}
-    >
-      Back To Top
-    </a>`;
+    return html`
+      <a
+        id="trx-back-to-top"
+        class="btn btn-primary ${hidden}"
+        onClick=${this.scrollToTop}
+      >
+        Back To Top
+      </a>
+    `;
   }
 }

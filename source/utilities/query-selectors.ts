@@ -4,22 +4,16 @@
 // The first function should only ever be used when we know for certain that
 // the target element is going to exist.
 
-/**
- * Returns the first element found that matches the selector.
- * @param selector The selector.
- */
+/** Returns the first element found that matches the selector. */
 export function querySelector<T extends Element>(selector: string): T {
-  return document.querySelector<T>(selector)!;
+  return document.querySelector(selector)!;
 }
 
-/**
- * Returns all elements found from all the selectors.
- * @param selectors The selectors.
- */
+/** Returns all elements found from all the selectors. */
 export function querySelectorAll<T extends Element>(
   ...selectors: string[]
 ): T[] {
   return selectors.flatMap((selector) =>
-    Array.from(document.querySelectorAll(selector))
+    Array.from(document.querySelectorAll(selector)),
   );
 }

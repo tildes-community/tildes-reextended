@@ -1,6 +1,8 @@
-import {html} from 'htm/preact';
+import {Component} from 'preact';
 import {useContext} from 'preact/hooks';
-import {AppContext, TRXComponent} from '../..';
+import {html} from 'htm/preact';
+
+import {AppContext} from '../context.js';
 
 export type SettingProps = {
   children: TRXComponent | undefined;
@@ -10,20 +12,25 @@ export type SettingProps = {
   title: string;
 };
 
-function Header(props: SettingProps): TRXComponent {
-  const context = useContext(AppContext);
-  const enabled = props.enabled ? 'Enabled' : 'Disabled';
+class Header extends Component<SettingProps> {
+  render() {
+    const {props} = this;
+    const context = useContext(AppContext);
+    const enabled = props.enabled ? 'Enabled' : 'Disabled';
 
-  return html`<header>
-    <h2>${props.title}</h2>
-    <button
-      onClick="${() => {
-        context.toggleFeature(props.feature);
-      }}"
-    >
-      ${enabled}
-    </button>
-  </header>`;
+    return html`
+      <header>
+        <h2>${props.title}</h2>
+        <button
+          onClick="${() => {
+            context.toggleFeature(props.feature);
+          }}"
+        >
+          ${enabled}
+        </button>
+      </header>
+    `;
+  }
 }
 
 // A base component for all the settings, this adds the header and the
@@ -44,11 +51,3 @@ export function Setting(props: SettingProps): TRXComponent {
     </section>
   `;
 }
-
-export * from './about';
-export * from './autocomplete';
-export * from './back-to-top';
-export * from './hide-votes';
-export * from './jump-to-new-comment';
-export * from './markdown-toolbar';
-export * from './user-labels';

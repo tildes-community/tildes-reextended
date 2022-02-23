@@ -1,6 +1,7 @@
 import {html} from 'htm/preact';
 import {render} from 'preact';
-import {log, querySelectorAll, TRXComponent} from '..';
+
+import {log, querySelectorAll} from '../utilities/exports.js';
 
 type MarkdownSnippet = {
   dropdown: boolean;
@@ -13,64 +14,64 @@ const snippets: MarkdownSnippet[] = [
   {
     dropdown: false,
     markdown: '[<>]()',
-    name: 'Link'
+    name: 'Link',
   },
   {
     dropdown: false,
     markdown: '```\n<>\n```',
-    name: 'Code'
+    name: 'Code',
   },
   {
     dropdown: false,
     markdown: '~~<>~~',
-    name: 'Strikethrough'
+    name: 'Strikethrough',
   },
   {
     dropdown: false,
     markdown:
       '<details>\n<summary>Click to expand spoiler.</summary>\n\n<>\n</details>',
-    name: 'Spoilerbox'
+    name: 'Spoilerbox',
   },
   {
     dropdown: true,
     markdown: '**<>**',
-    name: 'Bold'
+    name: 'Bold',
   },
   {
     dropdown: true,
     markdown: '\n\n---\n\n<>',
-    name: 'Horizontal Divider'
+    name: 'Horizontal Divider',
   },
   {
     dropdown: true,
     markdown: '`<>`',
-    name: 'Inline Code'
+    name: 'Inline Code',
   },
   {
     dropdown: true,
     markdown: '*<>*',
-    name: 'Italic'
+    name: 'Italic',
   },
   {
     dropdown: true,
     markdown: '1. <>',
-    name: 'Ordered List'
+    name: 'Ordered List',
   },
   {
     dropdown: true,
     markdown: '<small><></small>',
-    name: 'Small'
+    name: 'Small',
   },
   {
     dropdown: true,
     markdown: '* <>',
-    name: 'Unordered List'
-  }
+    name: 'Unordered List',
+  },
 ].map(({dropdown, markdown, name}) => ({
   dropdown,
   name,
   index: markdown.indexOf('<>'),
-  markdown: markdown.replace(/<>/, '')
+  markdown: markdown.replace(/<>/, ''),
 }));
 
 export function runMarkdownToolbarFeature() {
@@ -85,7 +86,7 @@ export function runMarkdownToolbarFeature() {
   function startObserver() {
     observer.observe(document, {
       childList: true,
-      subtree: true
+      subtree: true,
     });
   }
 
@@ -109,14 +110,14 @@ function addToolbarsToTextareas() {
 
     const menu = form.querySelector<HTMLElement>('.tab-markdown-mode')!;
     const textarea = form.querySelector<HTMLElement>(
-      'textarea[name="markdown"]'
+      'textarea[name="markdown"]',
     )!;
 
     const snippetButtons = snippets
       .filter((snippet) => !snippet.dropdown)
       .map(
         (snippet) =>
-          html`<${snippetButton} snippet=${snippet} textarea=${textarea} />`
+          html`<${snippetButton} snippet=${snippet} textarea=${textarea} />`,
       );
 
     // Render the buttons inside the tab menu so they appear
@@ -132,7 +133,7 @@ function addToolbarsToTextareas() {
     render(
       html`<${snippetDropdown} textarea=${textarea} />`,
       menuParent,
-      dropdownPlaceholder
+      dropdownPlaceholder,
     );
   }
 }
@@ -148,37 +149,41 @@ function snippetButton(props: Required<Props>): TRXComponent {
     insertSnippet(props);
   };
 
-  return html`<li class="tab-item">
-    <button class="btn btn-link" onClick="${click}">
-      ${props.snippet.name}
-    </button>
-  </li>`;
+  return html`
+    <li class="tab-item">
+      <button class="btn btn-link" onClick="${click}">
+        ${props.snippet.name}
+      </button>
+    </li>
+  `;
 }
 
 function snippetDropdown(props: Props): TRXComponent {
   const options = snippets.map(
-    (snippet) => html`<option value="${snippet.name}">${snippet.name}</option>`
+    (snippet) => html`<option value="${snippet.name}">${snippet.name}</option>`,
   );
 
   const change = (event: Event) => {
     event.preventDefault();
 
     const snippet = snippets.find(
-      (value) => value.name === (event.target as HTMLSelectElement).value
+      (value) => value.name === (event.target as HTMLSelectElement).value,
     )!;
 
     insertSnippet({
       ...props,
-      snippet
+      snippet,
     });
 
     (event.target as HTMLSelectElement).selectedIndex = 0;
   };
 
-  return html`<select class="form-select" onChange=${change}>
-    <option>More…</option>
-    ${options}
-  </select>`;
+  return html`
+    <select class="form-select" onChange=${change}>
+      <option>More…</option>
+      ${options}
+    </select>
+  `;
 }
 
 function insertSnippet(props: Required<Props>) {

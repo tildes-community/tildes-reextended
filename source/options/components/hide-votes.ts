@@ -1,12 +1,8 @@
 import {html} from 'htm/preact';
 import {useContext, useState} from 'preact/hooks';
-import {
-  AppContext,
-  setSettings,
-  Setting,
-  SettingProps,
-  TRXComponent
-} from '../..';
+
+import {AppContext} from '../context.js';
+import {Setting, SettingProps} from './index.js';
 
 export function HideVotesSetting(props: SettingProps): TRXComponent {
   const {settings} = useContext(AppContext);
@@ -17,7 +13,7 @@ export function HideVotesSetting(props: SettingProps): TRXComponent {
     setChecked(checked);
 
     settings.data.hideVotes = checked;
-    void setSettings(settings);
+    void settings.save();
   }
 
   // Checkbox labels and "targets". The targets should match the keys as defined
@@ -26,7 +22,7 @@ export function HideVotesSetting(props: SettingProps): TRXComponent {
     {label: 'Your comments', target: 'ownComments'},
     {label: 'Your topics', target: 'ownTopics'},
     {label: "Other's comments", target: 'comments'},
-    {label: "Other's topics", target: 'topics'}
+    {label: "Other's topics", target: 'topics'},
   ].map(
     ({label, target}) =>
       html`
@@ -42,16 +38,18 @@ export function HideVotesSetting(props: SettingProps): TRXComponent {
             ${label}
           </label>
         </li>
-      `
+      `,
   );
 
-  return html`<${Setting} ...${props}>
-    <p class="info">
-      Hides vote counts from topics and comments of yourself or other people.
-    </p>
+  return html`
+    <${Setting} ...${props}>
+      <p class="info">
+        Hides vote counts from topics and comments of yourself or other people.
+      </p>
 
-    <ul class="checkbox-list">
-      ${checkboxes}
-    </ul>
-  <//>`;
+      <ul class="checkbox-list">
+        ${checkboxes}
+      </ul>
+    <//>
+  `;
 }

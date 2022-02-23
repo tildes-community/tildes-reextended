@@ -1,24 +1,17 @@
-import {log, querySelectorAll, setSettings, Settings} from '..';
+import {log} from './logging.js';
+import {querySelectorAll} from './query-selectors.js';
 
 /**
  * Tries to extract and save the groups. Returns the current saved groups when
  * the user is not in `/groups` and the new ones when they are in `/groups`.
- * @param settings The user's extension settings.
  */
-export async function extractAndSaveGroups(
-  settings: Settings
-): Promise<string[]> {
+export function extractGroups(): string[] | undefined {
   if (window.location.pathname !== '/groups') {
     log('Not in "/groups", returning early.');
-    return settings.data.knownGroups;
+    return;
   }
 
-  const groups: string[] = querySelectorAll('.link-group').map(
-    (value) => value.textContent!
+  return querySelectorAll('.link-group').map(
+    (value) => value.textContent ?? '<unknown group>',
   );
-
-  settings.data.knownGroups = groups;
-  await setSettings(settings);
-  log('Updated saved groups.', true);
-  return groups;
 }

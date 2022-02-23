@@ -7,7 +7,7 @@ import platform from 'platform';
  */
 export function createReportTemplate(
   location: 'gitlab' | 'tildes',
-  trxVersion: string
+  trxVersion: string,
 ): string {
   let introText =
     "Thank you for taking the time to report a bug! Don't forget to fill in an\n  appropriate title above, and make sure the information below is correct.";
@@ -17,10 +17,10 @@ export function createReportTemplate(
       'Thank you for taking the time to report a bug! Please make sure the\n  information below is correct.';
   }
 
-  const layout: string = platform.layout!;
-  const name: string = platform.name!;
-  const os: string = platform.os?.toString()!;
-  const version: string = platform.version!;
+  const layout = platform.layout ?? '<unknown>';
+  const name = platform.name ?? '<unknown>';
+  const os = platform.os?.toString() ?? '<unknown>';
+  const version = platform.version ?? '<unknown>';
 
   // Set the headers using HTML tags, these can't be with #-style Markdown
   // headers as they'll be interpreted as an ID instead of Markdown content.

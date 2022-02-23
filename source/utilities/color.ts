@@ -1,7 +1,4 @@
-/**
- * Returns whether a hex color is "bright".
- * @param color The hex color.
- */
+/** Returns whether a hex color is "bright". */
 export function isColorBright(color: string): boolean {
   if (color.startsWith('#')) {
     color = color.slice(1);
@@ -40,50 +37,50 @@ export function isColorBright(color: string): boolean {
   return brightness > 128;
 }
 
-// CSS custom properties from the Tildes themes.
+/** CSS custom properties from the Tildes themes. */
 export const themeColors = [
   {
     name: 'Background Primary',
-    value: '--background-primary-color'
+    value: '--background-primary-color',
   },
   {
     name: 'Background Secondary',
-    value: '--background-secondary-color'
+    value: '--background-secondary-color',
   },
   {
     name: 'Foreground Primary',
-    value: '--foreground-primary-color'
+    value: '--foreground-primary-color',
   },
   {
     name: 'Foreground Secondary',
-    value: '--foreground-secondary-color'
+    value: '--foreground-secondary-color',
   },
   {
     name: 'Exemplary',
-    value: '--comment-label-exemplary-color'
+    value: '--comment-label-exemplary-color',
   },
   {
     name: 'Off-topic',
-    value: '--comment-label-offtopic-color'
+    value: '--comment-label-offtopic-color',
   },
   {
     name: 'Joke',
-    value: '--comment-label-joke-color'
+    value: '--comment-label-joke-color',
   },
   {
     name: 'Noise',
-    value: '--comment-label-noise-color'
+    value: '--comment-label-noise-color',
   },
   {
     name: 'Malice',
-    value: '--comment-label-malice-color'
+    value: '--comment-label-malice-color',
   },
   {
     name: 'Mine',
-    value: '--stripe-mine-color'
+    value: '--stripe-mine-color',
   },
   {
     name: 'Official',
-    value: '--alert-color'
-  }
+    value: '--alert-color',
+  },
 ];

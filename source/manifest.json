@@ -3,7 +3,7 @@
   "manifest_version": 2,
   "name": "Tildes ReExtended",
   "description": "An updated and reimagined recreation of Tildes Extended to enhance and improve the experience of Tildes.net.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "permissions": [
     "downloads",
     "storage",
@@ -11,23 +11,23 @@
   ],
   "content_security_policy": "script-src 'self'; object-src 'self'; style-src 'unsafe-inline'",
   "web_accessible_resources": [
-    "./assets/**"
+    "assets/**"
   ],
   "icons": {
-    "128": "./assets/tildes-reextended-128.png"
+    "128": "assets/tildes-reextended-128.png"
   },
   "background": {
     "scripts": [
-      "./background.ts"
+      "background/background.ts"
     ]
   },
   "browser_action": {
     "default_icon": {
-      "128": "./assets/tildes-reextended-128.png"
+      "128": "assets/tildes-reextended-128.png"
     }
   },
   "options_ui": {
-    "page": "./index.html",
+    "page": "options/index.html",
     "open_in_tab": true
   },
   "content_scripts": [
@@ -37,10 +37,10 @@
       ],
       "run_at": "document_end",
       "css": [
-        "./scss/scripts.scss"
+        "generated:style.css"
       ],
       "js": [
-        "./content-scripts.ts"
+        "content-scripts.ts"
       ]
     }
   ],

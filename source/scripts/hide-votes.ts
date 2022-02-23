@@ -1,4 +1,5 @@
-import {log, querySelectorAll, Settings} from '..';
+import Settings from '../settings.js';
+import {log, querySelectorAll} from '../utilities/exports.js';
 
 export function runHideVotesFeature(settings: Settings) {
   const observer = new window.MutationObserver(() => {
@@ -10,7 +11,7 @@ export function runHideVotesFeature(settings: Settings) {
   function startObserver() {
     observer.observe(document, {
       childList: true,
-      subtree: true
+      subtree: true,
     });
   }
 
@@ -24,14 +25,14 @@ function hideVotes(settings: Settings) {
   if (settings.data.hideVotes.comments) {
     const commentVotes = querySelectorAll(
       '.btn-post-action[data-ic-put-to*="/vote"]:not(.trx-votes-hidden)',
-      '.btn-post-action[data-ic-delete-from*="/vote"]:not(.trx-votes-hidden)'
+      '.btn-post-action[data-ic-delete-from*="/vote"]:not(.trx-votes-hidden)',
     );
 
     for (const vote of commentVotes) {
       vote.classList.add('trx-votes-hidden');
       vote.textContent = vote.textContent!.slice(
         0,
-        vote.textContent!.indexOf(' ')
+        vote.textContent!.indexOf(' '),
       );
     }
   }

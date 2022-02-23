@@ -1,17 +1,11 @@
-/**
- * Return whether the input is a valid hex color with a starting `#`.
- * @param color The potential hex color.
- */
+/** Check whether a hex color is valid. */
 export function isValidHexColor(color: string): boolean {
   return (
     /^#(?:[a-f\d]{8}|[a-f\d]{6}|[a-f\d]{4}|[a-f\d]{3})$/i.exec(color) !== null
   );
 }
 
-/**
- * Return whether the input is a valid Tildes username.
- * @param username The potential username.
- */
+/** Check whether a username is a valid Tildes username. */
 export function isValidTildesUsername(username: string): boolean {
   // Validation copied from Tildes source code:
   // https://gitlab.com/tildes/tildes/blob/master/tildes/tildes/schemas/user.py
