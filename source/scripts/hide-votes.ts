@@ -2,16 +2,19 @@ import Settings from '../settings.js';
 import {log, querySelectorAll} from '../utilities/exports.js';
 
 export function runHideVotesFeature(settings: Settings) {
-  hideVotes(settings);
-  log('Hide Votes: Initialized.');
+  const counts = hideVotes(settings);
+  log(`Hide Votes: Initialized for ${counts} votes.`);
 }
 
-function hideVotes(settings: Settings) {
+function hideVotes(settings: Settings): number {
+  let count = 0;
+
   if (settings.data.hideVotes.comments) {
     const commentVotes = querySelectorAll(
       '.btn-post-action[data-ic-put-to*="/vote"]:not(.trx-votes-hidden)',
       '.btn-post-action[data-ic-delete-from*="/vote"]:not(.trx-votes-hidden)',
     );
+    count += commentVotes.length;
 
     for (const vote of commentVotes) {
       vote.classList.add('trx-votes-hidden');
@@ -23,7 +26,9 @@ function hideVotes(settings: Settings) {
   }
 
   if (settings.data.hideVotes.ownComments) {
-    for (const vote of querySelectorAll('.comment-votes')) {
+    const ownComments = querySelectorAll('.comment-votes');
+    count += ownComments.length;
+    for (const vote of ownComments) {
       vote.classList.add('trx-hidden');
     }
   }
@@ -41,9 +46,13 @@ function hideVotes(settings: Settings) {
       selectors.push('div > .topic-voting-votes:not(.trx-votes-hidden)');
     }
 
-    for (const vote of querySelectorAll(...selectors)) {
+    const topicVotes = querySelectorAll(...selectors);
+    count += topicVotes.length;
+    for (const vote of topicVotes) {
       vote.classList.add('trx-votes-hidden');
       vote.textContent = '-';
     }
   }
+
+  return count;
 }

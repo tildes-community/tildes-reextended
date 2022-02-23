@@ -75,15 +75,15 @@ const snippets: MarkdownSnippet[] = [
 }));
 
 export function runMarkdownToolbarFeature() {
-  addToolbarsToTextareas();
-  log('Markdown Toolbar: Initialized.');
+  const count = addToolbarsToTextareas();
+  log(`Markdown Toolbar: Initialized for ${count} textareas.`);
 }
 
-function addToolbarsToTextareas() {
+function addToolbarsToTextareas(): number {
   // Grab all Markdown forms that don't have already have a toolbar.
   const markdownForms = querySelectorAll('.form-markdown:not(.trx-toolbar)');
   if (markdownForms.length === 0) {
-    return;
+    return 0;
   }
 
   for (const form of markdownForms) {
@@ -118,6 +118,8 @@ function addToolbarsToTextareas() {
       dropdownPlaceholder,
     );
   }
+
+  return markdownForms.length;
 }
 
 type Props = {
