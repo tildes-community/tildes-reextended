@@ -8,6 +8,7 @@ import {
   BackToTopFeature,
   JumpToNewCommentFeature,
   UserLabelsFeature,
+  runAnonymizeUsernamesFeature,
   runHideVotesFeature,
   runMarkdownToolbarFeature,
 } from './scripts/exports.js';
@@ -35,6 +36,10 @@ async function initialize() {
 
   // Object to hold the active components we are going to render.
   const components: Record<string, TRXComponent | undefined> = {};
+
+  if (settings.features.anonymizeUsernames) {
+    runAnonymizeUsernamesFeature();
+  }
 
   if (settings.features.autocomplete) {
     components.autocomplete = html`

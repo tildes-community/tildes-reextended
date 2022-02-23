@@ -1,3 +1,4 @@
+export * from './anonymize-usernames.js';
 export * from './autocomplete.js';
 export * from './back-to-top.js';
 export * from './hide-votes.js';

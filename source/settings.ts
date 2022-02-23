@@ -60,6 +60,7 @@ export default class Settings {
 
   public features: {
     [index: string]: boolean;
+    anonymizeUsernames: boolean;
     autocomplete: boolean;
     backToTop: boolean;
     debug: boolean;
@@ -120,6 +121,7 @@ export default class Settings {
     };
 
     this.features = {
+      anonymizeUsernames: false,
       autocomplete: true,
       backToTop: true,
       debug: false,

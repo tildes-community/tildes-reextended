@@ -64,7 +64,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     this.setState({hidden: true});
   };
 
-  addLabelsToUsernames = (elements: Element[], onlyID?: number): number => {
+  addLabelsToUsernames = (elements: HTMLElement[], onlyID?: number): number => {
     const settings = this.props.settings;
     const inTopicListing = document.querySelector('.topic-listing') !== null;
 
@@ -87,9 +87,13 @@ export class UserLabelsFeature extends Component<Props, State> {
     });
 
     for (const element of elements) {
-      const username: string = element
+      let username: string = element
         .textContent!.replace(/@/g, '')
         .toLowerCase();
+
+      if (settings.features.anonymizeUsernames) {
+        username = element.dataset.trxUsername ?? username;
+      }
 
       const userLabels = sortedLabels.filter(
         (value) =>

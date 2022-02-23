@@ -1,5 +1,6 @@
 import {
   AboutSetting,
+  AnonymizeUsernamesSetting,
   AutocompleteSetting,
   BackToTopSetting,
   HideVotesSetting,
@@ -16,6 +17,12 @@ import {
  * * The component function should return the corresponding settings components.
  */
 export const features = [
+  {
+    index: 0,
+    key: 'anonymizeUsernames',
+    value: 'Anonymize Usernames',
+    component: () => AnonymizeUsernamesSetting,
+  },
   {
     index: 0,
     key: 'autocomplete',
