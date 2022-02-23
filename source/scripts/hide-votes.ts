@@ -18,6 +18,10 @@ function hideVotes(settings: Settings): number {
 
     for (const vote of commentVotes) {
       vote.classList.add('trx-votes-hidden');
+      if (!vote.textContent!.includes(' ')) {
+        continue;
+      }
+
       vote.textContent = vote.textContent!.slice(
         0,
         vote.textContent!.indexOf(' '),
