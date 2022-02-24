@@ -30,11 +30,16 @@ export class AutocompleteFeature extends Component<Props, State> {
     );
 
     // Get all the usernames on the page without their leading @s, and get
-    // all the username from the saved user labels.
+    // all the usernames from the saved user labels.
+    const usernameElements = querySelectorAll<HTMLElement>('.link-user');
     const usernames = [
-      ...querySelectorAll('.link-user').map((value) =>
-        value.textContent!.replace(/^@/, '').toLowerCase(),
-      ),
+      ...usernameElements.map((value) => {
+        if (props.settings.features.anonymizeUsernames) {
+          return (value.dataset.trxUsername ?? '<unknown>').toLowerCase();
+        }
+
+        return value.textContent!.replace(/^@/, '').toLowerCase();
+      }),
       ...props.settings.data.userLabels.map((value) => value.username),
     ].sort((a, b) => a.localeCompare(b));
 
