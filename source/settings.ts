@@ -13,8 +13,8 @@ export default class Settings {
     const sync = (await browser.storage.sync.get(
       defaultsObject,
     )) as typeof defaultsObject;
-    settings.data = sync.data;
-    settings.features = sync.features;
+    settings.data = {...settings.data, ...sync.data};
+    settings.features = {...settings.features, ...sync.features};
 
     return settings;
   }
