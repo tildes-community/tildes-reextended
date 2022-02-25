@@ -7,6 +7,7 @@ import {
   JumpToNewCommentSetting,
   MarkdownToolbarSetting,
   UserLabelsSetting,
+  UsernameColorsSetting,
 } from './components/exports.js';
 
 /**
@@ -58,6 +59,12 @@ export const features = [
     key: 'userLabels',
     value: 'User Labels',
     component: () => UserLabelsSetting,
+  },
+  {
+    index: 0,
+    key: 'usernameColors',
+    value: 'Username Colors',
+    component: () => UsernameColorsSetting,
   },
   {
     index: 1,

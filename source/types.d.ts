@@ -27,4 +27,10 @@ declare global {
     text: string;
     username: string;
   };
+
+  type UsernameColor = {
+    color: string;
+    id: number;
+    username: string;
+  };
 }

@@ -5,3 +5,4 @@ export * from './hide-votes.js';
 export * from './jump-to-new-comment.js';
 export * from './markdown-toolbar.js';
 export * from './user-labels.js';
+export * from './username-colors.js';

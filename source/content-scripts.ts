@@ -11,6 +11,7 @@ import {
   runAnonymizeUsernamesFeature,
   runHideVotesFeature,
   runMarkdownToolbarFeature,
+  runUsernameColorsFeature,
 } from './scripts/exports.js';
 import Settings from './settings.js';
 import {extractGroups, initializeGlobals, log} from './utilities/exports.js';
@@ -67,6 +68,12 @@ async function initialize() {
   if (settings.features.markdownToolbar) {
     observerFeatures.push(() => {
       runMarkdownToolbarFeature();
+    });
+  }
+
+  if (settings.features.usernameColors) {
+    observerFeatures.push(() => {
+      runUsernameColorsFeature(settings);
     });
   }
 

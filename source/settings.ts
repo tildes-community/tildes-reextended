@@ -56,6 +56,7 @@ export default class Settings {
     knownGroups: string[];
     latestActiveFeatureTab: string;
     userLabels: UserLabel[];
+    usernameColors: UsernameColor[];
   };
 
   public features: {
@@ -68,6 +69,7 @@ export default class Settings {
     jumpToNewComment: boolean;
     markdownToolbar: boolean;
     userLabels: boolean;
+    usernameColors: boolean;
   };
 
   private constructor() {
@@ -118,6 +120,7 @@ export default class Settings {
       ],
       latestActiveFeatureTab: 'debug',
       userLabels: [],
+      usernameColors: [],
     };
 
     this.features = {
@@ -129,6 +132,7 @@ export default class Settings {
       jumpToNewComment: true,
       markdownToolbar: true,
       userLabels: true,
+      usernameColors: false,
     };
   }
 
