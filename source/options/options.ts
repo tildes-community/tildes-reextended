@@ -33,6 +33,10 @@ type State = {
 class App extends Component<Props, State> {
   state: State;
 
+  // Duration for how long the "NEW" indicator should appear next to a feature,
+  // currently 14 days.
+  readonly newFeatureDuration = 14 * 24 * 60 * 60 * 1000;
+
   constructor(props: Props) {
     super(props);
 
@@ -96,21 +100,25 @@ class App extends Component<Props, State> {
     );
     const tildesLink = html`<${Link} text="Tildes" url="${tildesURL}" />`;
 
-    const asideElements = features.map(
-      ({key, title}) =>
-        html`
-          <li
-            key=${key}
-            class="${activeFeature === key ? 'active' : ''}
+    const asideElements = features.map(({availableSince, key, title}) => {
+      const isNew =
+        Date.now() - availableSince.getTime() < this.newFeatureDuration
+          ? html`<span class="is-new">NEW</span>`
+          : undefined;
+
+      return html`
+        <li
+          key=${key}
+          class="${activeFeature === key ? 'active' : ''}
                 ${enabledFeatures.has(key) ? 'enabled' : ''}"
-            onClick="${() => {
-              this.setActiveFeature(key);
-            }}"
-          >
-            ${title}
-          </li>
-        `,
-    );
+          onClick="${() => {
+            this.setActiveFeature(key);
+          }}"
+        >
+          ${title}${isNew}
+        </li>
+      `;
+    });
 
     const mainElements = features.map(
       ({key, title, component}) =>

@@ -115,6 +115,10 @@ details {
       background-color: var(--light-blue);
       border-color: var(--light-blue);
       cursor: pointer;
+
+      .is-new {
+        color: var(--dark-blue);
+      }
     }
 
     &:not(:last-child) {
@@ -133,6 +137,13 @@ details {
         content: '●';
         margin-left: auto;
       }
+    }
+
+    .is-new {
+      color: var(--light-blue);
+      font-weight: bold;
+      font-size: 60%;
+      vertical-align: top;
     }
   }
 }
