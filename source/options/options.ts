@@ -97,7 +97,7 @@ class App extends Component<Props, State> {
     const tildesLink = html`<${Link} text="Tildes" url="${tildesURL}" />`;
 
     const asideElements = features.map(
-      ({key, value}) =>
+      ({key, title}) =>
         html`
           <li
             key=${key}
@@ -107,20 +107,20 @@ class App extends Component<Props, State> {
               this.setActiveFeature(key);
             }}"
           >
-            ${value}
+            ${title}
           </li>
         `,
     );
 
     const mainElements = features.map(
-      ({key, value, component}) =>
+      ({key, title, component}) =>
         html`
           <${component()}
             class="${activeFeature === key ? '' : 'trx-hidden'}"
             enabled="${enabledFeatures.has(key)}"
             feature=${key}
             key=${key}
-            title="${value}"
+            title="${title}"
           />
         `,
     );

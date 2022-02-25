@@ -33,4 +33,15 @@ declare global {
     id: number;
     username: string;
   };
+
+  // Removes an index signature from a type, useful for getting all defined keys
+  // from an object that also has an index signature, like Settings.features.
+  // https://stackoverflow.com/a/66252656
+  type RemoveIndexSignature<T> = {
+    [K in keyof T as string extends K
+      ? never
+      : number extends K
+      ? never
+      : K]: T[K];
+  };
 }
