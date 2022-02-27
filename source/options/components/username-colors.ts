@@ -114,8 +114,18 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
 
       return html`
         <div class="username-colors-editor" key=${id}>
-          <input style=${style} value=${username} onInput=${usernameHandler} />
-          <input style=${style} value=${color} onInput=${colorHandler} />
+          <input
+            style=${style}
+            placeholder="Username(s)"
+            value=${username}
+            onInput=${usernameHandler}
+          />
+          <input
+            style=${style}
+            placeholder="Color"
+            value=${color}
+            onInput=${colorHandler}
+          />
           <button class="button destructive" onClick=${removeHandler}>
             Remove
           </button>
