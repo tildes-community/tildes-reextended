@@ -68,6 +68,7 @@ export default class Settings {
     hideVotes: boolean;
     jumpToNewComment: boolean;
     markdownToolbar: boolean;
+    themedLogo: boolean;
     userLabels: boolean;
     usernameColors: boolean;
   };
@@ -131,6 +132,7 @@ export default class Settings {
       hideVotes: false,
       jumpToNewComment: true,
       markdownToolbar: true,
+      themedLogo: false,
       userLabels: true,
       usernameColors: false,
     };

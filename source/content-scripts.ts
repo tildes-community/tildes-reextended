@@ -11,6 +11,7 @@ import {
   runAnonymizeUsernamesFeature,
   runHideVotesFeature,
   runMarkdownToolbarFeature,
+  runThemedLogoFeature,
   runUsernameColorsFeature,
 } from './scripts/exports.js';
 import Settings from './settings.js';
@@ -48,6 +49,7 @@ async function initialize() {
 
   function startObserver() {
     observer.observe(document.body, {
+      attributes: true,
       childList: true,
       subtree: true,
     });
@@ -68,6 +70,12 @@ async function initialize() {
   if (settings.features.markdownToolbar) {
     observerFeatures.push(() => {
       runMarkdownToolbarFeature();
+    });
+  }
+
+  if (settings.features.themedLogo) {
+    observerFeatures.push(() => {
+      runThemedLogoFeature();
     });
   }
 

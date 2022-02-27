@@ -7,6 +7,7 @@ import {
   HideVotesSetting,
   JumpToNewCommentSetting,
   MarkdownToolbarSetting,
+  ThemedLogoSetting,
   UserLabelsSetting,
   UsernameColorsSetting,
 } from './components/exports.js';
@@ -61,6 +62,13 @@ export const features: Feature[] = [
     key: 'markdownToolbar',
     title: 'Markdown Toolbar',
     component: () => MarkdownToolbarSetting,
+  },
+  {
+    availableSince: new Date('2022-02-27'),
+    index: 0,
+    key: 'themedLogo',
+    title: 'Themed Logo',
+    component: () => ThemedLogoSetting,
   },
   {
     availableSince: new Date('2019-11-10'),
