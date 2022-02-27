@@ -1,6 +1,7 @@
 @import 'reset';
 @import 'variables';
 @import 'colors';
+@import 'button';
 
 html {
   font-size: 62.5%;
@@ -47,7 +48,8 @@ details {
 
 .main-wrapper,
 .page-header,
-.page-footer {
+.page-footer,
+.user-label-editor {
   margin-left: auto;
   margin-right: auto;
   width: $large-breakpoint;

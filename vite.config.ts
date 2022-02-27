@@ -18,6 +18,7 @@ export default defineConfig({
   plugins: [
     preact(),
     webExtension({
+      additionalInputs: ['options/user-label-editor.html'],
       assets: 'assets',
       browser: 'firefox',
       manifest: path.join(sourceDir, 'manifest.json'),

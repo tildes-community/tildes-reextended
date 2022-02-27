@@ -10,6 +10,10 @@ export function UserLabelsSetting(props: SettingProps): TRXComponent {
         person's profile is available, a <code>[+]</code> will be put next to
         it. Clicking on that will bring up a dialog to add a new label and
         clicking on existing labels will bring up the same dialog to edit them.
+        <br />
+        Or you can use the dedicated${' '}
+        <a href="./user-label-editor.html">User Label Editor</a>
+        to add, edit, or remove user labels.
       </p>
 
       <details>

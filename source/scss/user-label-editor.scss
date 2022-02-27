@@ -1,0 +1,74 @@
+@import 'button';
+
+.user-label-editor {
+  input {
+    background-color: var(--background-primary);
+    border: 1px solid var(--blue);
+    color: var(--foreground);
+    padding: 8px;
+  }
+
+  .button {
+    @include button;
+  }
+
+  .info {
+    border: 1px solid var(--blue);
+    margin-bottom: 8px;
+    padding: 8px;
+  }
+
+  .main-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+}
+
+.groups {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.group {
+  border: 1px solid var(--blue);
+  padding: 16px;
+
+  h2 {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  label {
+    background-color: var(--blue);
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+  }
+
+  li {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 40% 30% auto auto;
+    list-style: none;
+  }
+
+  ul {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.label-preview {
+  font-size: 60%;
+  padding: 4px 8px;
+  text-shadow: 0 0 2px #000, 0 0 4px #000;
+}

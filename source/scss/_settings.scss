@@ -60,25 +60,7 @@
   }
 
   .button {
-    --button-color: var(--blue);
-    --button-color-alt: var(--dark-blue);
-
-    background-color: var(--button-color);
-    border: none;
-    color: var(--foreground);
-    font-weight: bold;
-    min-width: 15rem;
-    padding: 8px 0;
-
-    &:hover {
-      background-color: var(--button-color-alt);
-      cursor: pointer;
-    }
-
-    &.destructive {
-      --button-color: var(--red);
-      --button-color-alt: var(--dark-red);
-    }
+    @include button;
   }
 
   .import-export {
