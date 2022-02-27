@@ -18,7 +18,7 @@ Large parts of the original Tildes Extended have been removed for various reason
 Some functionality has also been extended more:
 
 * [x] The **Back To Top** button has been separated out into its own feature. It used to be apart of the "Jump To New Comments" one.
-* [ ] The **Random Tildes Logo** feature now picks from theme-appropriate logos instead of a regular tilde character. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/7)
+* [x] The **Themed Tildes Logo** feature now picks from theme-appropriate logos instead of a regular tilde character.
 * [x] The **Jump To New Comment** button now uncollapses comments if the new one is collapsed or is deeper inside a collapsed one.
 
 #### User Labels
@@ -27,7 +27,7 @@ Some functionality has also been extended more:
 * [x] Specify priority of labels.
 * [x] A dropdown with theme-appropriate colors for easy access.
 * [x] Pick any hex color you want.
-* [ ] Dedicated interface to add, edit, and remove labels. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/1)
+* [x] Dedicated interface to add, edit, and remove labels.
 
 ### New Functionality
 
@@ -35,8 +35,8 @@ And various new features have been added such as:
 
 * [ ] Hide (and unhide) topics from the topic listing. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/3)
 * [x] Hide your own and/or other people's vote counts.
-* [ ] Anonymize usernames. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/5)
-* [ ] Assign unique colors to people's usernames. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/6)
+* [x] Anonymize usernames.
+* [x] Assign unique colors to people's usernames.
 * [x] Export and import your extension settings.
 
 ## License
