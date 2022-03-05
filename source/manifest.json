@@ -3,7 +3,7 @@
   "manifest_version": 2,
   "name": "Tildes ReExtended",
   "description": "An updated and reimagined recreation of Tildes Extended to enhance and improve the experience of Tildes.net.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "permissions": [
     "downloads",
     "storage",
