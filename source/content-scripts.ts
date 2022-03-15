@@ -1,5 +1,3 @@
-import './scss/scripts.scss';
-
 import {html} from 'htm/preact';
 import {render} from 'preact';
 
