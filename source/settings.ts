@@ -1,20 +1,35 @@
+import {migrate} from 'migration-helper';
 import browser from 'webextension-polyfill';
 
+import {migrations, deserializeData} from './migrations.js';
 import {log} from './utilities/exports.js';
 
 export default class Settings {
   public static async fromSyncStorage(): Promise<Settings> {
     const settings = new Settings();
-    const defaultsObject = {
-      data: settings.data,
-      features: settings.features,
+
+    const sync = {
+      ...settings,
+      ...(await browser.storage.sync.get(null)),
     };
 
-    const sync = (await browser.storage.sync.get(
-      defaultsObject,
-    )) as typeof defaultsObject;
-    settings.data = {...settings.data, ...sync.data};
-    settings.features = {...settings.features, ...sync.features};
+    const migrated = (await migrate(
+      sync,
+      sync.version ?? settings.version,
+      migrations,
+    )) as Record<string, any>;
+
+    const deserialized = deserializeData(migrated);
+
+    settings.data = migrated.data as Settings['data'];
+    settings.data.userLabels = deserialized.userLabels;
+    settings.data.usernameColors = deserialized.usernameColors;
+    settings.features = migrated.features as Settings['features'];
+    settings.version = migrated.version as Settings['version'];
+
+    if (sync.version !== settings.version) {
+      await settings.save();
+    }
 
     return settings;
   }
@@ -72,6 +87,8 @@ export default class Settings {
     userLabels: boolean;
     usernameColors: boolean;
   };
+
+  public version: string;
 
   private constructor() {
     this.data = {
@@ -136,6 +153,8 @@ export default class Settings {
       userLabels: true,
       usernameColors: false,
     };
+
+    this.version = '0.0.0';
   }
 
   public manifest(): TRXManifest {
@@ -147,6 +166,24 @@ export default class Settings {
   }
 
   public async save(): Promise<void> {
-    await browser.storage.sync.set(this);
+    const sync: Record<string, any> = {
+      data: {
+        hideVotes: this.data.hideVotes,
+        knownGroups: this.data.knownGroups,
+        latestActiveFeatureTab: this.data.latestActiveFeatureTab,
+      },
+      features: this.features,
+      version: this.version,
+    };
+
+    for (const label of this.data.userLabels) {
+      sync[`userLabel${label.id}`] = {...label};
+    }
+
+    for (const color of this.data.usernameColors) {
+      sync[`usernameColor${color.id}`] = {...color};
+    }
+
+    await browser.storage.sync.set(sync);
   }
 }
