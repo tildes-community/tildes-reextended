@@ -1,4 +1,4 @@
-import {Migration} from 'migration-helper';
+import {Migration} from '@holllo/migration-helper';
 
 export const migrations: Array<Migration<string>> = [
   {
