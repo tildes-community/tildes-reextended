@@ -1,19 +1,6 @@
 {
-  "name": "tildes-reextended",
-  "description": "An updated and reimagined recreation of Tildes Extended to enhance and improve the experience of Tildes.net.",
-  "license": "MIT",
-  "repository": "https://gitlab.com/tildes-community/tildes-reextended",
-  "authors": [
-    "Bauke <me@bauke.xyz>"
-  ],
+  "type": "module",
   "private": true,
-  "scripts": {
-    "start": "vite build -m development --watch",
-    "clean": "trash build web-ext-artifacts",
-    "build": "pnpm clean && vite build && web-ext build --source-dir build && pnpm zip-source",
-    "zip-source": "git archive --format zip --output web-ext-artifacts/tildes_reextended-source.zip HEAD",
-    "test": "xo && stylelint 'source/**/*.scss' && tsc"
-  },
   "dependencies": {
     "@holllo/migration-helper": "^0.1.2",
     "caret-pos": "^2.0.0",
