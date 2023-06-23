@@ -1,0 +1,67 @@
+[env]
+# Set BROWSER="firefox" if not already defined.
+# All browser targets are defined in `source/types.d.ts` as a global `$browser`.
+BROWSER = { condition = { env_not_set = ["BROWSER"] }, value = "firefox" }
+# Set NODE_ENV="development" if not already defined.
+# Either "development" or "production" should be used.
+NODE_ENV = { condition = { env_not_set = ["NODE_ENV"] }, value = "development" }
+
+# Start a browser instance that will reload the extension when changes are made.
+[tasks.dev]
+clear = true
+dependencies = ["build"]
+command = "pnpm"
+args = ["conc", "-c=auto", "-k", "makers watch", "makers run"]
+
+# Build the WebExtension.
+[tasks.build]
+clear = true
+command = "pnpm"
+args = ["tsx", "source/build.ts"]
+
+# Remove build directories.
+[tasks.clean]
+clear = true
+command = "pnpm"
+args = ["trash", "build/${BROWSER}"]
+
+# Run all other linting tasks.
+[tasks.lint]
+clear = true
+dependencies = ["lint-js", "lint-scss"]
+
+# Run XO.
+[tasks.lint-js]
+clear = true
+command = "pnpm"
+args = ["xo"]
+
+# Run Stylelint.
+[tasks.lint-scss]
+clear = true
+command = "pnpm"
+args = ["stylelint", "source/**/*.scss"]
+
+# Re-build and pack the WebExtension for publishing.
+[tasks.pack]
+clear = true
+dependencies = ["clean", "build"]
+command = "pnpm"
+args = ["web-ext", "build", "--config=build/web-ext-${BROWSER}.json"]
+
+# Start a browser instance with the extension loaded.
+[tasks.run]
+clear = true
+command = "pnpm"
+args = ["web-ext", "run", "--config=build/web-ext-${BROWSER}.json"]
+
+# Alias for `WATCH=true makers build`.
+[tasks.watch]
+env = { WATCH="true" }
+extend = "build"
+
+# Create a ZIP archive with only the source code, for AMO publishing.
+[tasks.zip-source]
+clear = true
+command = "git"
+args = ["archive", "--format=zip", "--output=build/tildes-reextended-source.zip", "HEAD"]
