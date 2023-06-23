@@ -1,4 +1,4 @@
-import platform from 'platform';
+import platform from "platform";
 
 /**
  * Creates a bug report template in Markdown.
@@ -6,21 +6,21 @@ import platform from 'platform';
  * @param trxVersion The Tildes ReExtended version to include in the template.
  */
 export function createReportTemplate(
-  location: 'gitlab' | 'tildes',
+  location: "gitlab" | "tildes",
   trxVersion: string,
 ): string {
   let introText =
     "Thank you for taking the time to report a bug! Don't forget to fill in an\n  appropriate title above, and make sure the information below is correct.";
 
-  if (location === 'tildes') {
+  if (location === "tildes") {
     introText =
-      'Thank you for taking the time to report a bug! Please make sure the\n  information below is correct.';
+      "Thank you for taking the time to report a bug! Please make sure the\n  information below is correct.";
   }
 
-  const layout = platform.layout ?? '<unknown>';
-  const name = platform.name ?? '<unknown>';
-  const os = platform.os?.toString() ?? '<unknown>';
-  const version = platform.version ?? '<unknown>';
+  const layout = platform.layout ?? "<unknown>";
+  const name = platform.name ?? "<unknown>";
+  const os = platform.os?.toString() ?? "<unknown>";
+  const version = platform.version ?? "<unknown>";
 
   // Set the headers using HTML tags, these can't be with #-style Markdown
   // headers as they'll be interpreted as an ID instead of Markdown content.

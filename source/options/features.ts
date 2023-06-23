@@ -1,4 +1,4 @@
-import Settings from '../settings.js';
+import {Feature} from "../storage/common.js";
 import {
   AboutSetting,
   AnonymizeUsernamesSetting,
@@ -10,86 +10,86 @@ import {
   ThemedLogoSetting,
   UserLabelsSetting,
   UsernameColorsSetting,
-} from './components/exports.js';
+} from "./components/exports.js";
 
-type Feature = {
+type FeatureData = {
   availableSince: Date;
   index: number;
-  key: keyof RemoveIndexSignature<Settings['features']>;
+  key: Feature;
   title: string;
-  component: () => any;
+  component: any;
 };
 
-export const features: Feature[] = [
+export const features: FeatureData[] = [
   {
-    availableSince: new Date('2022-02-23'),
+    availableSince: new Date("2022-02-23"),
     index: 0,
-    key: 'anonymizeUsernames',
-    title: 'Anonymize Usernames',
-    component: () => AnonymizeUsernamesSetting,
+    key: Feature.AnonymizeUsernames,
+    title: "Anonymize Usernames",
+    component: AnonymizeUsernamesSetting,
   },
   {
-    availableSince: new Date('2020-10-03'),
+    availableSince: new Date("2020-10-03"),
     index: 0,
-    key: 'autocomplete',
-    title: 'Autocomplete',
-    component: () => AutocompleteSetting,
+    key: Feature.Autocomplete,
+    title: "Autocomplete",
+    component: AutocompleteSetting,
   },
   {
-    availableSince: new Date('2019-11-10'),
+    availableSince: new Date("2019-11-10"),
     index: 0,
-    key: 'backToTop',
-    title: 'Back To Top',
-    component: () => BackToTopSetting,
+    key: Feature.BackToTop,
+    title: "Back To Top",
+    component: BackToTopSetting,
   },
   {
-    availableSince: new Date('2019-11-12'),
+    availableSince: new Date("2019-11-12"),
     index: 0,
-    key: 'hideVotes',
-    title: 'Hide Votes',
-    component: () => HideVotesSetting,
+    key: Feature.HideVotes,
+    title: "Hide Votes",
+    component: HideVotesSetting,
   },
   {
-    availableSince: new Date('2019-11-10'),
+    availableSince: new Date("2019-11-10"),
     index: 0,
-    key: 'jumpToNewComment',
-    title: 'Jump To New Comment',
-    component: () => JumpToNewCommentSetting,
+    key: Feature.JumpToNewComment,
+    title: "Jump To New Comment",
+    component: JumpToNewCommentSetting,
   },
   {
-    availableSince: new Date('2019-11-12'),
+    availableSince: new Date("2019-11-12"),
     index: 0,
-    key: 'markdownToolbar',
-    title: 'Markdown Toolbar',
-    component: () => MarkdownToolbarSetting,
+    key: Feature.MarkdownToolbar,
+    title: "Markdown Toolbar",
+    component: MarkdownToolbarSetting,
   },
   {
-    availableSince: new Date('2022-02-27'),
+    availableSince: new Date("2022-02-27"),
     index: 0,
-    key: 'themedLogo',
-    title: 'Themed Logo',
-    component: () => ThemedLogoSetting,
+    key: Feature.ThemedLogo,
+    title: "Themed Logo",
+    component: ThemedLogoSetting,
   },
   {
-    availableSince: new Date('2019-11-10'),
+    availableSince: new Date("2019-11-10"),
     index: 0,
-    key: 'userLabels',
-    title: 'User Labels',
-    component: () => UserLabelsSetting,
+    key: Feature.UserLabels,
+    title: "User Labels",
+    component: UserLabelsSetting,
   },
   {
-    availableSince: new Date('2022-02-25'),
+    availableSince: new Date("2022-02-25"),
     index: 0,
-    key: 'usernameColors',
-    title: 'Username Colors',
-    component: () => UsernameColorsSetting,
+    key: Feature.UsernameColors,
+    title: "Username Colors",
+    component: UsernameColorsSetting,
   },
   {
-    availableSince: new Date('2019-11-10'),
+    availableSince: new Date("2019-11-10"),
     index: 1,
-    key: 'debug',
-    title: 'About & Info',
-    component: () => AboutSetting,
+    key: Feature.Debug,
+    title: "About & Info",
+    component: AboutSetting,
   },
 ];
 

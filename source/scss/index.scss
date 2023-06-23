@@ -1,7 +1,10 @@
-@import 'reset';
-@import 'variables';
-@import 'colors';
-@import 'button';
+@use "modern-normalize/modern-normalize.css";
+@import "reset";
+@import "variables";
+@import "colors";
+@import "button";
+@import "shared";
+@import "settings";
 
 html {
   font-size: 62.5%;
@@ -136,7 +139,7 @@ details {
 
       &::after {
         color: var(--light-green);
-        content: '●';
+        content: "●";
         margin-left: auto;
       }
     }
@@ -154,7 +157,3 @@ details {
   background-color: var(--background-secondary);
   padding: 16px;
 }
-
-/* stylelint-disable no-invalid-position-at-import-rule */
-@import 'shared';
-@import 'settings';

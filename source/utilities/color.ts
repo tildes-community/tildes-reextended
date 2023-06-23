@@ -1,6 +1,6 @@
 /** Returns whether a hex color is "bright". */
 export function isColorBright(color: string): boolean {
-  if (color.startsWith('#')) {
+  if (color.startsWith("#")) {
     color = color.slice(1);
   }
 
@@ -19,16 +19,16 @@ export function isColorBright(color: string): boolean {
   // transform it. For example "#123" is the same as "#112233".
   if (color.length === 3) {
     color = color
-      .split('')
+      .split("")
       .map((value) => value.repeat(2))
-      .join('');
+      .join("");
   }
 
   // Split the color up into 3 segments of 2 characters and convert them from
   // hexadecimal to decimal.
   const [red, green, blue] = color
     .split(/(.{2})/)
-    .filter((value) => value !== '')
+    .filter((value) => value !== "")
     .map((value) => Number.parseInt(value, 16));
 
   // Magical numbers taken from https://stackoverflow.com/a/12043228/12251171.
@@ -40,47 +40,47 @@ export function isColorBright(color: string): boolean {
 /** CSS custom properties from the Tildes themes. */
 export const themeColors = [
   {
-    name: 'Background Primary',
-    value: '--background-primary-color',
+    name: "Background Primary",
+    value: "--background-primary-color",
   },
   {
-    name: 'Background Secondary',
-    value: '--background-secondary-color',
+    name: "Background Secondary",
+    value: "--background-secondary-color",
   },
   {
-    name: 'Foreground Primary',
-    value: '--foreground-primary-color',
+    name: "Foreground Primary",
+    value: "--foreground-primary-color",
   },
   {
-    name: 'Foreground Secondary',
-    value: '--foreground-secondary-color',
+    name: "Foreground Secondary",
+    value: "--foreground-secondary-color",
   },
   {
-    name: 'Exemplary',
-    value: '--comment-label-exemplary-color',
+    name: "Exemplary",
+    value: "--comment-label-exemplary-color",
   },
   {
-    name: 'Off-topic',
-    value: '--comment-label-offtopic-color',
+    name: "Off-topic",
+    value: "--comment-label-offtopic-color",
   },
   {
-    name: 'Joke',
-    value: '--comment-label-joke-color',
+    name: "Joke",
+    value: "--comment-label-joke-color",
   },
   {
-    name: 'Noise',
-    value: '--comment-label-noise-color',
+    name: "Noise",
+    value: "--comment-label-noise-color",
   },
   {
-    name: 'Malice',
-    value: '--comment-label-malice-color',
+    name: "Malice",
+    value: "--comment-label-malice-color",
   },
   {
-    name: 'Mine',
-    value: '--stripe-mine-color',
+    name: "Mine",
+    value: "--stripe-mine-color",
   },
   {
-    name: 'Official',
-    value: '--alert-color',
+    name: "Official",
+    value: "--alert-color",
   },
 ];

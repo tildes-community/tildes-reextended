@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"
+  viewBox="0 0 100 100">
+  <!-- Default Tildes logo with Solarized colors: -->
+  <rect fill="#002b36" width="100" height="100"/>
+  <g>
+    <rect fill="#859900" width="12.5" height="12.5" x="0" y="50"/>
+    <rect fill="#2aa198" width="12.5" height="12.5" x="12.5" y="37.5"/>
+    <rect fill="#268bd2" width="12.5" height="12.5" x="25" y="25"/>
+    <rect fill="#6c71c4" width="12.5" height="12.5" x="37.5" y="37.5"/>
+    <rect fill="#d33682" width="12.5" height="12.5" x="50" y="50"/>
+    <rect fill="#dc322f" width="12.5" height="12.5" x="62.5" y="62.5"/>
+    <rect fill="#cb4b16" width="12.5" height="12.5" x="75" y="50"/>
+    <rect fill="#b58900" width="12.5" height="12.5" x="87.5" y="37.5"/>
+  </g>
+  <!-- Bottom-left extension with Dracula colors: -->
+  <g transform="translate(0 37.5)">
+    <rect fill="#50fa7b" width="12.5" height="12.5" x="12.5" y="37.5"/>
+    <rect fill="#8be9fd" width="12.5" height="12.5" x="25" y="25"/>
+    <rect fill="#6272a4" width="12.5" height="12.5" x="37.5" y="37.5"/>
+  </g>
+  <!-- Top-right extension with Zenburn colors: -->
+  <g transform="translate(0 -37.5)">
+    <rect fill="#e06c75" width="12.5" height="12.5" x="50" y="50"/>
+    <rect fill="#be5046" width="12.5" height="12.5" x="62.5" y="62.5"/>
+    <rect fill="#d19a66" width="12.5" height="12.5" x="75" y="50"/>
+  </g>
+</svg>

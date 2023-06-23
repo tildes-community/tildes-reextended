@@ -1,11 +1,10 @@
-import {createContext} from 'preact';
-
-import Settings from '../settings.js';
+import {createContext} from "preact";
+import {type Feature} from "../storage/common.js";
 
 type AppContextValues = {
-  settings: Settings;
-  setActiveFeature: (feature: string) => void;
-  toggleFeature: (feature: string) => void;
+  setActiveFeature: (feature: Feature) => void;
+  toggleFeature: (feature: Feature) => void;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const AppContext = createContext<AppContextValues>(null!);
