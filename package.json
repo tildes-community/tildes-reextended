@@ -2,45 +2,44 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@holllo/migration-helper": "^0.1.2",
+    "@holllo/migration-helper": "^0.1.4",
+    "@holllo/webextension-storage": "^0.2.0",
     "caret-pos": "^2.0.0",
     "debounce": "^1.2.1",
-    "htm": "^3.1.0",
-    "modern-normalize": "^1.1.0",
+    "modern-normalize": "^2.0.0",
     "platform": "^1.3.6",
-    "preact": "^10.6.6",
-    "webextension-polyfill": "^0.8.0"
+    "preact": "^10.15.1",
+    "webextension-polyfill": "^0.10.0"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.1.7",
+    "@bauke/eslint-config": "^0.1.2",
+    "@bauke/prettier-config": "^0.1.2",
+    "@bauke/stylelint-config": "^0.1.2",
     "@types/debounce": "^1.2.1",
+    "@types/node": "^20.3.1",
     "@types/platform": "^1.3.4",
-    "@types/webextension-polyfill": "^0.8.2",
-    "postcss": "^8.4.8",
-    "sass": "^1.49.9",
-    "stylelint": "^14.5.3",
-    "stylelint-config-standard-scss": "^3.0.0",
+    "@types/webextension-polyfill": "^0.10.0",
+    "concurrently": "^8.2.0",
+    "cssnano": "^6.0.1",
+    "esbuild": "^0.18.6",
+    "esbuild-copy-static-files": "^0.1.0",
+    "esbuild-sass-plugin": "^2.10.0",
+    "postcss": "^8.4.24",
+    "sass": "^1.63.6",
+    "stylelint": "^15.9.0",
     "trash-cli": "^5.0.0",
-    "typescript": "^4.6.2",
-    "vite": "^2.8.6",
-    "vite-plugin-web-extension": "^1.1.3",
-    "web-ext": "^6.7.0",
-    "xo": "^0.48.0"
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.3",
+    "web-ext": "^7.6.2",
+    "xo": "^0.54.2"
   },
+  "prettier": "@bauke/prettier-config",
   "stylelint": {
-    "extends": [
-      "stylelint-config-standard-scss"
-    ],
-    "rules": {
-      "no-descending-specificity": null,
-      "string-quotes": "single"
-    }
+    "extends": "@bauke/stylelint-config"
   },
   "xo": {
+    "extends": "@bauke/eslint-config",
     "prettier": true,
-    "rules": {
-      "@typescript-eslint/naming-convention": "off"
-    },
     "space": true
   }
 }
