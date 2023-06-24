@@ -1,8 +1,8 @@
-import {type Value, createValue} from "@holllo/webextension-storage";
+import {createValue} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
 
 export enum Feature {
-  AnonymizeUsernames = "anonymize-users",
+  AnonymizeUsernames = "anonymize-usernames",
   Autocomplete = "autocomplete",
   BackToTop = "back-to-top",
   Debug = "debug",
@@ -18,6 +18,7 @@ export enum Data {
   EnabledFeatures = "enabled-features",
   KnownGroups = "known-groups",
   LatestActiveFeatureTab = "latest-active-feature-tab",
+  Version = "data-version",
 }
 
 export type HideVotesData = {
@@ -109,6 +110,13 @@ export const storageValues = {
     serialize: (input) => JSON.stringify(input),
     key: Data.LatestActiveFeatureTab,
     value: Feature.Debug,
+    storage: browser.storage.sync,
+  }),
+  [Data.Version]: createValue({
+    deserialize: (input) => JSON.parse(input) as string,
+    serialize: (input) => JSON.stringify(input),
+    key: Data.Version,
+    value: "2.0.0",
     storage: browser.storage.sync,
   }),
   [Feature.HideVotes]: createValue({

@@ -11,7 +11,11 @@ import {type Feature, Data, fromStorage} from "../storage/common.js";
 import {AppContext} from "./context.js";
 import {features} from "./features.js";
 
-window.addEventListener("load", async () => {
+window.addEventListener("DOMContentLoaded", async () => {
+  if ($test) {
+    await import("../storage/migrations/migrations.test.js");
+  }
+
   initializeGlobals();
   const manifest = browser.runtime.getManifest();
 

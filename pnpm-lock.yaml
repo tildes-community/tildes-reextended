@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@holllo/migration-helper':
     specifier: ^0.1.4
@@ -36,6 +40,9 @@ devDependencies:
   '@bauke/stylelint-config':
     specifier: ^0.1.2
     version: 0.1.2(stylelint-config-standard-scss@6.1.0)(stylelint@15.9.0)
+  '@holllo/test':
+    specifier: ^0.2.1
+    version: 0.2.1
   '@types/debounce':
     specifier: ^1.2.1
     version: 1.2.1
@@ -712,6 +719,10 @@ packages:
   /@holllo/migration-helper@0.1.4:
     resolution: {integrity: sha512-4XMYlIOSFzTDWSFizKRSYUHWEfQBNZbPI/Tc5Qhef4lhxZBCAzJt1+RutB5TpCdR6sllJN+Dt5WblCmZXCaoLw==}
     dev: false
+
+  /@holllo/test@0.2.1:
+    resolution: {integrity: sha512-QlIvEqvuEfu8vapnwai8A+1TmZGkPObgU32VEXHBc3XEKhupHZRFB778oLPYlJVuSsi4TT99890iSR3nlvVwtQ==}
+    dev: true
 
   /@holllo/webextension-storage@0.2.0(webextension-polyfill@0.10.0):
     resolution: {integrity: sha512-WiSkkY/Jg3PhlHOH8eGvRBBtvZwHrJ0FD/LF8lNZAc3uaRdonF79o/Xt9CefYUjV6FSbHl/vsccXyAoitvkRIQ==}
