@@ -19,8 +19,6 @@ export function createManifest(browser: string): Manifest.WebExtensionManifest {
       page: "options/index.html",
       open_in_tab: true,
     },
-    content_security_policy:
-      "script-src 'self'; object-src 'self'; style-src 'unsafe-inline'",
     content_scripts: [
       {
         css: ["css/content-scripts.css"],
@@ -53,6 +51,8 @@ export function createManifest(browser: string): Manifest.WebExtensionManifest {
         strict_min_version: "102.0",
       },
     };
+    manifest.content_security_policy =
+      "script-src 'self'; object-src 'self'; style-src 'unsafe-inline'";
   } else if (browser === "chromium") {
     manifest.manifest_version = 3;
     manifest.action = action;
