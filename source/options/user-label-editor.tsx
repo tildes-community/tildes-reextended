@@ -10,6 +10,7 @@ import {
   type UserLabel,
   fromStorage,
   Feature,
+  saveUserLabels,
 } from "../storage/common.js";
 import "../scss/index.scss";
 import "../scss/user-label-editor.scss";
@@ -21,7 +22,7 @@ window.addEventListener("load", async () => {
 });
 
 type Props = {
-  userLabels: Value<UserLabelsData>;
+  userLabels: UserLabelsData;
 };
 
 type State = {
@@ -37,7 +38,7 @@ class App extends Component<Props, State> {
     this.state = {
       hasUnsavedChanges: false,
       newLabelUsername: "",
-      userLabels: props.userLabels.value,
+      userLabels: props.userLabels,
     };
   }
 
@@ -101,8 +102,8 @@ class App extends Component<Props, State> {
   };
 
   saveUserLabels = () => {
-    this.props.userLabels.value = this.state.userLabels;
-    void this.props.userLabels.save();
+    this.props.userLabels = this.state.userLabels;
+    void saveUserLabels(this.props.userLabels);
     this.setState({hasUnsavedChanges: false});
   };
 

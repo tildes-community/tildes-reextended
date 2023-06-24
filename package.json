@@ -40,6 +40,9 @@
   "xo": {
     "extends": "@bauke/eslint-config",
     "prettier": true,
+    "rules": {
+      "no-await-in-loop": "off"
+    },
     "space": true
   }
 }

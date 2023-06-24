@@ -102,7 +102,7 @@ async function initialize() {
       <AutocompleteFeature
         anonymizeUsernamesEnabled={anonymizeUsernamesEnabled}
         knownGroups={knownGroups.value}
-        userLabels={userLabels.value}
+        userLabels={userLabels}
       />
     );
   }

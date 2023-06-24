@@ -1,7 +1,6 @@
 import debounce from "debounce";
 import {Component, render} from "preact";
-import {type Value} from "@holllo/webextension-storage";
-import {type UserLabelsData} from "../../storage/common.js";
+import {type UserLabelsData, saveUserLabels} from "../../storage/common.js";
 import {
   createElementFromString,
   isColorBright,
@@ -13,7 +12,7 @@ import {
 
 type Props = {
   anonymizeUsernamesEnabled: boolean;
-  userLabels: Value<UserLabelsData>;
+  userLabels: UserLabelsData;
 };
 
 type State = {
@@ -70,7 +69,7 @@ export class UserLabelsFeature extends Component<Props, State> {
 
     // Sort the labels by priority or alphabetically, so 2 labels with the same
     // priority will be sorted alphabetically.
-    const sortedLabels = userLabels.value.sort((a, b): number => {
+    const sortedLabels = userLabels.sort((a, b): number => {
       if (inTopicListing) {
         // If we're in the topic listing sort with highest priority first.
         if (a.priority !== b.priority) {
@@ -97,7 +96,7 @@ export class UserLabelsFeature extends Component<Props, State> {
 
       const userLabels = sortedLabels.filter(
         (value) =>
-          value.username === username &&
+          value.username.toLowerCase() === username &&
           (onlyID === undefined ? true : value.id === onlyID),
       );
 
@@ -192,9 +191,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     if (this.state.target === target && !this.state.hidden) {
       this.hide();
     } else {
-      const label = this.props.userLabels.value.find(
-        (value) => value.id === id,
-      );
+      const label = this.props.userLabels.find((value) => value.id === id);
       if (label === undefined) {
         log(
           "User Labels: Tried to edit label with ID that could not be found.",
@@ -252,11 +249,11 @@ export class UserLabelsFeature extends Component<Props, State> {
     // If no ID is present then save a new label otherwise edit the existing one.
     if (id === undefined) {
       let newId = 1;
-      if (userLabels.value.length > 0) {
-        newId = userLabels.value.sort((a, b) => b.id - a.id)[0].id + 1;
+      if (userLabels.length > 0) {
+        newId = userLabels.sort((a, b) => b.id - a.id)[0].id + 1;
       }
 
-      userLabels.value.push({
+      userLabels.push({
         color,
         id: newId,
         priority,
@@ -266,9 +263,9 @@ export class UserLabelsFeature extends Component<Props, State> {
 
       this.addLabelsToUsernames(querySelectorAll(".link-user"), newId);
     } else {
-      const index = userLabels.value.findIndex((value) => value.id === id);
-      userLabels.value.splice(index, 1);
-      userLabels.value.push({
+      const index = userLabels.findIndex((value) => value.id === id);
+      userLabels.splice(index, 1);
+      userLabels.push({
         id,
         color,
         priority,
@@ -289,7 +286,7 @@ export class UserLabelsFeature extends Component<Props, State> {
       }
     }
 
-    await userLabels.save();
+    await saveUserLabels(userLabels);
     this.props.userLabels = userLabels;
     this.hide();
   };
@@ -303,7 +300,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     }
 
     const {userLabels} = this.props;
-    const index = userLabels.value.findIndex((value) => value.id === id);
+    const index = userLabels.findIndex((value) => value.id === id);
     if (index === undefined) {
       log(
         `User Labels: Tried to remove label with ID ${id} that could not be found.`,
@@ -316,8 +313,8 @@ export class UserLabelsFeature extends Component<Props, State> {
       value.remove();
     }
 
-    userLabels.value.splice(index, 1);
-    await userLabels.save();
+    userLabels.splice(index, 1);
+    await saveUserLabels(userLabels);
     this.props.userLabels = userLabels;
     this.hide();
   };
