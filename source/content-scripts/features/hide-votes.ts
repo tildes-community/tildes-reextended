@@ -112,7 +112,7 @@ function hideTopicVotes(data: HideVotesData, currentUser: string): number {
       (data.otherTopics && !postedBySelf) ||
       (data.ownTopics && postedBySelf)
     ) {
-      vote = topic.querySelector(".topic-voting-votes")!;
+      vote = topic.querySelector(".topic-voting-votes") ?? undefined;
     }
 
     if (vote !== undefined) {
