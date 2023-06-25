@@ -4,7 +4,6 @@ import {type UserLabelsData, saveUserLabels} from "../../storage/common.js";
 import {
   createElementFromString,
   isColorBright,
-  isValidHexColor,
   log,
   querySelectorAll,
   themeColors,
@@ -25,15 +24,6 @@ type State = {
   text: string;
   username: string;
 };
-
-const colorPattern: string = [
-  "^(?:#(?:", // (?:) are non-capturing groups.
-  "[a-f\\d]{8}|", // The order of 8 -> 6 -> 4 -> 3 character hex colors matters.
-  "[a-f\\d]{6}|",
-  "[a-f\\d]{4}|",
-  "[a-f\\d]{3})",
-  "|transparent)$", // "Transparent" is also allowed in the input.
-].join("");
 
 export class UserLabelsFeature extends Component<Props, State> {
   constructor(props: Props) {
@@ -209,14 +199,7 @@ export class UserLabelsFeature extends Component<Props, State> {
   };
 
   colorChange = (event: Event) => {
-    let color: string = (event.target as HTMLInputElement).value.toLowerCase();
-    if (!color.startsWith("#") && !color.startsWith("t") && color.length > 0) {
-      color = `#${color}`;
-    }
-
-    if (color !== "transparent" && !isValidHexColor(color)) {
-      log('User Labels: Color must be a valid hex color or "transparent".');
-    }
+    const color = (event.target as HTMLInputElement).value.toLowerCase();
 
     // If the color was changed through the preset values, also change the
     // selected color state.
@@ -379,7 +362,6 @@ export class UserLabelsFeature extends Component<Props, State> {
               placeholder="Color"
               value={color}
               onInput={debounce(this.colorChange, 250)}
-              pattern={colorPattern}
               required
             />
 
