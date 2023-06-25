@@ -19,6 +19,7 @@ type WebExtConfig = {
 
   run: {
     browserConsole: boolean;
+    chromiumProfile: string;
     firefoxProfile: string;
     keepProfileChanges: boolean;
     profileCreateIfMissing: boolean;
@@ -53,6 +54,7 @@ export function createWebExtConfig(
 
     run: {
       browserConsole: dev,
+      chromiumProfile: path.join(buildDir, "chromium-profile/"),
       firefoxProfile: path.join(buildDir, "firefox-profile/"),
       keepProfileChanges: true,
       profileCreateIfMissing: true,
