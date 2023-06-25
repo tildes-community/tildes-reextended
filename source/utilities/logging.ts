@@ -1,5 +1,5 @@
 /**
- * Logs something to the console under the debug level.
+ * Log something to the console under the debug level.
  * @param thing The thing to log.
  * @param force If true, ignores whether or not debug logging is enabled.
  */

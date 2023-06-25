@@ -2,8 +2,7 @@ import {log} from "./logging.js";
 import {querySelectorAll} from "./query-selectors.js";
 
 /**
- * Tries to extract and save the groups. Returns the current saved groups when
- * the user is not in `/groups` and the new ones when they are in `/groups`.
+ * Try to extract the groups when in the group listing page at `/groups`.
  */
 export function extractGroups(): string[] | undefined {
   if (window.location.pathname !== "/groups") {
