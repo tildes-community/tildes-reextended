@@ -53,7 +53,10 @@ args = ["web-ext", "build", "--config=build/web-ext-${BROWSER}.json"]
 [tasks.run]
 clear = true
 command = "pnpm"
-args = ["web-ext", "run", "--config=build/web-ext-${BROWSER}.json"]
+# Set --target explicitly, since web-ext for some reason doesn't use the target
+# set in the configuration file. https://github.com/mozilla/web-ext/issues/1862
+env = { TARGET = { source = "${BROWSER}", default_value = "${BROWSER}", mapping = { "firefox" = "firefox-dekstop" } } }
+args = ["web-ext", "run", "--target=${TARGET}", "--config=build/web-ext-${BROWSER}.json"]
 
 # Alias for `WATCH=true makers build`.
 [tasks.watch]
