@@ -10,6 +10,7 @@ import {
   type UserLabel,
   fromStorage,
   Feature,
+  createValueUserLabel,
   saveUserLabels,
 } from "../storage/common.js";
 import "../scss/index.scss";
@@ -42,28 +43,31 @@ class App extends Component<Props, State> {
     };
   }
 
-  addNewLabel = () => {
+  addNewLabel = async () => {
     const {newLabelUsername, userLabels} = this.state;
     if (!isValidTildesUsername(newLabelUsername)) {
       return;
     }
 
     const existingUserLabel = userLabels.find(
-      ({username}) => username.toLowerCase() === newLabelUsername.toLowerCase(),
+      ({value: {username}}) =>
+        username.toLowerCase() === newLabelUsername.toLowerCase(),
     );
 
     let id = 1;
     if (userLabels.length > 0) {
-      id = userLabels.sort((a, b) => b.id - a.id)[0].id + 1;
+      id = userLabels.sort((a, b) => b.value.id - a.value.id)[0].value.id + 1;
     }
 
-    userLabels.push({
-      color: "#ff00ff",
-      id,
-      priority: 0,
-      text: "New Label",
-      username: existingUserLabel?.username ?? newLabelUsername,
-    });
+    userLabels.push(
+      await createValueUserLabel({
+        color: "#ff00ff",
+        id,
+        priority: 0,
+        text: "New Label",
+        username: existingUserLabel?.value.username ?? newLabelUsername,
+      }),
+    );
     this.setState({userLabels});
   };
 
@@ -73,7 +77,9 @@ class App extends Component<Props, State> {
   };
 
   editUserLabel = (event: Event, targetId: number, key: keyof UserLabel) => {
-    const index = this.state.userLabels.findIndex(({id}) => id === targetId);
+    const index = this.state.userLabels.findIndex(
+      ({value: {id}}) => id === targetId,
+    );
     if (index === -1) {
       log(`Tried to edit UserLabel with unknown ID: ${targetId}`);
       return;
@@ -82,9 +88,9 @@ class App extends Component<Props, State> {
     const newValue = (event.target as HTMLInputElement).value;
     // eslint-disable-next-line unicorn/prefer-ternary
     if (key === "id" || key === "priority") {
-      this.state.userLabels[index][key] = Number(newValue);
+      this.state.userLabels[index].value[key] = Number(newValue);
     } else {
-      this.state.userLabels[index][key] = newValue;
+      this.state.userLabels[index].value[key] = newValue;
     }
 
     this.setState({
@@ -94,7 +100,9 @@ class App extends Component<Props, State> {
   };
 
   removeUserLabel = (targetId: number) => {
-    const userLabels = this.state.userLabels.filter(({id}) => id !== targetId);
+    const userLabels = this.state.userLabels.filter(
+      ({value: {id}}) => id !== targetId,
+    );
     this.setState({
       hasUnsavedChanges: true,
       userLabels,
@@ -109,13 +117,14 @@ class App extends Component<Props, State> {
 
   render() {
     const {hasUnsavedChanges, newLabelUsername, userLabels} = this.state;
-    userLabels.sort((a, b) => a.username.localeCompare(b.username));
+    userLabels.sort((a, b) => a.value.username.localeCompare(b.value.username));
 
     const labelGroups = new Map<string, UserLabel[]>();
     for (const label of userLabels) {
-      const group = labelGroups.get(label.username) ?? [];
-      group.push(label);
-      labelGroups.set(label.username, group);
+      const username = label.value.username.toLowerCase();
+      const group = labelGroups.get(username) ?? [];
+      group.push(label.value);
+      labelGroups.set(username, group);
     }
 
     const labels: JSX.Element[] = [];

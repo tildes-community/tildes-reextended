@@ -1,6 +1,10 @@
 import debounce from "debounce";
 import {Component, render} from "preact";
-import {type UserLabelsData, saveUserLabels} from "../../storage/common.js";
+import {
+  type UserLabelsData,
+  createValueUserLabel,
+  saveUserLabels,
+} from "../../storage/common.js";
 import {
   createElementFromString,
   isColorBright,
@@ -62,17 +66,17 @@ export class UserLabelsFeature extends Component<Props, State> {
     const sortedLabels = userLabels.sort((a, b): number => {
       if (inTopicListing) {
         // If we're in the topic listing sort with highest priority first.
-        if (a.priority !== b.priority) {
-          return b.priority - a.priority;
+        if (a.value.priority !== b.value.priority) {
+          return b.value.priority - a.value.priority;
         }
-      } else if (a.priority !== b.priority) {
+      } else if (a.value.priority !== b.value.priority) {
         // If we're not in the topic listing, sort with lowest priority first.
         // We will add elements backwards, so the first label will be
         // behind all the other labels.
-        return a.priority - b.priority;
+        return a.value.priority - b.value.priority;
       }
 
-      return b.text.localeCompare(a.text);
+      return b.value.text.localeCompare(a.value.text);
     });
 
     for (const element of elements) {
@@ -85,7 +89,7 @@ export class UserLabelsFeature extends Component<Props, State> {
       }
 
       const userLabels = sortedLabels.filter(
-        (value) =>
+        ({value}) =>
           value.username.toLowerCase() === username &&
           (onlyID === undefined ? true : value.id === onlyID),
       );
@@ -121,23 +125,26 @@ export class UserLabelsFeature extends Component<Props, State> {
       }
 
       for (const userLabel of userLabels) {
-        const bright = isColorBright(userLabel.color.trim())
+        const bright = isColorBright(userLabel.value.color.trim())
           ? "trx-bright"
           : "";
 
         const label = createElementFromString<HTMLSpanElement>(`<span
-          data-trx-label-id="${userLabel.id}"
+          data-trx-label-id="${userLabel.value.id}"
           class="trx-user-label ${bright}"
         >
-          ${userLabel.text}
+          ${userLabel.value.text}
         </span>`);
 
         label.addEventListener("click", (event: MouseEvent) => {
-          this.editLabelHandler(event, userLabel.id);
+          this.editLabelHandler(event, userLabel.value.id);
         });
 
         element.after(label);
-        label.setAttribute("style", `background-color: ${userLabel.color};`);
+        label.setAttribute(
+          "style",
+          `background-color: ${userLabel.value.color};`,
+        );
 
         // If we're in the topic listing, stop after adding 1 label.
         if (inTopicListing) {
@@ -181,7 +188,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     if (this.state.target === target && !this.state.hidden) {
       this.hide();
     } else {
-      const label = this.props.userLabels.find((value) => value.id === id);
+      const label = this.props.userLabels.find(({value}) => value.id === id);
       if (label === undefined) {
         log(
           "User Labels: Tried to edit label with ID that could not be found.",
@@ -193,7 +200,11 @@ export class UserLabelsFeature extends Component<Props, State> {
       this.setState({
         hidden: false,
         target,
-        ...label,
+        color: label.value.color,
+        id: label.value.id,
+        priority: label.value.priority,
+        text: label.value.text,
+        username: label.value.username,
       });
     }
   };
@@ -233,28 +244,33 @@ export class UserLabelsFeature extends Component<Props, State> {
     if (id === undefined) {
       let newId = 1;
       if (userLabels.length > 0) {
-        newId = userLabels.sort((a, b) => b.id - a.id)[0].id + 1;
+        newId =
+          userLabels.sort((a, b) => b.value.id - a.value.id)[0].value.id + 1;
       }
 
-      userLabels.push({
-        color,
-        id: newId,
-        priority,
-        text,
-        username,
-      });
+      userLabels.push(
+        await createValueUserLabel({
+          color,
+          id: newId,
+          priority,
+          text,
+          username,
+        }),
+      );
 
       this.addLabelsToUsernames(querySelectorAll(".link-user"), newId);
     } else {
-      const index = userLabels.findIndex((value) => value.id === id);
+      const index = userLabels.findIndex(({value}) => value.id === id);
       userLabels.splice(index, 1);
-      userLabels.push({
-        id,
-        color,
-        priority,
-        text,
-        username,
-      });
+      userLabels.push(
+        await createValueUserLabel({
+          id,
+          color,
+          priority,
+          text,
+          username,
+        }),
+      );
 
       const elements = querySelectorAll(`[data-trx-label-id="${id}"]`);
       const bright = isColorBright(color);
@@ -283,7 +299,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     }
 
     const {userLabels} = this.props;
-    const index = userLabels.findIndex((value) => value.id === id);
+    const index = userLabels.findIndex(({value}) => value.id === id);
     if (index === undefined) {
       log(
         `User Labels: Tried to remove label with ID ${id} that could not be found.`,

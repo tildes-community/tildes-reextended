@@ -1,7 +1,13 @@
 import {setup} from "@holllo/test";
 import {type Migration} from "@holllo/migration-helper";
 import browser from "webextension-polyfill";
-import {Data, Feature, fromStorage, saveUserLabels} from "../common.js";
+import {
+  Data,
+  Feature,
+  createValueUserLabel,
+  fromStorage,
+  saveUserLabels,
+} from "../common.js";
 import {v112DeserializeData, v112Sample, type V112Settings} from "./v1-1-2.js";
 
 export const migrations: Array<Migration<string>> = [
@@ -11,7 +17,13 @@ export const migrations: Array<Migration<string>> = [
       const deserialized = v112DeserializeData(data);
       data.data.userLabels = deserialized.userLabels;
       data.data.usernameColors = deserialized.usernameColors;
-      await saveUserLabels(data.data.userLabels);
+
+      const userLabels = [];
+      for (const userLabel of data.data.userLabels) {
+        userLabels.push(await createValueUserLabel(userLabel));
+      }
+
+      await saveUserLabels(userLabels);
 
       const hideVotes = await fromStorage(Feature.HideVotes);
       hideVotes.value = {

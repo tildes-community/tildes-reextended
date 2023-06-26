@@ -40,7 +40,7 @@ export class AutocompleteFeature extends Component<Props, State> {
 
         return value.textContent!.replace(/^@/, "").toLowerCase();
       }),
-      ...props.userLabels.map((value) => value.username),
+      ...props.userLabels.map(({value}) => value.username),
     ].sort((a, b) => a.localeCompare(b));
 
     this.state = {

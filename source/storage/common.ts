@@ -1,4 +1,4 @@
-import {createValue} from "@holllo/webextension-storage";
+import {createValue, type Value} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
 
 export enum Feature {
@@ -36,7 +36,7 @@ export type UserLabel = {
   username: string;
 };
 
-export type UserLabelsData = UserLabel[];
+export type UserLabelsData = Array<Value<UserLabel>>;
 
 export type UsernameColor = {
   color: string;
@@ -45,6 +45,21 @@ export type UsernameColor = {
 };
 
 export type UsernameColorsData = UsernameColor[];
+
+/**
+ * Create a {@link Value}-wrapped {@link UserLabel}.
+ */
+export async function createValueUserLabel(
+  userLabel: UserLabel,
+): Promise<UserLabelsData[number]> {
+  return createValue<UserLabel>({
+    deserialize: (input) => JSON.parse(input) as UserLabel,
+    serialize: (input) => JSON.stringify(input),
+    key: `${Feature.UserLabels}-${userLabel.id}`,
+    value: userLabel,
+    storage: browser.storage.sync,
+  });
+}
 
 /**
  * Get all user labels from storage and combine them into a single array.
@@ -57,7 +72,9 @@ export async function collectUserLabels(): Promise<UserLabelsData> {
       continue;
     }
 
-    userLabels.push(JSON.parse(value as string) as UserLabel);
+    userLabels.push(
+      await createValueUserLabel(JSON.parse(value as string) as UserLabel),
+    );
   }
 
   return userLabels;
@@ -74,19 +91,8 @@ export async function collectUserLabels(): Promise<UserLabelsData> {
 export async function saveUserLabels(
   userLabels: UserLabelsData,
 ): Promise<void> {
-  const storage = await browser.storage.sync.get();
-  for (const key of Object.keys(storage)) {
-    if (!key.startsWith(Feature.UserLabels)) {
-      continue;
-    }
-
-    await browser.storage.sync.remove(key);
-  }
-
   for (const label of userLabels) {
-    await browser.storage.sync.set({
-      [`${Feature.UserLabels}-${label.id}`]: JSON.stringify(label),
-    });
+    await label.save();
   }
 }
 
