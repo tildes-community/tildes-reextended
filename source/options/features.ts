@@ -1,4 +1,4 @@
-import {Feature} from "../storage/common.js";
+import {Feature} from "../storage/exports.js";
 import {
   AboutSetting,
   AnonymizeUsernamesSetting,

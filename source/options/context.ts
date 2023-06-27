@@ -1,5 +1,5 @@
 import {createContext} from "preact";
-import {type Feature} from "../storage/common.js";
+import {type Feature} from "../storage/exports.js";
 
 type AppContextValues = {
   setActiveFeature: (feature: Feature) => void;

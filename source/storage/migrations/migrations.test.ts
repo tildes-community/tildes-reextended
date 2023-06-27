@@ -1,6 +1,6 @@
 import browser from "webextension-polyfill";
 import {setup} from "@holllo/test";
-import {Data, Feature} from "../common.js";
+import {Data, Feature} from "../exports.js";
 import {migrations} from "./migrations.js";
 import {v112Sample} from "./v1-1-2.js";
 

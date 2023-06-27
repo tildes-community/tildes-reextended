@@ -7,7 +7,7 @@ import {
   createReportTemplate,
   initializeGlobals,
 } from "../utilities/exports.js";
-import {type Feature, Data, fromStorage} from "../storage/common.js";
+import {type Feature, Data, fromStorage} from "../storage/exports.js";
 import {AppContext} from "./context.js";
 import {features} from "./features.js";
 

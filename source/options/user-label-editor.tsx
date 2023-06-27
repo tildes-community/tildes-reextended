@@ -12,7 +12,7 @@ import {
   Feature,
   createValueUserLabel,
   saveUserLabels,
-} from "../storage/common.js";
+} from "../storage/exports.js";
 import "../scss/index.scss";
 import "../scss/user-label-editor.scss";
 

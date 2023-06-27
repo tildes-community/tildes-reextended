@@ -1,6 +1,6 @@
 import {offset, type Offset} from "caret-pos";
 import {Component} from "preact";
-import {type UserLabelsData} from "../../storage/common.js";
+import {type UserLabelsData} from "../../storage/exports.js";
 import {log, querySelectorAll} from "../../utilities/exports.js";
 
 type Props = {

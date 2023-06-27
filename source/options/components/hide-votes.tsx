@@ -4,7 +4,7 @@ import {
   fromStorage,
   Feature,
   type HideVotesData,
-} from "../../storage/common.js";
+} from "../../storage/exports.js";
 import {Setting, type SettingProps} from "./index.js";
 
 type State = {

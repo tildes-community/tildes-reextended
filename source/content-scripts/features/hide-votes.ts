@@ -1,4 +1,4 @@
-import {type HideVotesData} from "../../storage/common.js";
+import {type HideVotesData} from "../../storage/exports.js";
 import {log, querySelectorAll} from "../../utilities/exports.js";
 
 export function runHideVotesFeature(data: HideVotesData) {

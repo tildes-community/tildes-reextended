@@ -1,5 +1,5 @@
 import {log, querySelectorAll} from "../../utilities/exports.js";
-import {type UsernameColorsData} from "../../storage/common.js";
+import {type UsernameColorsData} from "../../storage/exports.js";
 
 export function runUsernameColorsFeature(
   data: UsernameColorsData,

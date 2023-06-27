@@ -1,6 +1,6 @@
 import {type JSX, render} from "preact";
 import {extractGroups, initializeGlobals, log} from "../utilities/exports.js";
-import {Feature, fromStorage, Data} from "../storage/common.js";
+import {Feature, fromStorage, Data} from "../storage/exports.js";
 import {
   AutocompleteFeature,
   BackToTopFeature,

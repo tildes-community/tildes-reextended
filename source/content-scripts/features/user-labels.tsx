@@ -4,7 +4,7 @@ import {
   type UserLabelsData,
   createValueUserLabel,
   saveUserLabels,
-} from "../../storage/common.js";
+} from "../../storage/exports.js";
 import {
   createElementFromString,
   isColorBright,

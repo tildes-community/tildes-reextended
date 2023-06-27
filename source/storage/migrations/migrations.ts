@@ -1,13 +1,11 @@
-import {setup} from "@holllo/test";
 import {type Migration} from "@holllo/migration-helper";
-import browser from "webextension-polyfill";
 import {
   Data,
   Feature,
   createValueUserLabel,
   fromStorage,
   saveUserLabels,
-} from "../common.js";
+} from "../exports.js";
 import {v112DeserializeData, v112Sample, type V112Settings} from "./v1-1-2.js";
 
 export const migrations: Array<Migration<string>> = [
