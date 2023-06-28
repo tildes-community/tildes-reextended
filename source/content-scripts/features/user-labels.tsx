@@ -312,8 +312,10 @@ export class UserLabelsFeature extends Component<Props, State> {
       value.remove();
     }
 
-    userLabels.splice(index, 1);
-    await saveUserLabels(userLabels);
+    for (const userLabel of userLabels.splice(index, 1)) {
+      await userLabel.remove();
+    }
+
     this.props.userLabels = userLabels;
     this.hide();
   };

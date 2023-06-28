@@ -30,6 +30,7 @@ type State = {
   hasUnsavedChanges: boolean;
   newLabelUsername: string;
   userLabels: UserLabelsData;
+  userLabelsToRemove: UserLabelsData;
 };
 
 class App extends Component<Props, State> {
@@ -40,6 +41,7 @@ class App extends Component<Props, State> {
       hasUnsavedChanges: false,
       newLabelUsername: "",
       userLabels: props.userLabels,
+      userLabelsToRemove: [],
     };
   }
 
@@ -99,20 +101,26 @@ class App extends Component<Props, State> {
     });
   };
 
-  removeUserLabel = (targetId: number) => {
-    const userLabels = this.state.userLabels.filter(
-      ({value: {id}}) => id !== targetId,
-    );
+  removeUserLabel = async (targetId: number) => {
+    const {userLabels, userLabelsToRemove} = this.state;
+    const index = userLabels.findIndex(({value}) => value.id === targetId);
+    userLabelsToRemove.push(...userLabels.splice(index, 1));
+
     this.setState({
       hasUnsavedChanges: true,
       userLabels,
+      userLabelsToRemove,
     });
   };
 
-  saveUserLabels = () => {
+  saveUserLabels = async () => {
+    for (const userLabel of this.state.userLabelsToRemove) {
+      await userLabel.remove();
+    }
+
     this.props.userLabels = this.state.userLabels;
     void saveUserLabels(this.props.userLabels);
-    this.setState({hasUnsavedChanges: false});
+    this.setState({hasUnsavedChanges: false, userLabelsToRemove: []});
   };
 
   render() {
@@ -155,8 +163,8 @@ class App extends Component<Props, State> {
           this.editUserLabel(event, label.id, "priority");
         };
 
-        const removeHandler = () => {
-          this.removeUserLabel(label.id);
+        const removeHandler = async () => {
+          await this.removeUserLabel(label.id);
         };
 
         userLabels.push(
