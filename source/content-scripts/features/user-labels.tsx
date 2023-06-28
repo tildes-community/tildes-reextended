@@ -80,9 +80,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     });
 
     for (const element of elements) {
-      let username: string = element
-        .textContent!.replace(/@/g, "")
-        .toLowerCase();
+      let username: string = element.textContent!.replace(/@/g, "");
 
       if (this.props.anonymizeUsernamesEnabled) {
         username = element.dataset.trxUsername ?? username;
@@ -90,7 +88,7 @@ export class UserLabelsFeature extends Component<Props, State> {
 
       const userLabels = sortedLabels.filter(
         ({value}) =>
-          value.username.toLowerCase() === username &&
+          value.username.toLowerCase() === username.toLowerCase() &&
           (onlyID === undefined ? true : value.id === onlyID),
       );
 
