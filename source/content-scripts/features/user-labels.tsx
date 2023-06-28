@@ -259,7 +259,7 @@ export class UserLabelsFeature extends Component<Props, State> {
       this.addLabelsToUsernames(querySelectorAll(".link-user"), newId);
     } else {
       const index = userLabels.findIndex(({value}) => value.id === id);
-      userLabels.splice(index, 1);
+      await userLabels.splice(index, 1)[0].remove();
       userLabels.push(
         await createValueUserLabel({
           id,
