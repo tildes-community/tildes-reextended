@@ -1,10 +1,12 @@
-import {createValue, type Value} from "@holllo/webextension-storage";
+import {createValue} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
-import {collectUserLabels} from "./user-label.js";
 import {Data, Feature} from "./enums.js";
+import {collectUsernameColors} from "./username-color.js";
+import {collectUserLabels} from "./user-label.js";
 
-export * from "./user-label.js";
 export * from "./enums.js";
+export * from "./username-color.js";
+export * from "./user-label.js";
 
 export type HideVotesData = {
   otherComments: boolean;
@@ -12,14 +14,6 @@ export type HideVotesData = {
   ownComments: boolean;
   ownTopics: boolean;
 };
-
-export type UsernameColor = {
-  color: string;
-  id: number;
-  username: string;
-};
-
-export type UsernameColorsData = UsernameColor[];
 
 export const storageValues = {
   [Data.EnabledFeatures]: createValue({
@@ -63,13 +57,7 @@ export const storageValues = {
     storage: browser.storage.sync,
   }),
   [Feature.UserLabels]: collectUserLabels(),
-  [Feature.UsernameColors]: createValue({
-    deserialize: (input) => JSON.parse(input) as UsernameColorsData,
-    serialize: (input) => JSON.stringify(Array.from(input)),
-    key: Feature.UsernameColors,
-    value: [],
-    storage: browser.storage.sync,
-  }),
+  [Feature.UsernameColors]: collectUsernameColors(),
 };
 
 type StorageValues = typeof storageValues;

@@ -2,11 +2,13 @@ import {type Migration} from "@holllo/migration-helper";
 import {
   Data,
   Feature,
+  createValueUsernamecolor,
   createValueUserLabel,
   fromStorage,
+  saveUsernameColors,
   saveUserLabels,
 } from "../exports.js";
-import {v112DeserializeData, v112Sample, type V112Settings} from "./v1-1-2.js";
+import {v112DeserializeData, type V112Settings} from "./v1-1-2.js";
 
 export const migrations: Array<Migration<string>> = [
   {
@@ -16,11 +18,18 @@ export const migrations: Array<Migration<string>> = [
       data.data.userLabels = deserialized.userLabels;
       data.data.usernameColors = deserialized.usernameColors;
 
+      const usernameColors = [];
       const userLabels = [];
+
+      for (const usernameColor of data.data.usernameColors) {
+        usernameColors.push(await createValueUsernamecolor(usernameColor));
+      }
+
       for (const userLabel of data.data.userLabels) {
         userLabels.push(await createValueUserLabel(userLabel));
       }
 
+      await saveUsernameColors(usernameColors);
       await saveUserLabels(userLabels);
 
       const hideVotes = await fromStorage(Feature.HideVotes);
@@ -39,10 +48,6 @@ export const migrations: Array<Migration<string>> = [
       const version = await fromStorage(Data.Version);
       version.value = "2.0.0";
       await version.save();
-
-      const usernameColors = await fromStorage(Feature.UsernameColors);
-      usernameColors.value = data.data.usernameColors;
-      await usernameColors.save();
 
       const enabledFeatures = await fromStorage(Data.EnabledFeatures);
       for (const [key, value] of Object.entries(data.features)) {

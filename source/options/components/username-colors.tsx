@@ -1,17 +1,18 @@
 import {Component} from "preact";
-import {type Value} from "@holllo/webextension-storage";
 import {log} from "../../utilities/exports.js";
 import {
   type UsernameColorsData,
   type UsernameColor,
   Feature,
+  createValueUsernamecolor,
   fromStorage,
 } from "../../storage/exports.js";
 import {Setting, type SettingProps} from "./index.js";
 
 type State = {
   previewChecked: "off" | "foreground" | "background";
-  usernameColors: Value<UsernameColorsData>;
+  usernameColors: UsernameColorsData;
+  usernameColorsToRemove: UsernameColorsData;
 };
 
 export class UsernameColorsSetting extends Component<SettingProps, State> {
@@ -21,6 +22,7 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
     this.state = {
       previewChecked: "off",
       usernameColors: undefined!,
+      usernameColorsToRemove: [],
     };
   }
 
@@ -28,35 +30,50 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
     this.setState({usernameColors: await fromStorage(Feature.UsernameColors)});
   }
 
-  addNewColor = () => {
+  addNewColor = async () => {
     let id = 1;
-    if (this.state.usernameColors.value.length > 0) {
+    if (this.state.usernameColors.length > 0) {
       id =
-        this.state.usernameColors.value.sort((a, b) => b.id - a.id)[0].id + 1;
+        this.state.usernameColors.sort((a, b) => b.value.id - a.value.id)[0]
+          .value.id + 1;
     }
 
-    const newColor: UsernameColor = {
+    const newColor = await createValueUsernamecolor({
       color: "",
       id,
       username: "",
-    };
+    });
 
-    this.state.usernameColors.value.push(newColor);
+    this.state.usernameColors.push(newColor);
     this.setState({
       usernameColors: this.state.usernameColors,
     });
   };
 
-  removeColor = (targetId: number) => {
-    const targetIndex = this.state.usernameColors.value.findIndex(
-      ({id}) => id === targetId,
+  removeColor = async (targetId: number) => {
+    const targetIndex = this.state.usernameColors.findIndex(
+      ({value}) => value.id === targetId,
     );
-    this.state.usernameColors.value.splice(targetIndex, 1);
-    this.setState({usernameColors: this.state.usernameColors});
+    const usernameColorsToRemove = this.state.usernameColorsToRemove;
+    usernameColorsToRemove.push(
+      ...this.state.usernameColors.splice(targetIndex, 1),
+    );
+    this.setState({
+      usernameColors: this.state.usernameColors,
+      usernameColorsToRemove,
+    });
   };
 
   saveChanges = async () => {
-    await this.state.usernameColors.save();
+    for (const usernameColor of this.state.usernameColorsToRemove) {
+      await usernameColor.remove();
+    }
+
+    for (const usernameColor of this.state.usernameColors) {
+      await usernameColor.save();
+    }
+
+    this.setState({usernameColorsToRemove: []});
   };
 
   togglePreview = async () => {
@@ -84,8 +101,8 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
   };
 
   onInput = (event: Event, id: number, key: "color" | "username") => {
-    const colorIndex = this.state.usernameColors.value.findIndex(
-      (color) => color.id === id,
+    const colorIndex = this.state.usernameColors.findIndex(
+      ({value}) => value.id === id,
     );
     if (colorIndex === -1) {
       log(`Tried to edit unknown UsernameColor ID: ${id}`);
@@ -93,7 +110,7 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
     }
 
     const newValue = (event.target as HTMLInputElement).value;
-    this.state.usernameColors.value[colorIndex][key] = newValue;
+    this.state.usernameColors[colorIndex].value[key] = newValue;
     this.setState({usernameColors: this.state.usernameColors});
   };
 
@@ -103,9 +120,9 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
       return;
     }
 
-    usernameColors.value.sort((a, b) => a.id - b.id);
+    usernameColors.sort((a, b) => a.value.id - b.value.id);
 
-    const editors = usernameColors.value.map(({color, id, username}) => {
+    const editors = usernameColors.map(({value: {color, id, username}}) => {
       const style: Record<string, string> = {};
       if (previewChecked === "background") {
         style.backgroundColor = color;
@@ -121,8 +138,8 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
         this.onInput(event, id, "color");
       };
 
-      const removeHandler = () => {
-        this.removeColor(id);
+      const removeHandler = async () => {
+        await this.removeColor(id);
       };
 
       return (

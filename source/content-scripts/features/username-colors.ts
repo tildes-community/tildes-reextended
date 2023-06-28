@@ -14,7 +14,9 @@ function usernameColors(
   anonymizeUsernamesEnabled: boolean,
 ): number {
   const usernameColors = new Map<string, string>();
-  for (const {color, username: usernames} of data) {
+  for (const {
+    value: {color, username: usernames},
+  } of data) {
     for (const username of usernames.split(",")) {
       usernameColors.set(username.trim().toLowerCase(), color);
     }

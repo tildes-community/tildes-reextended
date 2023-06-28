@@ -86,7 +86,7 @@ async function initialize() {
   if (enabledFeatures.value.has(Feature.UsernameColors)) {
     observerFeatures.push(async () => {
       const data = await fromStorage(Feature.UsernameColors);
-      runUsernameColorsFeature(data.value, anonymizeUsernamesEnabled);
+      runUsernameColorsFeature(data, anonymizeUsernamesEnabled);
     });
   }
 

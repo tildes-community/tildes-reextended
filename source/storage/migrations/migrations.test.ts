@@ -38,10 +38,15 @@ await setup("Migrations", async (group) => {
           break;
         }
 
-        case Feature.UsernameColors: {
+        case `${Feature.UsernameColors}-4`: {
+          test.equals(value, '{"color":"red","id":4,"username":"Test"}');
+          break;
+        }
+
+        case `${Feature.UsernameColors}-18`: {
           test.equals(
             value,
-            '[{"color":"red","id":4,"username":"Test"},{"color":"green","id":18,"username":"AnotherTest"}]',
+            '{"color":"green","id":18,"username":"AnotherTest"}',
           );
           break;
         }
