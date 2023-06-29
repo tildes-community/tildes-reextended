@@ -1,6 +1,7 @@
 import {createValue} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
 import {Data, Feature} from "./enums.js";
+import {defaultKnownGroups} from "./known-groups.js";
 import {collectUsernameColors} from "./username-color.js";
 import {collectUserLabels} from "./user-label.js";
 
@@ -38,7 +39,7 @@ export const storageValues = {
     deserialize: (input) => new Set(JSON.parse(input) as string[]),
     serialize: (input) => JSON.stringify(Array.from(input)),
     key: Data.KnownGroups,
-    value: new Set([]),
+    value: new Set(defaultKnownGroups),
     storage: browser.storage.sync,
   }),
   [Data.LatestActiveFeatureTab]: createValue({
