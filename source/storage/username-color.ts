@@ -2,12 +2,18 @@ import {type Value, createValue} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
 import {Feature} from "./enums.js";
 
+/**
+ * The data structure for a username color.
+ */
 export type UsernameColor = {
   color: string;
   id: number;
   username: string;
 };
 
+/**
+ * Shorthand for an array of {@link Value}-wrapped {@link UsernameColor}s.
+ */
 export type UsernameColorsData = Array<Value<UsernameColor>>;
 
 /**

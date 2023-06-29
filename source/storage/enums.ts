@@ -1,3 +1,6 @@
+/**
+ * Keys of feature names used in WebExtension storage.
+ */
 export enum Feature {
   AnonymizeUsernames = "anonymize-usernames",
   Autocomplete = "autocomplete",
@@ -11,6 +14,9 @@ export enum Feature {
   UsernameColors = "username-colors",
 }
 
+/**
+ * Keys of miscellaneous data stored in WebExtension storage.
+ */
 export enum Data {
   EnabledFeatures = "enabled-features",
   KnownGroups = "known-groups",

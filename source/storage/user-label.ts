@@ -2,6 +2,9 @@ import {createValue, type Value} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
 import {Feature} from "./enums.js";
 
+/**
+ * The data structure for a user label.
+ */
 export type UserLabel = {
   color: string;
   id: number;
@@ -10,6 +13,9 @@ export type UserLabel = {
   username: string;
 };
 
+/**
+ * Shorthand for an array of {@link Value}-wrapped {@link UserLabel}s.
+ */
 export type UserLabelsData = Array<Value<UserLabel>>;
 
 /**

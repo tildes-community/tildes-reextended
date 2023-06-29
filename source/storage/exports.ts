@@ -8,6 +8,9 @@ export * from "./enums.js";
 export * from "./username-color.js";
 export * from "./user-label.js";
 
+/**
+ * The data stored for the Hide Votes feature.
+ */
 export type HideVotesData = {
   otherComments: boolean;
   otherTopics: boolean;
@@ -15,6 +18,9 @@ export type HideVotesData = {
   ownTopics: boolean;
 };
 
+/**
+ * All storage {@link Value}s stored in WebExtension storage.
+ */
 export const storageValues = {
   [Data.EnabledFeatures]: createValue({
     deserialize: (input) => new Set(JSON.parse(input) as Feature[]),
@@ -65,8 +71,15 @@ export const storageValues = {
   [Feature.UsernameColors]: collectUsernameColors(),
 };
 
+/**
+ * Shorthand for the inferred shape of {@link storageValues}.
+ */
 type StorageValues = typeof storageValues;
 
+/**
+ * Return the {@link Value}-wrapped data associated with a particular key.
+ * @param key The key of the value to get from {@link storageValues}.
+ */
 export async function fromStorage<K extends keyof StorageValues>(
   key: K,
 ): Promise<StorageValues[K]> {

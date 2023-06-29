@@ -1,3 +1,6 @@
+/**
+ * The deserialize data function from version 1.1.2 and before.
+ */
 export function v112DeserializeData(data: Record<string, any>): {
   userLabels: V112Settings["data"]["userLabels"];
   usernameColors: V112Settings["data"]["usernameColors"];
@@ -22,6 +25,9 @@ export function v112DeserializeData(data: Record<string, any>): {
   return deserialized;
 }
 
+/**
+ * The Settings data structure from version 1.1.2 and before.
+ */
 export type V112Settings = {
   [index: string]: any;
   data: {
@@ -61,6 +67,9 @@ export type V112Settings = {
   version: string;
 };
 
+/**
+ * A sample of the version 1.1.2 Settings data to use in testing.
+ */
 export const v112Sample: V112Settings = {
   data: {
     hideVotes: {
