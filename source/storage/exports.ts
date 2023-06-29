@@ -20,7 +20,12 @@ export const storageValues = {
     deserialize: (input) => new Set(JSON.parse(input) as Feature[]),
     serialize: (input) => JSON.stringify(Array.from(input)),
     key: Data.EnabledFeatures,
-    value: new Set([]),
+    value: new Set([
+      Feature.BackToTop,
+      Feature.JumpToNewComment,
+      Feature.MarkdownToolbar,
+      Feature.UserLabels,
+    ]),
     storage: browser.storage.sync,
   }),
   [Data.KnownGroups]: createValue({
