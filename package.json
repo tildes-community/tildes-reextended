@@ -42,6 +42,7 @@
     "extends": "@bauke/eslint-config",
     "prettier": true,
     "rules": {
+      "complexity": "off",
       "no-await-in-loop": "off"
     },
     "space": true
