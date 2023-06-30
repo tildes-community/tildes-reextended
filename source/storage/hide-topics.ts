@@ -13,6 +13,14 @@ export enum HideTopicMatcher {
 }
 
 /**
+ * Type guard check to see if a string is a valid {@link HideTopicMatcher}.
+ * @param input The string to check.
+ */
+export function isHideTopicMatcher(input: string): input is HideTopicMatcher {
+  return Object.values(HideTopicMatcher).includes(input as HideTopicMatcher);
+}
+
+/**
  * The predicate for whether a topic should be hidden or not.
  */
 export type HideTopicPredicate = {
