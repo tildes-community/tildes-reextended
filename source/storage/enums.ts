@@ -6,6 +6,7 @@ export enum Feature {
   Autocomplete = "autocomplete",
   BackToTop = "back-to-top",
   Debug = "debug",
+  HideTopics = "hide-topics",
   HideVotes = "hide-votes",
   JumpToNewComment = "jump-to-new-comment",
   MarkdownToolbar = "markdown-toolbar",

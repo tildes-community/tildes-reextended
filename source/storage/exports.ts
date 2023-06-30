@@ -1,11 +1,13 @@
 import {createValue} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
 import {Data, Feature} from "./enums.js";
+import {collectHideTopicsData} from "./hide-topics.js";
 import {defaultKnownGroups} from "./known-groups.js";
 import {collectUsernameColors} from "./username-color.js";
 import {collectUserLabels} from "./user-label.js";
 
 export * from "./enums.js";
+export * from "./hide-topics.js";
 export * from "./username-color.js";
 export * from "./user-label.js";
 
@@ -56,6 +58,7 @@ export const storageValues = {
     value: "2.0.0",
     storage: browser.storage.sync,
   }),
+  [Feature.HideTopics]: collectHideTopicsData(),
   [Feature.HideVotes]: createValue({
     deserialize: (input) => JSON.parse(input) as HideVotesData,
     serialize: (input) => JSON.stringify(input),
