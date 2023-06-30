@@ -7,6 +7,7 @@ import {
   JumpToNewCommentFeature,
   UserLabelsFeature,
   runAnonymizeUsernamesFeature,
+  runHideTopicsFeature,
   runHideVotesFeature,
   runMarkdownToolbarFeature,
   runThemedLogoFeature,
@@ -23,6 +24,7 @@ async function initialize() {
   // them without having to change the hardcoded values.
   const usesKnownGroups = new Set<Feature>([Feature.Autocomplete]);
   const knownGroups = await fromStorage(Data.KnownGroups);
+  const userLabels = await fromStorage(Feature.UserLabels);
 
   // Only when any of the features that uses this data are enabled, try to save
   // the groups.
@@ -64,6 +66,12 @@ async function initialize() {
     });
   }
 
+  if (enabledFeatures.value.has(Feature.HideTopics)) {
+    observerFeatures.push(async () => {
+      await runHideTopicsFeature(userLabels);
+    });
+  }
+
   if (enabledFeatures.value.has(Feature.HideVotes)) {
     observerFeatures.push(async () => {
       const data = await fromStorage(Feature.HideVotes);
@@ -96,7 +104,6 @@ async function initialize() {
   // Object to hold the active components we are going to render.
   const components: Record<string, JSX.Element | undefined> = {};
 
-  const userLabels = await fromStorage(Feature.UserLabels);
   if (enabledFeatures.value.has(Feature.Autocomplete)) {
     components.autocomplete = (
       <AutocompleteFeature

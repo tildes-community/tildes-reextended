@@ -1,0 +1,7 @@
+[data-trx-hide-topics] {
+  border: 1px solid #f00;
+
+  // Remove the .is-topic-official margin-left rule, otherwise the border looks
+  // weird on official topics.
+  margin-left: 0;
+}

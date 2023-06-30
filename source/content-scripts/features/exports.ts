@@ -7,3 +7,4 @@ export * from "./markdown-toolbar.js";
 export * from "./themed-logo.js";
 export * from "./user-labels.js";
 export * from "./username-colors.js";
+export * from "./hide-topics.js";
