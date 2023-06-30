@@ -1,0 +1,70 @@
+.setting {
+  --unsaved-changes-color: var(--yellow);
+
+  .hide-topics-matcher-explanation {
+    margin-bottom: 8px;
+
+    p {
+      margin: 0;
+      padding: 8px;
+    }
+
+    ul {
+      margin-left: 2rem;
+      padding-bottom: 8px;
+
+      li {
+        margin-bottom: 4px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .hide-topics-main-button-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+
+    button.unsaved-changes {
+      background-color: var(--unsaved-changes-color);
+    }
+  }
+
+  .hide-topics-predicate-editors {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .hide-topics-editor {
+    --save-status-color: var(--blue);
+
+    display: grid;
+    grid-template-columns: min-content auto min-content;
+    gap: 8px;
+
+    button {
+      min-width: 10rem;
+    }
+
+    input,
+    select {
+      background-color: var(--background-primary);
+      border: 1px solid var(--save-status-color);
+      color: var(--foreground);
+      padding: 8px;
+    }
+
+    select {
+      padding-right: 16px;
+    }
+
+    &.unsaved-changes {
+      --save-status-color: var(--unsaved-changes-color);
+    }
+  }
+}

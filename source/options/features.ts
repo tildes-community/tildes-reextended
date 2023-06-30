@@ -4,6 +4,7 @@ import {
   AnonymizeUsernamesSetting,
   AutocompleteSetting,
   BackToTopSetting,
+  HideTopicsSetting,
   HideVotesSetting,
   JumpToNewCommentSetting,
   MarkdownToolbarSetting,
@@ -41,6 +42,13 @@ export const features: FeatureData[] = [
     key: Feature.BackToTop,
     title: "Back To Top",
     component: BackToTopSetting,
+  },
+  {
+    availableSince: new Date("2023-06-31"),
+    index: 0,
+    key: Feature.HideTopics,
+    title: "Hide Topics",
+    component: HideTopicsSetting,
   },
   {
     availableSince: new Date("2019-11-12"),
