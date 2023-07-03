@@ -9,7 +9,7 @@ NODE_ENV = { condition = { env_not_set = ["NODE_ENV"] }, value = "development" }
 # Start a browser instance that will reload the extension when changes are made.
 [tasks.dev]
 clear = true
-dependencies = ["build"]
+dependencies = ["pnpm-install", "build"]
 command = "pnpm"
 args = ["conc", "-c=auto", "-k", "makers watch", "makers run"]
 
@@ -45,9 +45,18 @@ args = ["stylelint", "source/**/*.scss"]
 # Re-build and pack the WebExtension for publishing.
 [tasks.pack]
 clear = true
-dependencies = ["clean", "build"]
+dependencies = ["pnpm-install", "clean", "build"]
 command = "pnpm"
 args = ["web-ext", "build", "--config=build/web-ext-${BROWSER}.json"]
+
+# Run "pnpm install" if the node_modules directory doesn't exist.
+[tasks.pnpm-install]
+clear = true
+# Disable NODE_ENV so pnpm installs everything.
+env = { NODE_ENV = "" }
+condition = { files_not_exist = ["node_modules/"] }
+command = "pnpm"
+args = ["install", "--silent"]
 
 # Start a browser instance with the extension loaded.
 [tasks.run]
