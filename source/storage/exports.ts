@@ -1,4 +1,4 @@
-import {createValue} from "@holllo/webextension-storage";
+import {createValue, type Value} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
 import {Data, Feature} from "./enums.js";
 import {collectHideTopicsData} from "./hide-topics.js";

@@ -50,6 +50,7 @@ export const migrations: Array<Migration<string>> = [
       await version.save();
 
       const enabledFeatures = await fromStorage(Data.EnabledFeatures);
+      enabledFeatures.value.clear();
       for (const [key, value] of Object.entries(data.features)) {
         if (value) {
           const snakeCasedKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
