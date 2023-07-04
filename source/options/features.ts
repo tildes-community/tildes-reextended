@@ -44,7 +44,7 @@ export const features: FeatureData[] = [
     component: BackToTopSetting,
   },
   {
-    availableSince: new Date("2023-06-31"),
+    availableSince: new Date("2023-07-01"),
     index: 0,
     key: Feature.HideTopics,
     title: "Hide Topics",
