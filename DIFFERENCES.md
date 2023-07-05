@@ -31,7 +31,7 @@ Some functionality has also been extended more:
 
 And various new features have been added such as:
 
-* [ ] Hide (and unhide) topics from the topic listing. [*WIP](https://gitlab.com/tildes-community/tildes-reextended/issues/3)
+* [x] Hide topics from the topic listing.
 * [x] Hide your own and/or other people's vote counts.
 * [x] Anonymize usernames.
 * [x] Assign unique colors to people's usernames.
