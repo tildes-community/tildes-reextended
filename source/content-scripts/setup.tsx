@@ -18,6 +18,7 @@ async function initialize() {
   const start = window.performance.now();
   initializeGlobals();
   const enabledFeatures = await fromStorage(Data.EnabledFeatures);
+  window.TildesReExtended.debug = enabledFeatures.value.has(Feature.Debug);
 
   // Any features that will use the knownGroups data should be added to this
   // array so that when groups are changed on Tildes, TRX can still update
