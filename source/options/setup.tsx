@@ -83,7 +83,7 @@ class App extends Component<Props, State> {
     // Create the version link for the header.
     const version = manifest.version;
     const versionUrl = encodeURI(
-      `https://gitlab.com/tildes-community/tildes-reextended/-/tags/${version}`,
+      `https://gitlab.com/tildes-community/tildes-reextended/-/releases/${version}`,
     );
     const versionLink = (
       <Link class="version" text={`v${version}`} url={versionUrl} />
