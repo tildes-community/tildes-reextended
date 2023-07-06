@@ -100,9 +100,15 @@ function hideCommentVotes(data: HideVotesData, currentUser: string): number {
  */
 function hideTopicVotes(data: HideVotesData, currentUser: string): number {
   let count = 0;
-  for (const topic of querySelectorAll<HTMLElement>(".topic")) {
-    const postedBySelf = topic.dataset.topicPostedBy === currentUser;
+  for (const topic of querySelectorAll<HTMLElement>(".topic", ".topic-full")) {
+    let topicAuthor = topic.dataset.topicPostedBy;
+    if (topic.classList.contains("topic-full")) {
+      topicAuthor =
+        document.querySelector(".topic-full-byline .link-user")?.textContent ??
+        undefined;
+    }
 
+    const postedBySelf = topicAuthor === currentUser;
     let vote: Element | undefined;
 
     // Select the vote number from the topic if we want to hide other's topics
