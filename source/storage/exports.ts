@@ -58,6 +58,13 @@ export const storageValues = {
     value: "2.0.0",
     storage: browser.storage.sync,
   }),
+  [Data.RandomizeUsernameColors]: createValue({
+    deserialize: (input) => JSON.parse(input) as boolean,
+    serialize: (input) => JSON.stringify(input),
+    key: Data.RandomizeUsernameColors,
+    value: false,
+    storage: browser.storage.sync,
+  }),
   [Feature.HideTopics]: collectHideTopicsData(),
   [Feature.HideVotes]: createValue({
     deserialize: (input) => JSON.parse(input) as HideVotesData,

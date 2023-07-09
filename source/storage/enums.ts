@@ -22,5 +22,6 @@ export enum Data {
   EnabledFeatures = "enabled-features",
   KnownGroups = "known-groups",
   LatestActiveFeatureTab = "latest-active-feature-tab",
+  RandomizeUsernameColors = "randomize-username-colors",
   Version = "data-version",
 }

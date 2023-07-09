@@ -4,15 +4,18 @@ import {
   type UsernameColorsData,
   type UsernameColor,
   Feature,
+  Data,
   createValueUsernamecolor,
   fromStorage,
 } from "../../storage/exports.js";
 import {Setting, type SettingProps} from "./index.js";
+import { Value } from "@holllo/webextension-storage";
 
 type State = {
   previewChecked: "off" | "foreground" | "background";
   usernameColors: UsernameColorsData;
   usernameColorsToRemove: UsernameColorsData;
+  randomizeChecked: Value<boolean>;
 };
 
 export class UsernameColorsSetting extends Component<SettingProps, State> {
@@ -23,11 +26,12 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
       previewChecked: "off",
       usernameColors: undefined!,
       usernameColorsToRemove: [],
+      randomizeChecked: undefined!,
     };
   }
 
   async componentDidMount() {
-    this.setState({usernameColors: await fromStorage(Feature.UsernameColors)});
+    this.setState({usernameColors: await fromStorage(Feature.UsernameColors), randomizeChecked: await fromStorage(Data.RandomizeUsernameColors)});
   }
 
   addNewColor = async () => {
@@ -100,6 +104,13 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
     this.setState({previewChecked});
   };
 
+  toggleRandomized = () => {
+    const randomizeChecked = this.state.randomizeChecked;
+    randomizeChecked.value = !randomizeChecked.value;
+    void randomizeChecked.save();
+    this.setState({randomizeChecked})
+  }
+
   onInput = (event: Event, id: number, key: "color" | "username") => {
     const colorIndex = this.state.usernameColors.findIndex(
       ({value}) => value.id === id,
@@ -115,7 +126,7 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
   };
 
   render() {
-    const {previewChecked, usernameColors} = this.state;
+    const {previewChecked, usernameColors, randomizeChecked} = this.state;
     if (usernameColors === undefined) {
       return;
     }
@@ -163,6 +174,7 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
       );
     });
 
+
     return (
       <Setting {...this.props}>
         <p class="info">
@@ -170,6 +182,9 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
           <br />
           You can enter multiple usernames separated by a comma if you want them
           to use the same color.
+          <br />
+          If randomize is selected then all usernames will be given a random background color. 
+          This will not override colors you have manually assigned.
         </p>
 
         <div class="username-colors-controls">
@@ -184,6 +199,19 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
           <button class="button" onClick={this.saveChanges}>
             Save Changes
           </button>
+
+          <ul class="checkbox-list">
+            <li>
+              <label>
+                <input 
+                  type="checkbox"
+                  checked={randomizeChecked.value}
+                  onClick={this.toggleRandomized}
+                />
+                Randomize Username Colors
+              </label>
+            </li>
+          </ul>
         </div>
 
         {editors}
