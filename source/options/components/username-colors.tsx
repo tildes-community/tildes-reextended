@@ -1,3 +1,4 @@
+import {type Value} from "@holllo/webextension-storage";
 import {Component} from "preact";
 import {log} from "../../utilities/exports.js";
 import {
@@ -9,7 +10,6 @@ import {
   fromStorage,
 } from "../../storage/exports.js";
 import {Setting, type SettingProps} from "./index.js";
-import { Value } from "@holllo/webextension-storage";
 
 type State = {
   previewChecked: "off" | "foreground" | "background";
@@ -31,7 +31,10 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
   }
 
   async componentDidMount() {
-    this.setState({usernameColors: await fromStorage(Feature.UsernameColors), randomizeChecked: await fromStorage(Data.RandomizeUsernameColors)});
+    this.setState({
+      randomizeChecked: await fromStorage(Data.RandomizeUsernameColors),
+      usernameColors: await fromStorage(Feature.UsernameColors),
+    });
   }
 
   addNewColor = async () => {
@@ -104,12 +107,12 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
     this.setState({previewChecked});
   };
 
-  toggleRandomized = () => {
+  toggleRandomized = async () => {
     const randomizeChecked = this.state.randomizeChecked;
     randomizeChecked.value = !randomizeChecked.value;
-    void randomizeChecked.save();
-    this.setState({randomizeChecked})
-  }
+    await randomizeChecked.save();
+    this.setState({randomizeChecked});
+  };
 
   onInput = (event: Event, id: number, key: "color" | "username") => {
     const colorIndex = this.state.usernameColors.findIndex(
@@ -174,7 +177,6 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
       );
     });
 
-
     return (
       <Setting {...this.props}>
         <p class="info">
@@ -183,8 +185,9 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
           You can enter multiple usernames separated by a comma if you want them
           to use the same color.
           <br />
-          If randomize is selected then all usernames will be given a random background color. 
-          This will not override colors you have manually assigned.
+          If randomize is selected then all usernames will be given a random
+          background color. This will not override colors you have manually
+          assigned.
         </p>
 
         <div class="username-colors-controls">
@@ -203,7 +206,7 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
           <ul class="checkbox-list">
             <li>
               <label>
-                <input 
+                <input
                   type="checkbox"
                   checked={randomizeChecked.value}
                   onClick={this.toggleRandomized}

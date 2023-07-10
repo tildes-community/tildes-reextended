@@ -1,3 +1,12 @@
+import {hashSha256} from "./text.js";
+
+/** Return a hex color based on a hash of the input string. */
+export async function getColorFromStringHash(input: string): Promise<string> {
+  const hash = Number.parseInt(await hashSha256(input), 16);
+  const color = Math.abs(hash % 0xff_ff_ff).toString(16);
+  return `#${color}`.padEnd(7, "0");
+}
+
 /** Returns whether a hex color is "bright". */
 export function isColorBright(color: string): boolean {
   if (color.startsWith("#")) {
