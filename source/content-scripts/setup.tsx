@@ -1,12 +1,18 @@
 import {type JSX, render} from "preact";
 import {extractGroups, initializeGlobals, log} from "../utilities/exports.js";
-import {Feature, fromStorage, Data} from "../storage/exports.js";
+import {
+  Data,
+  Feature,
+  MiscellaneousFeature,
+  fromStorage,
+} from "../storage/exports.js";
 import {
   AutocompleteFeature,
   BackToTopFeature,
   JumpToNewCommentFeature,
   UserLabelsFeature,
   runAnonymizeUsernamesFeature,
+  runCommentAnchorFixFeature,
   runHideTopicsFeature,
   runHideVotesFeature,
   runMarkdownToolbarFeature,
@@ -104,6 +110,11 @@ async function initialize() {
         randomizeUsernameColors.value,
       );
     });
+  }
+
+  const miscEnabled = await fromStorage(Data.MiscellaneousEnabledFeatures);
+  if (miscEnabled.value.has(MiscellaneousFeature.CommentAnchorFix)) {
+    runCommentAnchorFixFeature();
   }
 
   // Initialize all the observer-dependent features first.

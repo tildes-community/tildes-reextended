@@ -8,6 +8,7 @@ import {
   HideVotesSetting,
   JumpToNewCommentSetting,
   MarkdownToolbarSetting,
+  MiscellaneousSetting,
   ThemedLogoSetting,
   UserLabelsSetting,
   UsernameColorsSetting,
@@ -70,6 +71,13 @@ export const features: FeatureData[] = [
     key: Feature.MarkdownToolbar,
     title: "Markdown Toolbar",
     component: MarkdownToolbarSetting,
+  },
+  {
+    availableSince: new Date("2023-07-16"),
+    index: 0,
+    key: Feature.Miscellaneous,
+    title: "Miscellaneous",
+    component: MiscellaneousSetting,
   },
   {
     availableSince: new Date("2022-02-27"),

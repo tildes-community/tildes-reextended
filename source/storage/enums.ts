@@ -10,18 +10,27 @@ export enum Feature {
   HideVotes = "hide-votes",
   JumpToNewComment = "jump-to-new-comment",
   MarkdownToolbar = "markdown-toolbar",
+  Miscellaneous = "miscellaneous-features",
   ThemedLogo = "themed-logo",
   UserLabels = "user-labels",
   UsernameColors = "username-colors",
 }
 
 /**
- * Keys of miscellaneous data stored in WebExtension storage.
+ * Keys of miscellaneous feature names.
+ */
+export enum MiscellaneousFeature {
+  CommentAnchorFix = "comment-anchor-fix",
+}
+
+/**
+ * Keys of data stored in WebExtension storage.
  */
 export enum Data {
   EnabledFeatures = "enabled-features",
   KnownGroups = "known-groups",
   LatestActiveFeatureTab = "latest-active-feature-tab",
+  MiscellaneousEnabledFeatures = "miscellaneous-enabled-features",
   RandomizeUsernameColors = "randomize-username-colors",
   Version = "data-version",
 }

@@ -1,6 +1,6 @@
 import {createValue, type Value} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
-import {Data, Feature} from "./enums.js";
+import {Data, Feature, MiscellaneousFeature} from "./enums.js";
 import {collectHideTopicsData} from "./hide-topics.js";
 import {defaultKnownGroups} from "./known-groups.js";
 import {collectUsernameColors} from "./username-color.js";
@@ -51,6 +51,14 @@ export const storageValues = {
     value: Feature.Debug,
     storage: browser.storage.sync,
   }),
+  [Data.MiscellaneousEnabledFeatures]: createValue({
+    deserialize: (input) =>
+      new Set(JSON.parse(input) as MiscellaneousFeature[]),
+    serialize: (input) => JSON.stringify(Array.from(input)),
+    key: Data.MiscellaneousEnabledFeatures,
+    value: new Set([MiscellaneousFeature.CommentAnchorFix]),
+    storage: browser.storage.sync,
+  }),
   [Data.Version]: createValue({
     deserialize: (input) => JSON.parse(input) as string,
     serialize: (input) => JSON.stringify(input),
@@ -85,7 +93,7 @@ export const storageValues = {
 /**
  * Shorthand for the inferred shape of {@link storageValues}.
  */
-type StorageValues = typeof storageValues;
+export type StorageValues = typeof storageValues;
 
 /**
  * Return the {@link Value}-wrapped data associated with a particular key.

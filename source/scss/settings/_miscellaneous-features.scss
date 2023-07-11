@@ -1,0 +1,33 @@
+.miscellaneous-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+
+  li {
+    --border-color: var(--red);
+
+    background-color: var(--background-primary);
+    border: 1px solid var(--border-color);
+
+    &.enabled {
+      --border-color: var(--green);
+    }
+  }
+
+  .description {
+    margin: 8px;
+  }
+
+  label {
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    display: flex;
+    padding: 8px;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 1rem;
+  }
+}
