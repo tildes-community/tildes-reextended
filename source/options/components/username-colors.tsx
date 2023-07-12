@@ -185,9 +185,9 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
           You can enter multiple usernames separated by a comma if you want them
           to use the same color.
           <br />
-          If randomize is selected then all usernames will be given a random
-          background color. This will not override colors you have manually
-          assigned.
+          If randomize is enabled then all usernames will be given a random
+          background color based on a hash of the username. Manually assigned
+          colors will be applied normally.
         </p>
 
         <div class="username-colors-controls">
