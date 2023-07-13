@@ -1,0 +1,20 @@
+.trx-topic-info-ignore {
+  .topic-info {
+    // The first three values are copied from Tildes, the last one we set to add
+    // the Ignore button into.
+    grid-template-columns: 1fr 1.5fr 0.7fr 1fr;
+
+    // Override some of the styles of the button so it doesn't look out of
+    // place as much.
+    .btn-post-action {
+      align-self: center;
+      color: var(--link-color);
+      padding: 0;
+
+      &:hover {
+        color: var(--link-hover-color);
+        text-decoration: underline;
+      }
+    }
+  }
+}

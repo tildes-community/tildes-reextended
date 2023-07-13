@@ -17,6 +17,7 @@ import {
   runHideVotesFeature,
   runMarkdownToolbarFeature,
   runThemedLogoFeature,
+  runTopicInfoIgnore,
   runUsernameColorsFeature,
 } from "./features/exports.js";
 
@@ -112,11 +113,6 @@ async function initialize() {
     });
   }
 
-  const miscEnabled = await fromStorage(Data.MiscellaneousEnabledFeatures);
-  if (miscEnabled.value.has(MiscellaneousFeature.CommentAnchorFix)) {
-    runCommentAnchorFixFeature();
-  }
-
   // Initialize all the observer-dependent features first.
   await Promise.all(observerFeatures.map(async (feature) => feature()));
 
@@ -148,6 +144,15 @@ async function initialize() {
         userLabels={userLabels}
       />
     );
+  }
+
+  const miscEnabled = await fromStorage(Data.MiscellaneousEnabledFeatures);
+  if (miscEnabled.value.has(MiscellaneousFeature.CommentAnchorFix)) {
+    runCommentAnchorFixFeature();
+  }
+
+  if (miscEnabled.value.has(MiscellaneousFeature.TopicInfoIgnore)) {
+    runTopicInfoIgnore();
   }
 
   // Insert a placeholder at the end of the body first, then render the rest

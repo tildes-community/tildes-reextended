@@ -21,6 +21,7 @@ export enum Feature {
  */
 export enum MiscellaneousFeature {
   CommentAnchorFix = "comment-anchor-fix",
+  TopicInfoIgnore = "topic-info-ignore",
 }
 
 /**

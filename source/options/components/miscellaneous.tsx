@@ -25,6 +25,15 @@ function FeatureDescription({
     );
   }
 
+  if (feature === MiscellaneousFeature.TopicInfoIgnore) {
+    return (
+      <p class="description">
+        Moves the topic ignore button to be in the info section next to the
+        posted date.
+      </p>
+    );
+  }
+
   return <></>;
 }
 
