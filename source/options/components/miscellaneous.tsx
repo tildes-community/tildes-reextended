@@ -25,6 +25,14 @@ function FeatureDescription({
     );
   }
 
+  if (feature === MiscellaneousFeature.GroupListSubscribeButtons) {
+    return (
+      <p class="description">
+        Add Subscribe and Unsubscribe buttons to the group list.
+      </p>
+    );
+  }
+
   if (feature === MiscellaneousFeature.TopicInfoIgnore) {
     return (
       <p class="description">

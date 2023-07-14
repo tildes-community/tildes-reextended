@@ -13,6 +13,7 @@ import {
   UserLabelsFeature,
   runAnonymizeUsernamesFeature,
   runCommentAnchorFixFeature,
+  runGroupListSubscribeButtonFeature,
   runHideTopicsFeature,
   runHideVotesFeature,
   runMarkdownToolbarFeature,
@@ -25,6 +26,7 @@ async function initialize() {
   const start = window.performance.now();
   initializeGlobals();
   const enabledFeatures = await fromStorage(Data.EnabledFeatures);
+  const miscEnabled = await fromStorage(Data.MiscellaneousEnabledFeatures);
   window.TildesReExtended.debug = enabledFeatures.value.has(Feature.Debug);
 
   // Any features that will use the knownGroups data should be added to this
@@ -146,9 +148,12 @@ async function initialize() {
     );
   }
 
-  const miscEnabled = await fromStorage(Data.MiscellaneousEnabledFeatures);
   if (miscEnabled.value.has(MiscellaneousFeature.CommentAnchorFix)) {
     runCommentAnchorFixFeature();
+  }
+
+  if (miscEnabled.value.has(MiscellaneousFeature.GroupListSubscribeButtons)) {
+    runGroupListSubscribeButtonFeature();
   }
 
   if (miscEnabled.value.has(MiscellaneousFeature.TopicInfoIgnore)) {

@@ -1,0 +1,12 @@
+.group-list {
+  .trx-group-list-subscribe-button {
+    // Remove the text-indent set by Tildes so it the button is left-aligned
+    // properly.
+    text-indent: unset;
+
+    button {
+      // Add some space between the button and the activity text.
+      margin-right: 0.5rem;
+    }
+  }
+}
