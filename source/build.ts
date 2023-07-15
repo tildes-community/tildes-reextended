@@ -35,9 +35,10 @@ const sourceDir = toAbsolutePath("../source");
 await fsp.mkdir(outDir, {recursive: true});
 
 // Write the WebExtension manifest file.
+const manifest = createManifest(browser);
 await fsp.writeFile(
   path.join(outDir, "manifest.json"),
-  JSON.stringify(createManifest(browser)),
+  JSON.stringify(manifest),
 );
 
 // Write the web-ext configuration file.
@@ -73,6 +74,7 @@ const options: esbuild.BuildOptions = {
     $browser: JSON.stringify(browser),
     $dev: JSON.stringify(dev),
     $test: JSON.stringify(test),
+    $version: JSON.stringify(manifest.version),
   },
   entryPoints: [
     path.join(sourceDir, "background/setup.ts"),
