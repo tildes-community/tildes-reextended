@@ -1,5 +1,10 @@
 import {type JSX, render} from "preact";
-import {extractGroups, initializeGlobals, log} from "../utilities/exports.js";
+import {
+  extractGroups,
+  initializeGlobals,
+  log,
+  userIsLoggedIn,
+} from "../utilities/exports.js";
 import {
   Data,
   Feature,
@@ -35,6 +40,11 @@ async function initialize() {
   const usesKnownGroups = new Set<Feature>([Feature.Autocomplete]);
   const knownGroups = await fromStorage(Data.KnownGroups);
   const userLabels = await fromStorage(Feature.UserLabels);
+
+  const isLoggedIn = userIsLoggedIn();
+  if (!isLoggedIn) {
+    log("User is not logged in, running with limited features enabled.", true);
+  }
 
   // Only when any of the features that uses this data are enabled, try to save
   // the groups.
@@ -89,7 +99,7 @@ async function initialize() {
     });
   }
 
-  if (enabledFeatures.value.has(Feature.MarkdownToolbar)) {
+  if (enabledFeatures.value.has(Feature.MarkdownToolbar) && isLoggedIn) {
     observerFeatures.push(() => {
       runMarkdownToolbarFeature();
     });
@@ -121,7 +131,7 @@ async function initialize() {
   // Object to hold the active components we are going to render.
   const components: Record<string, JSX.Element | undefined> = {};
 
-  if (enabledFeatures.value.has(Feature.Autocomplete)) {
+  if (enabledFeatures.value.has(Feature.Autocomplete) && isLoggedIn) {
     components.autocomplete = (
       <AutocompleteFeature
         anonymizeUsernamesEnabled={anonymizeUsernamesEnabled}
@@ -135,7 +145,7 @@ async function initialize() {
     components.backToTop = <BackToTopFeature />;
   }
 
-  if (enabledFeatures.value.has(Feature.JumpToNewComment)) {
+  if (enabledFeatures.value.has(Feature.JumpToNewComment) && isLoggedIn) {
     components.jumpToNewComment = <JumpToNewCommentFeature />;
   }
 
@@ -152,11 +162,17 @@ async function initialize() {
     runCommentAnchorFixFeature();
   }
 
-  if (miscEnabled.value.has(MiscellaneousFeature.GroupListSubscribeButtons)) {
+  if (
+    miscEnabled.value.has(MiscellaneousFeature.GroupListSubscribeButtons) &&
+    isLoggedIn
+  ) {
     runGroupListSubscribeButtonFeature();
   }
 
-  if (miscEnabled.value.has(MiscellaneousFeature.TopicInfoIgnore)) {
+  if (
+    miscEnabled.value.has(MiscellaneousFeature.TopicInfoIgnore) &&
+    isLoggedIn
+  ) {
     runTopicInfoIgnore();
   }
 
