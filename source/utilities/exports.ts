@@ -3,6 +3,7 @@ export * from "./components/link.js";
 export * from "./elements.js";
 export * from "./globals.js";
 export * from "./groups.js";
+export * from "./http.js";
 export * from "./logging.js";
 export * from "./query-selectors.js";
 export * from "./report-a-bug.js";

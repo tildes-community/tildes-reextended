@@ -1,5 +1,10 @@
 import {Component, render} from "preact";
-import {log, pluralize, querySelectorAll} from "../../utilities/exports.js";
+import {
+  log,
+  makeIntercoolerRequest,
+  pluralize,
+  querySelectorAll,
+} from "../../utilities/exports.js";
 
 export function runGroupListSubscribeButtonFeature(): void {
   const count = addSubscribeButtonsToGroupList();
@@ -11,14 +16,6 @@ export function runGroupListSubscribeButtonFeature(): void {
 
 function addSubscribeButtonsToGroupList(): number {
   if (window.location.pathname !== "/groups") {
-    return 0;
-  }
-
-  const csrfToken = document.querySelector<HTMLMetaElement>(
-    'meta[name="csrftoken"]',
-  )?.content;
-  if (csrfToken === undefined) {
-    log("No CSRF token found", true);
     return 0;
   }
 
@@ -34,14 +31,7 @@ function addSubscribeButtonsToGroupList(): number {
     }
 
     const button = document.createDocumentFragment();
-    render(
-      <SubscribeButton
-        csrfToken={csrfToken}
-        group={group}
-        listItem={listItem}
-      />,
-      button,
-    );
+    render(<SubscribeButton group={group} listItem={listItem} />, button);
 
     const activity =
       listItem.querySelector(".group-list-activity") ?? undefined;
@@ -59,7 +49,6 @@ function addSubscribeButtonsToGroupList(): number {
 }
 
 type Props = {
-  csrfToken: string;
   listItem: HTMLLIElement;
   group: string;
 };
@@ -80,21 +69,15 @@ class SubscribeButton extends Component<Props, State> {
   }
 
   clickHandler = async () => {
-    const {csrfToken, group} = this.props;
+    const {group} = this.props;
     const {isSubscribed} = this.state;
 
-    const response = await window.fetch(
+    const response = await makeIntercoolerRequest(
       `https://tildes.net/api/web/group/${group}/subscribe`,
       {
-        headers: {
-          "X-CSRF-Token": csrfToken,
-          "X-IC-Request": "true",
-        },
         method: isSubscribed ? "DELETE" : "PUT",
-        referrer: "https://tildes.net",
       },
     );
-
     if (response.status !== 200) {
       log(`Unexpected status code: ${response.status}`, true);
       return;
