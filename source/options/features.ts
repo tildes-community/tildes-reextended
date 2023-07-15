@@ -16,6 +16,7 @@ import {
 
 type FeatureData = {
   availableSince: Date;
+  lastUpdated?: Date;
   index: number;
   key: Feature;
   title: string;
@@ -74,6 +75,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2023-07-16"),
+    lastUpdated: new Date("2023-07-16"),
     index: 0,
     key: Feature.Miscellaneous,
     title: "Miscellaneous",
@@ -95,6 +97,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2022-02-25"),
+    lastUpdated: new Date("2023-07-16"),
     index: 0,
     key: Feature.UsernameColors,
     title: "Username Colors",

@@ -102,26 +102,36 @@ class App extends Component<Props, State> {
     );
     const tildesLink = <Link text="Tildes" url={tildesUrl} />;
 
-    const asideElements = features.map(({availableSince, key, title}) => {
-      const isNew =
-        Date.now() - availableSince.getTime() < this.newFeatureDuration ? (
+    const asideElements = features.map(
+      ({availableSince, lastUpdated, key, title}) => {
+        const lastUpdatedTime =
+          lastUpdated?.getTime() ?? this.newFeatureDuration * 2;
+        const isNew =
+          Date.now() - availableSince.getTime() < this.newFeatureDuration;
+        const isUpdated =
+          Date.now() - lastUpdatedTime < this.newFeatureDuration;
+
+        const isNewOrUpdated = isNew ? (
           <span class="is-new">NEW</span>
+        ) : isUpdated ? (
+          <span class="is-updated">UPDATED</span>
         ) : undefined;
 
-      return (
-        <li
-          key={key}
-          class={`${activeFeature.value === key ? "active" : ""}
+        return (
+          <li
+            key={key}
+            class={`${activeFeature.value === key ? "active" : ""}
                 ${enabledFeatures.value.has(key) ? "enabled" : ""}`}
-          onClick={() => {
-            this.setActiveFeature(key);
-          }}
-        >
-          {title}
-          {isNew}
-        </li>
-      );
-    });
+            onClick={() => {
+              this.setActiveFeature(key);
+            }}
+          >
+            {title}
+            {isNewOrUpdated}
+          </li>
+        );
+      },
+    );
 
     const mainElements = features.map(({key, title, component: Setting}) => {
       return (

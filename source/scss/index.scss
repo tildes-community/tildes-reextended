@@ -146,11 +146,19 @@ details {
       }
     }
 
-    .is-new {
-      color: var(--light-blue);
+    .is-new,
+    .is-updated {
       font-weight: bold;
       font-size: 60%;
       vertical-align: top;
+    }
+
+    .is-new {
+      color: var(--light-blue);
+    }
+
+    .is-updated {
+      color: var(--light-green);
     }
   }
 }
