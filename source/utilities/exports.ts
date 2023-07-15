@@ -7,6 +7,7 @@ export * from "./http.js";
 export * from "./logging.js";
 export * from "./query-selectors.js";
 export * from "./report-a-bug.js";
+export * from "./sleep.js";
 export * from "./text.js";
 export * from "./user.js";
 export * from "./validators.js";
