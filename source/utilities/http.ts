@@ -22,10 +22,11 @@ export async function makeIntercoolerRequest(
 
   const ic: RequestInit = {
     headers: {
+      // Change the user agent and add an extra header so it's clear this isn't
+      // a request actually sent by Intercooler but by Tildes ReExtended.
+      "User-Agent": `Tildes ReExtended (${$browser}, version ${$version})`,
       "X-CSRF-Token": csrfToken,
       "X-IC-Request": "true",
-      // Include this header so it's clear this isn't a request actually sent by
-      // Intercooler but by Tildes ReExtended.
       "X-TRX-Request": "true",
     },
     referrer: "https://tildes.net",
