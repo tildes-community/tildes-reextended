@@ -9,5 +9,6 @@ export * from "./jump-to-new-comment.js";
 export * from "./markdown-toolbar.js";
 export * from "./themed-logo.js";
 export * from "./topic-info-ignore.js";
+export * from "./unignore-all-button.js";
 export * from "./user-labels.js";
 export * from "./username-colors.js";

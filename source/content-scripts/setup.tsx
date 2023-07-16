@@ -24,6 +24,7 @@ import {
   runMarkdownToolbarFeature,
   runThemedLogoFeature,
   runTopicInfoIgnore,
+  runUnignoreAllButtonFeature,
   runUsernameColorsFeature,
 } from "./features/exports.js";
 
@@ -174,6 +175,13 @@ async function initialize() {
     isLoggedIn
   ) {
     runTopicInfoIgnore();
+  }
+
+  if (
+    miscEnabled.value.has(MiscellaneousFeature.UnignoreAllButton) &&
+    isLoggedIn
+  ) {
+    runUnignoreAllButtonFeature();
   }
 
   // Insert a placeholder at the end of the body first, then render the rest

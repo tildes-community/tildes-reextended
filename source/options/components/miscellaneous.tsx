@@ -42,6 +42,14 @@ function FeatureDescription({
     );
   }
 
+  if (feature === MiscellaneousFeature.UnignoreAllButton) {
+    return (
+      <p class="description">
+        Add an "Unignore All" button to your list of ignored topics.
+      </p>
+    );
+  }
+
   return <></>;
 }
 
