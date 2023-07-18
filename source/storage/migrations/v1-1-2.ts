@@ -10,6 +10,16 @@ export function v112DeserializeData(data: Record<string, any>): {
     usernameColors: [],
   };
 
+  if (data.data?.userLabels !== undefined) {
+    deserialized.userLabels = data.data
+      .userLabels as V112Settings["data"]["userLabels"];
+  }
+
+  if (data.data?.usernameColors !== undefined) {
+    deserialized.usernameColors = data.data
+      .usernameColors as V112Settings["data"]["usernameColors"];
+  }
+
   for (const [key, value] of Object.entries(data)) {
     if (key.startsWith("userLabel")) {
       deserialized.userLabels.push(
