@@ -6,6 +6,7 @@ import {
   isValidHexColor,
   isValidTildesUsername,
 } from "../../utilities/exports.js";
+import {migrations} from "../../storage/migrations/migrations.js";
 import {type SettingProps, Setting} from "./index.js";
 
 async function importFileHandler(event: Event): Promise<void> {
@@ -20,11 +21,11 @@ async function importFileHandler(event: Event): Promise<void> {
   const reader = new window.FileReader();
 
   reader.addEventListener("load", async (): Promise<void> => {
-    let data: unknown;
+    let data: Record<string, any>;
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-base-to-string
-      data = JSON.parse(reader.result!.toString());
+      data = JSON.parse(reader.result!.toString()) as Record<string, any>;
     } catch (error: unknown) {
       log(error, true);
       return;
@@ -35,7 +36,13 @@ async function importFileHandler(event: Event): Promise<void> {
       return;
     }
 
-    await browser.storage.sync.set(data);
+    // eslint-disable-next-line unicorn/prefer-ternary
+    if (data.version === "1.1.2") {
+      await migrations[0].migrate(data);
+    } else {
+      await browser.storage.sync.set(data);
+    }
+
     log("Successfully imported your settings, reloading the page to apply.");
     setTimeout(() => {
       window.location.reload();
