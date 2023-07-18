@@ -42,5 +42,5 @@ function generateReplacements(elements: HTMLElement[]): Record<string, string> {
 }
 
 function usernameFromElement(element: HTMLElement): string {
-  return (element.textContent ?? "<unknown>").trim();
+  return (element.textContent ?? "<unknown>").trim().toLowerCase();
 }
