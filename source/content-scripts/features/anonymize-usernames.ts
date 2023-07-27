@@ -35,7 +35,7 @@ function generateReplacements(elements: HTMLElement[]): Record<string, string> {
 
   const replacements: Record<string, string> = {};
   for (const [index, username] of Array.from(usernames).entries()) {
-    replacements[username] = `Anonymous ${index}`;
+    replacements[username] = `Anonymous ${index + 1}`;
   }
 
   return replacements;
