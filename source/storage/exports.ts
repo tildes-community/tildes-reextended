@@ -12,6 +12,13 @@ export * from "./username-color.js";
 export * from "./user-label.js";
 
 /**
+ * The data stored for the Anonymize Usernames feature.
+ */
+export type AnonymizeUsernamesData = {
+  replacementType: "numerical" | "hashed";
+};
+
+/**
  * The data stored for the Hide Votes feature.
  */
 export type HideVotesData = {
@@ -71,6 +78,15 @@ export const storageValues = {
     serialize: (input) => JSON.stringify(input),
     key: Data.RandomizeUsernameColors,
     value: false,
+    storage: browser.storage.sync,
+  }),
+  [Feature.AnonymizeUsernames]: createValue({
+    deserialize: (input) => JSON.parse(input) as AnonymizeUsernamesData,
+    serialize: (input) => JSON.stringify(input),
+    key: Feature.AnonymizeUsernames,
+    value: {
+      replacementType: "numerical",
+    },
     storage: browser.storage.sync,
   }),
   [Feature.HideTopics]: collectHideTopicsData(),
