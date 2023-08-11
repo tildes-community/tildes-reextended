@@ -1,22 +1,17 @@
 import {createValue, type Value} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
+import {type AnonymizeUsernamesData} from "./anonymize-usernames.js";
 import {Data, Feature, MiscellaneousFeature} from "./enums.js";
 import {collectHideTopicsData} from "./hide-topics.js";
 import {defaultKnownGroups} from "./known-groups.js";
 import {collectUsernameColors} from "./username-color.js";
 import {collectUserLabels} from "./user-label.js";
 
+export * from "./anonymize-usernames.js";
 export * from "./enums.js";
 export * from "./hide-topics.js";
 export * from "./username-color.js";
 export * from "./user-label.js";
-
-/**
- * The data stored for the Anonymize Usernames feature.
- */
-export type AnonymizeUsernamesData = {
-  replacementType: "numerical" | "hashed";
-};
 
 /**
  * The data stored for the Hide Votes feature.
