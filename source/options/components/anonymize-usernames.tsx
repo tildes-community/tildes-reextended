@@ -1,5 +1,5 @@
 import {Component} from "preact";
-import {fromStorage, Feature} from "../../storage/exports.js";
+import {fromStorage, Feature, ReplacementType} from "../../storage/exports.js";
 import {Setting, type SettingProps} from "./index.js";
 
 type State = {
@@ -39,6 +39,13 @@ export class AnonymizeUsernamesSetting extends Component<SettingProps, State> {
     }
 
     const replacementType = data.value.replacementType;
+    const replacementTypeOptions = Object.values(ReplacementType).map((key) => (
+      <option selected={key === replacementType} value={key}>
+        {key
+          .replace(/-/g, " ")
+          .replace(/(\b[a-z])/gi, (character) => character.toUpperCase())}
+      </option>
+    ));
 
     return (
       <Setting {...this.props}>
@@ -52,15 +59,7 @@ export class AnonymizeUsernamesSetting extends Component<SettingProps, State> {
         <ul class="checkbox-list">
           <li>
             <select onChange={this.replacementTypeChanged}>
-              <option
-                selected={replacementType === "numerical"}
-                value="numerical"
-              >
-                Numerical
-              </option>
-              <option selected={replacementType === "hashed"} value="hashed">
-                Hashed
-              </option>
+              {replacementTypeOptions}
             </select>
           </li>
         </ul>
