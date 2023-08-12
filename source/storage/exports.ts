@@ -1,6 +1,9 @@
 import {createValue, type Value} from "@holllo/webextension-storage";
 import browser from "webextension-polyfill";
-import {type AnonymizeUsernamesData} from "./anonymize-usernames.js";
+import {
+  type AnonymizeUsernamesData,
+  ReplacementType,
+} from "./anonymize-usernames.js";
 import {Data, Feature, MiscellaneousFeature} from "./enums.js";
 import {collectHideTopicsData} from "./hide-topics.js";
 import {defaultKnownGroups} from "./known-groups.js";
@@ -75,12 +78,12 @@ export const storageValues = {
     value: false,
     storage: browser.storage.sync,
   }),
-  [Feature.AnonymizeUsernames]: createValue({
+  [Feature.AnonymizeUsernames]: createValue<AnonymizeUsernamesData>({
     deserialize: (input) => JSON.parse(input) as AnonymizeUsernamesData,
     serialize: (input) => JSON.stringify(input),
     key: Feature.AnonymizeUsernames,
     value: {
-      replacementType: "numerical",
+      replacementType: ReplacementType.Numerical,
     },
     storage: browser.storage.sync,
   }),
