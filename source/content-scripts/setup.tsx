@@ -82,8 +82,11 @@ async function initialize() {
   }
 
   if (anonymizeUsernamesEnabled) {
-    observerFeatures.push(() => {
-      runAnonymizeUsernamesFeature();
+    const anonymizeUsernamesData = await fromStorage(
+      Feature.AnonymizeUsernames,
+    );
+    observerFeatures.push(async () => {
+      await runAnonymizeUsernamesFeature(anonymizeUsernamesData.value);
     });
   }
 
