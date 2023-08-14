@@ -56,6 +56,7 @@ export class AutocompleteFeature extends Component<Props, State> {
 
     // Add a keydown listener for the entire page.
     document.addEventListener("keydown", this.globalInputHandler);
+    document.addEventListener("compositionupdate", this.globalInputHandler);
 
     log(
       `Autocomplete: Initialized with ${this.state.groups.size} groups and ` +
@@ -63,7 +64,7 @@ export class AutocompleteFeature extends Component<Props, State> {
     );
   }
 
-  globalInputHandler = (event: KeyboardEvent) => {
+  globalInputHandler = (event: CompositionEvent | KeyboardEvent) => {
     const activeElement = document.activeElement as HTMLElement;
     // Only add the autocompletes to textareas.
     if (activeElement.tagName !== "TEXTAREA") {
@@ -78,7 +79,8 @@ export class AutocompleteFeature extends Component<Props, State> {
     ) => {
       const dataAttribute = `data-trx-autocomplete-${target}`;
 
-      if (event.key === prefix && !activeElement.getAttribute(dataAttribute)) {
+      const key = event instanceof KeyboardEvent ? event.key : event.data;
+      if (key === prefix && !activeElement.getAttribute(dataAttribute)) {
         activeElement.setAttribute(dataAttribute, "true");
         activeElement.addEventListener("keyup", (event) => {
           this.textareaInputHandler(event, prefix, target, values);
@@ -93,7 +95,7 @@ export class AutocompleteFeature extends Component<Props, State> {
   };
 
   textareaInputHandler = (
-    event: KeyboardEvent,
+    event: CompositionEvent | KeyboardEvent,
     prefix: string,
     target: string,
     values: Set<string>,
