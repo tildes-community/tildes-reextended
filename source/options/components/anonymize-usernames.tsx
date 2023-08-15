@@ -1,5 +1,10 @@
 import {Component} from "preact";
-import {fromStorage, Feature, ReplacementType} from "../../storage/exports.js";
+import {
+  fromStorage,
+  isReplacementType,
+  Feature,
+  ReplacementType,
+} from "../../storage/exports.js";
 import {Setting, type SettingProps} from "./index.js";
 
 type State = {
@@ -23,7 +28,7 @@ export class AnonymizeUsernamesSetting extends Component<SettingProps, State> {
   replacementTypeChanged = async (event: Event) => {
     const newValue = (event.target as HTMLInputElement)!.value;
     const {data} = this.state;
-    if (data === undefined) {
+    if (data === undefined || !isReplacementType(newValue)) {
       return;
     }
 
