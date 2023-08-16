@@ -84,6 +84,7 @@ export const storageValues = {
     key: Feature.AnonymizeUsernames,
     value: {
       replacementType: ReplacementType.Numerical,
+      selfOnly: false,
     },
     storage: browser.storage.sync,
   }),

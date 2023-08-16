@@ -37,6 +37,17 @@ export class AnonymizeUsernamesSetting extends Component<SettingProps, State> {
     this.setState({data});
   };
 
+  selfOnlyClicked = async () => {
+    const {data} = this.state;
+    if (data === undefined) {
+      return;
+    }
+
+    data.value.selfOnly = !data.value.selfOnly;
+    await data.save();
+    this.setState({data});
+  };
+
   render() {
     const {data} = this.state;
     if (data === undefined) {
@@ -51,6 +62,17 @@ export class AnonymizeUsernamesSetting extends Component<SettingProps, State> {
           .replace(/(\b[a-z])/gi, (character) => character.toUpperCase())}
       </option>
     ));
+
+    const selfOnlyCheckbox = (
+      <label>
+        <input
+          type="checkbox"
+          checked={data.value.selfOnly}
+          onClick={this.selfOnlyClicked}
+        ></input>
+        Only hide own username
+      </label>
+    );
 
     return (
       <Setting {...this.props}>
@@ -67,6 +89,7 @@ export class AnonymizeUsernamesSetting extends Component<SettingProps, State> {
               {replacementTypeOptions}
             </select>
           </li>
+          <li>{selfOnlyCheckbox}</li>
         </ul>
       </Setting>
     );

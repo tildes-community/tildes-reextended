@@ -20,4 +20,5 @@ export function isReplacementType(input: string): input is ReplacementType {
  */
 export type AnonymizeUsernamesData = {
   replacementType: ReplacementType;
+  selfOnly: boolean;
 };
