@@ -1,4 +1,4 @@
-import {log, pluralize, querySelectorAll} from "../../utilities/exports.js";
+import {log, pluralize, querySelectorAll} from "../../../utilities/exports.js";
 
 export function runTopicInfoIgnore(): void {
   const count = moveIgnoreButtons();

@@ -4,7 +4,7 @@ import {
   makeIntercoolerRequest,
   pluralize,
   querySelectorAll,
-} from "../../utilities/exports.js";
+} from "../../../utilities/exports.js";
 
 export function runGroupListSubscribeButtonFeature(): void {
   const count = addSubscribeButtonsToGroupList();

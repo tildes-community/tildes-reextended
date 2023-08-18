@@ -1,4 +1,4 @@
-import {log, pluralize} from "../../utilities/exports.js";
+import {log, pluralize} from "../../../utilities/exports.js";
 
 export function runCommentAnchorFixFeature(): void {
   const count = commentAnchorFix();

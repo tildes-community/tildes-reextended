@@ -1,5 +1,5 @@
 import {Component, render} from "preact";
-import {log, querySelectorAll, sleep} from "../../utilities/exports.js";
+import {log, querySelectorAll, sleep} from "../../../utilities/exports.js";
 
 export function runUnignoreAllButtonFeature(): void {
   if (addUnignoreAllButton()) {
