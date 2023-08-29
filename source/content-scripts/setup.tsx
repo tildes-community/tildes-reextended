@@ -19,6 +19,7 @@ import {
   runAnonymizeUsernamesFeature,
   runCommentAnchorFixFeature,
   runGroupListSubscribeButtonFeature,
+  runHideOwnUsernameFeature,
   runHideTopicsFeature,
   runHideVotesFeature,
   runMarkdownToolbarFeature,
@@ -171,6 +172,13 @@ async function initialize() {
     isLoggedIn
   ) {
     runGroupListSubscribeButtonFeature();
+  }
+
+  if (
+    miscEnabled.value.has(MiscellaneousFeature.HideOwnUsername) &&
+    isLoggedIn
+  ) {
+    runHideOwnUsernameFeature();
   }
 
   if (

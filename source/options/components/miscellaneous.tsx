@@ -33,6 +33,12 @@ function FeatureDescription({
     );
   }
 
+  if (feature === MiscellaneousFeature.HideOwnUsername) {
+    return (
+      <p class="description">Hide your username for more private browsing.</p>
+    );
+  }
+
   if (feature === MiscellaneousFeature.TopicInfoIgnore) {
     return (
       <p class="description">

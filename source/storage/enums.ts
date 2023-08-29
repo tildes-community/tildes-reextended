@@ -22,6 +22,7 @@ export enum Feature {
 export enum MiscellaneousFeature {
   CommentAnchorFix = "comment-anchor-fix",
   GroupListSubscribeButtons = "group-list-subscribe-buttons",
+  HideOwnUsername = "hide-own-username",
   TopicInfoIgnore = "topic-info-ignore",
   UnignoreAllButton = "unignore-all-button",
 }

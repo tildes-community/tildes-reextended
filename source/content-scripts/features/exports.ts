@@ -7,6 +7,7 @@ export * from "./jump-to-new-comment.js";
 export * from "./markdown-toolbar.js";
 export * from "./miscellaneous/comment-anchor-fix.js";
 export * from "./miscellaneous/group-list-subscribe-button.js";
+export * from "./miscellaneous/hide-own-username.js";
 export * from "./miscellaneous/topic-info-ignore.js";
 export * from "./miscellaneous/unignore-all-button.js";
 export * from "./themed-logo.js";
