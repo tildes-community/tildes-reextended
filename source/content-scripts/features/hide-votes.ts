@@ -1,5 +1,9 @@
 import {type HideVotesData} from "../../storage/exports.js";
-import {log, querySelectorAll} from "../../utilities/exports.js";
+import {
+  getLoggedInUsername,
+  log,
+  querySelectorAll,
+} from "../../utilities/exports.js";
 
 export function runHideVotesFeature(data: HideVotesData) {
   const counts = hideVotes(data);
@@ -12,9 +16,7 @@ function hideVotes(data: HideVotesData): number {
   // Get the username of the currently logged in user. When not logged in, set
   // it to "<logged out>" which isn't a valid username, so matching against it
   // will always return false. Meaning all comments are never the current user's.
-  const currentUser =
-    document.querySelector(".logged-in-user-username")?.textContent?.trim() ??
-    "<logged out>";
+  const currentUser = getLoggedInUsername() ?? "<logged out>";
 
   if (data.otherComments || data.ownComments) {
     count += hideCommentVotes(data, currentUser);
