@@ -130,4 +130,19 @@
       min-width: 10rem;
     }
   }
+
+  .has-save-status {
+    --save-status-color: var(--blue);
+
+    &.unsaved-changes {
+      --save-status-color: var(--unsaved-changes-color);
+    }
+  }
+
+  .styled-select {
+    background-color: var(--background-primary);
+    border: 1px solid var(--save-status-color, var(--blue));
+    color: var(--foreground);
+    padding: 8px;
+  }
 }

@@ -55,7 +55,8 @@ export class AnonymizeUsernamesSetting extends Component<SettingProps, State> {
     return (
       <Setting {...this.props}>
         <p class="info">
-          Anonymizes usernames by replacing them with "Anonymous #".
+          Anonymizes usernames by replacing them with an incrementing "Anonymous
+          #" or a SHA-256 hash of the username.
           <br />
           Note that User Labels and Username Colors will still be applied to any
           usernames as normal.
@@ -63,7 +64,15 @@ export class AnonymizeUsernamesSetting extends Component<SettingProps, State> {
 
         <ul class="checkbox-list">
           <li>
-            <select onChange={this.replacementTypeChanged}>
+            <label for="anonymize-usernames-replacement-type">
+              Replacement type:
+            </label>{" "}
+            <select
+              class="styled-select"
+              name="anonymize-usernames-replacement-type"
+              id="anonymize-usernames-replacement-type"
+              onChange={this.replacementTypeChanged}
+            >
               {replacementTypeOptions}
             </select>
           </li>

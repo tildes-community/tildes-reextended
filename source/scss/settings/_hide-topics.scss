@@ -51,8 +51,7 @@
       min-width: 10rem;
     }
 
-    input,
-    select {
+    input {
       background-color: var(--background-primary);
       border: 1px solid var(--save-status-color);
       color: var(--foreground);
@@ -61,10 +60,6 @@
 
     select {
       padding-right: 16px;
-    }
-
-    &.unsaved-changes {
-      --save-status-color: var(--unsaved-changes-color);
     }
   }
 }

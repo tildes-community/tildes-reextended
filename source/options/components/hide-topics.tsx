@@ -145,8 +145,10 @@ export class HideTopicsSetting extends Component<SettingProps, State> {
         : "";
 
       return (
-        <div class={`hide-topics-editor ${hasUnsavedChanges}`}>
-          <select onChange={matcherHandler}>{matcherOptions}</select>
+        <div class={`has-save-status hide-topics-editor ${hasUnsavedChanges}`}>
+          <select class="styled-select" onChange={matcherHandler}>
+            {matcherOptions}
+          </select>
           <input
             type="text"
             placeholder="Value to match"
