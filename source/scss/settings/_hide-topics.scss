@@ -41,8 +41,6 @@
   }
 
   .hide-topics-editor {
-    --save-status-color: var(--blue);
-
     display: grid;
     grid-template-columns: min-content auto min-content;
     gap: 8px;
