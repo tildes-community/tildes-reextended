@@ -48,7 +48,7 @@ export class HideVotesSetting extends Component<SettingProps, State> {
 
     const checkboxes = checkboxesData.map(({label, target}) => (
       <li>
-        <label>
+        <label class="styled-checkbox">
           <input
             type="checkbox"
             checked={hideVotes.value[target]}

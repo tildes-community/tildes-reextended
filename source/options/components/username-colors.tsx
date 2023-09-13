@@ -205,7 +205,7 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
 
           <ul class="checkbox-list">
             <li>
-              <label>
+              <label class="styled-checkbox">
                 <input
                   type="checkbox"
                   checked={randomizeChecked.value}

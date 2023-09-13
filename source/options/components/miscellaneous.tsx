@@ -100,7 +100,7 @@ export class MiscellaneousSetting extends Component<SettingProps, State> {
 
       return (
         <li class={enabled ? "enabled" : ""}>
-          <label for={feature}>
+          <label class="styled-checkbox" for={feature}>
             <input
               type="checkbox"
               id={feature}

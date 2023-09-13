@@ -13,21 +13,14 @@
     &.enabled {
       --border-color: var(--green);
     }
+
+    .styled-checkbox {
+      border: none;
+      border-bottom: 1px solid var(--border-color);
+    }
   }
 
   .description {
     margin: 8px;
-  }
-
-  label {
-    align-items: center;
-    border-bottom: 1px solid var(--border-color);
-    cursor: pointer;
-    display: flex;
-    padding: 8px;
-  }
-
-  input[type="checkbox"] {
-    margin-right: 1rem;
   }
 }
