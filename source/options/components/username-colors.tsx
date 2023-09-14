@@ -16,6 +16,7 @@ type State = {
   usernameColors: UsernameColorsData;
   usernameColorsToRemove: UsernameColorsData;
   randomizeChecked: Value<boolean>;
+  unsavedUsernameColorIds: Set<number>;
 };
 
 export class UsernameColorsSetting extends Component<SettingProps, State> {
@@ -27,6 +28,7 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
       usernameColors: undefined!,
       usernameColorsToRemove: [],
       randomizeChecked: undefined!,
+      unsavedUsernameColorIds: new Set(),
     };
   }
 
@@ -38,11 +40,11 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
   }
 
   addNewColor = async () => {
+    const {usernameColors, unsavedUsernameColorIds} = this.state;
     let id = 1;
-    if (this.state.usernameColors.length > 0) {
+    if (usernameColors.length > 0) {
       id =
-        this.state.usernameColors.sort((a, b) => b.value.id - a.value.id)[0]
-          .value.id + 1;
+        usernameColors.sort((a, b) => b.value.id - a.value.id)[0].value.id + 1;
     }
 
     const newColor = await createValueUsernamecolor({
@@ -50,24 +52,32 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
       id,
       username: "",
     });
+    unsavedUsernameColorIds.add(id);
 
     this.state.usernameColors.push(newColor);
     this.setState({
-      usernameColors: this.state.usernameColors,
+      usernameColors,
+      unsavedUsernameColorIds,
     });
   };
 
   removeColor = async (targetId: number) => {
-    const targetIndex = this.state.usernameColors.findIndex(
+    const {usernameColors, usernameColorsToRemove, unsavedUsernameColorIds} =
+      this.state;
+    const targetIndex = usernameColors.findIndex(
       ({value}) => value.id === targetId,
     );
-    const usernameColorsToRemove = this.state.usernameColorsToRemove;
-    usernameColorsToRemove.push(
-      ...this.state.usernameColors.splice(targetIndex, 1),
-    );
+    if (targetIndex === -1) {
+      log(`Tried to remove unknown UsernameColor ID: ${targetId}`);
+      return;
+    }
+
+    usernameColorsToRemove.push(...usernameColors.splice(targetIndex, 1));
+    unsavedUsernameColorIds.add(targetId);
     this.setState({
-      usernameColors: this.state.usernameColors,
+      usernameColors,
       usernameColorsToRemove,
+      unsavedUsernameColorIds,
     });
   };
 
@@ -80,7 +90,10 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
       await usernameColor.save();
     }
 
-    this.setState({usernameColorsToRemove: []});
+    this.setState({
+      usernameColorsToRemove: [],
+      unsavedUsernameColorIds: new Set(),
+    });
   };
 
   togglePreview = async () => {
@@ -115,6 +128,7 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
   };
 
   onInput = (event: Event, id: number, key: "color" | "username") => {
+    const {unsavedUsernameColorIds} = this.state;
     const colorIndex = this.state.usernameColors.findIndex(
       ({value}) => value.id === id,
     );
@@ -125,11 +139,17 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
 
     const newValue = (event.target as HTMLInputElement).value;
     this.state.usernameColors[colorIndex].value[key] = newValue;
+    unsavedUsernameColorIds.add(id);
     this.setState({usernameColors: this.state.usernameColors});
   };
 
   render() {
-    const {previewChecked, usernameColors, randomizeChecked} = this.state;
+    const {
+      previewChecked,
+      usernameColors,
+      randomizeChecked,
+      unsavedUsernameColorIds,
+    } = this.state;
     if (usernameColors === undefined) {
       return;
     }
@@ -156,8 +176,15 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
         await this.removeColor(id);
       };
 
+      const hasUnsavedChanges = unsavedUsernameColorIds.has(id)
+        ? "unsaved-changes"
+        : "";
+
       return (
-        <div class="username-colors-editor" key={id}>
+        <div
+          class={`has-save-status username-colors-editor ${hasUnsavedChanges}`}
+          key={id}
+        >
           <input
             style={style}
             placeholder="Username(s)"
@@ -176,6 +203,9 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
         </div>
       );
     });
+
+    const anyUnsavedChanges =
+      unsavedUsernameColorIds.size > 0 ? "unsaved-changes" : "";
 
     return (
       <Setting {...this.props}>
@@ -199,8 +229,11 @@ export class UsernameColorsSetting extends Component<SettingProps, State> {
             Toggle Preview
           </button>
 
-          <button class="button" onClick={this.saveChanges}>
-            Save Changes
+          <button
+            class={`button save-button ${anyUnsavedChanges}`}
+            onClick={this.saveChanges}
+          >
+            Save Changes{anyUnsavedChanges.length > 0 ? "*" : ""}
           </button>
 
           <ul class="checkbox-list">

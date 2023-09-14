@@ -111,6 +111,10 @@
     display: grid;
     gap: 8px;
     grid-template-columns: repeat(3, 1fr);
+
+    .save-button.unsaved-changes {
+      background-color: var(--yellow);
+    }
   }
 
   .username-colors-editor {
@@ -121,7 +125,7 @@
 
     input {
       background-color: var(--background-primary);
-      border: 1px solid var(--blue);
+      border: 1px solid var(--save-status-color);
       color: var(--foreground);
       padding: 8px;
     }
