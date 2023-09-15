@@ -1,15 +1,25 @@
 @import "button";
 
 .user-label-editor {
+  --save-status-color: var(--blue);
+
+  .unsaved-changes {
+    --save-status-color: var(--yellow);
+  }
+
   input {
     background-color: var(--background-primary);
-    border: 1px solid var(--blue);
+    border: 1px solid var(--save-status-color);
     color: var(--foreground);
     padding: 8px;
   }
 
   .button {
     @include button;
+
+    &.save-button {
+      --button-color: var(--save-status-color);
+    }
   }
 
   .info {

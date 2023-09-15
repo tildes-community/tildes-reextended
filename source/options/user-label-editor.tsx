@@ -27,8 +27,8 @@ type Props = {
 };
 
 type State = {
-  hasUnsavedChanges: boolean;
   newLabelUsername: string;
+  unsavedUserLabelIds: Set<number>;
   userLabels: UserLabelsData;
   userLabelsToRemove: UserLabelsData;
 };
@@ -38,15 +38,15 @@ class App extends Component<Props, State> {
     super(props);
 
     this.state = {
-      hasUnsavedChanges: false,
       newLabelUsername: "",
+      unsavedUserLabelIds: new Set(),
       userLabels: props.userLabels,
       userLabelsToRemove: [],
     };
   }
 
   addNewLabel = async () => {
-    const {newLabelUsername, userLabels} = this.state;
+    const {newLabelUsername, unsavedUserLabelIds, userLabels} = this.state;
     if (!isValidTildesUsername(newLabelUsername)) {
       return;
     }
@@ -70,7 +70,8 @@ class App extends Component<Props, State> {
         username: existingUserLabel?.value.username ?? newLabelUsername,
       }),
     );
-    this.setState({userLabels});
+    unsavedUserLabelIds.add(id);
+    this.setState({unsavedUserLabelIds, userLabels});
   };
 
   onNewUsernameInput = (event: Event) => {
@@ -79,6 +80,7 @@ class App extends Component<Props, State> {
   };
 
   editUserLabel = (event: Event, targetId: number, key: keyof UserLabel) => {
+    const {unsavedUserLabelIds} = this.state;
     const index = this.state.userLabels.findIndex(
       ({value: {id}}) => id === targetId,
     );
@@ -95,19 +97,21 @@ class App extends Component<Props, State> {
       this.state.userLabels[index].value[key] = newValue;
     }
 
+    unsavedUserLabelIds.add(targetId);
     this.setState({
-      hasUnsavedChanges: true,
+      unsavedUserLabelIds,
       userLabels: this.state.userLabels,
     });
   };
 
   removeUserLabel = async (targetId: number) => {
-    const {userLabels, userLabelsToRemove} = this.state;
+    const {unsavedUserLabelIds, userLabels, userLabelsToRemove} = this.state;
     const index = userLabels.findIndex(({value}) => value.id === targetId);
     userLabelsToRemove.push(...userLabels.splice(index, 1));
+    unsavedUserLabelIds.add(targetId);
 
     this.setState({
-      hasUnsavedChanges: true,
+      unsavedUserLabelIds,
       userLabels,
       userLabelsToRemove,
     });
@@ -120,11 +124,11 @@ class App extends Component<Props, State> {
 
     this.props.userLabels = this.state.userLabels;
     void saveUserLabels(this.props.userLabels);
-    this.setState({hasUnsavedChanges: false, userLabelsToRemove: []});
+    this.setState({unsavedUserLabelIds: new Set(), userLabelsToRemove: []});
   };
 
   render() {
-    const {hasUnsavedChanges, newLabelUsername, userLabels} = this.state;
+    const {newLabelUsername, unsavedUserLabelIds, userLabels} = this.state;
     userLabels.sort((a, b) => a.value.username.localeCompare(b.value.username));
 
     const labelGroups = new Map<string, UserLabel[]>();
@@ -167,8 +171,9 @@ class App extends Component<Props, State> {
           await this.removeUserLabel(label.id);
         };
 
+        const hasUnsavedChanges = unsavedUserLabelIds.has(label.id);
         userLabels.push(
-          <li key={label.id}>
+          <li class={hasUnsavedChanges ? "unsaved-changes" : ""} key={label.id}>
             <div>
               {index === 0 ? <label>Text</label> : undefined}
               <input
@@ -217,6 +222,7 @@ class App extends Component<Props, State> {
       );
     }
 
+    const anyUnsavedChanges = unsavedUserLabelIds.size > 0;
     return (
       <>
         <header class="page-header">
@@ -249,8 +255,13 @@ class App extends Component<Props, State> {
               Add New Label
             </button>
 
-            <button class="button" onClick={this.saveUserLabels}>
-              Save All Changes{hasUnsavedChanges ? "*" : ""}
+            <button
+              class={`save-button button ${
+                anyUnsavedChanges ? "unsaved-changes" : ""
+              }`}
+              onClick={this.saveUserLabels}
+            >
+              Save All Changes{anyUnsavedChanges ? "*" : ""}
             </button>
           </div>
           <div class="groups">{labels}</div>
