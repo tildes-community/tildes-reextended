@@ -26,6 +26,7 @@ type FeatureData = {
 export const features: FeatureData[] = [
   {
     availableSince: new Date("2022-02-23"),
+    lastUpdated: new Date("2023-09-24"),
     index: 0,
     key: Feature.AnonymizeUsernames,
     title: "Anonymize Usernames",
@@ -75,7 +76,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2023-07-16"),
-    lastUpdated: new Date("2023-07-16"),
+    lastUpdated: new Date("2023-09-24"),
     index: 0,
     key: Feature.Miscellaneous,
     title: "Miscellaneous",
