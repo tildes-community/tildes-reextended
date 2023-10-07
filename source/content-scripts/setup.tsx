@@ -163,36 +163,38 @@ async function initialize() {
     );
   }
 
-  if (miscEnabled.value.has(MiscellaneousFeature.CommentAnchorFix)) {
-    runCommentAnchorFixFeature();
-  }
+  if (enabledFeatures.value.has(Feature.Miscellaneous)) {
+    if (miscEnabled.value.has(MiscellaneousFeature.CommentAnchorFix)) {
+      runCommentAnchorFixFeature();
+    }
 
-  if (
-    miscEnabled.value.has(MiscellaneousFeature.GroupListSubscribeButtons) &&
-    isLoggedIn
-  ) {
-    runGroupListSubscribeButtonFeature();
-  }
+    if (
+      miscEnabled.value.has(MiscellaneousFeature.GroupListSubscribeButtons) &&
+      isLoggedIn
+    ) {
+      runGroupListSubscribeButtonFeature();
+    }
 
-  if (
-    miscEnabled.value.has(MiscellaneousFeature.HideOwnUsername) &&
-    isLoggedIn
-  ) {
-    runHideOwnUsernameFeature();
-  }
+    if (
+      miscEnabled.value.has(MiscellaneousFeature.HideOwnUsername) &&
+      isLoggedIn
+    ) {
+      runHideOwnUsernameFeature();
+    }
 
-  if (
-    miscEnabled.value.has(MiscellaneousFeature.TopicInfoIgnore) &&
-    isLoggedIn
-  ) {
-    runTopicInfoIgnore();
-  }
+    if (
+      miscEnabled.value.has(MiscellaneousFeature.TopicInfoIgnore) &&
+      isLoggedIn
+    ) {
+      runTopicInfoIgnore();
+    }
 
-  if (
-    miscEnabled.value.has(MiscellaneousFeature.UnignoreAllButton) &&
-    isLoggedIn
-  ) {
-    runUnignoreAllButtonFeature();
+    if (
+      miscEnabled.value.has(MiscellaneousFeature.UnignoreAllButton) &&
+      isLoggedIn
+    ) {
+      runUnignoreAllButtonFeature();
+    }
   }
 
   // Insert a placeholder at the end of the body first, then render the rest
