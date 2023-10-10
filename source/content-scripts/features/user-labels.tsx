@@ -3,6 +3,7 @@ import {Component, render} from "preact";
 import {
   type UserLabelsData,
   createValueUserLabel,
+  newUserLabelId,
   saveUserLabels,
 } from "../../storage/exports.js";
 import {
@@ -240,12 +241,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     const {userLabels} = this.props;
     // If no ID is present then save a new label otherwise edit the existing one.
     if (id === undefined) {
-      let newId = 1;
-      if (userLabels.length > 0) {
-        newId =
-          userLabels.sort((a, b) => b.value.id - a.value.id)[0].value.id + 1;
-      }
-
+      const newId = await newUserLabelId();
       userLabels.push(
         await createValueUserLabel({
           color,

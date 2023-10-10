@@ -67,3 +67,13 @@ export async function saveUserLabels(
     await label.save();
   }
 }
+
+export async function newUserLabelId(): Promise<number> {
+  const userLabels = await collectUserLabels();
+  let newId = 1;
+  if (userLabels.length > 0) {
+    newId = userLabels.sort((a, b) => b.value.id - a.value.id)[0].value.id + 1;
+  }
+
+  return newId;
+}

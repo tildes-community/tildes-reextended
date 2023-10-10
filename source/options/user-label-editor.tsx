@@ -12,6 +12,7 @@ import {
   Feature,
   createValueUserLabel,
   saveUserLabels,
+  newUserLabelId,
 } from "../storage/exports.js";
 import "../scss/index.scss";
 import "../scss/user-label-editor.scss";
@@ -56,11 +57,7 @@ class App extends Component<Props, State> {
         username.toLowerCase() === newLabelUsername.toLowerCase(),
     );
 
-    let id = 1;
-    if (userLabels.length > 0) {
-      id = userLabels.sort((a, b) => b.value.id - a.value.id)[0].value.id + 1;
-    }
-
+    const id = await newUserLabelId();
     userLabels.push(
       await createValueUserLabel({
         color: "#ff00ff",
