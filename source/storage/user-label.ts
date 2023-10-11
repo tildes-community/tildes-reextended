@@ -68,6 +68,11 @@ export async function saveUserLabels(
   }
 }
 
+/**
+ * Create a new user label ID by getting the current highest existing ID in
+ * storage and adding 1 to it. Defaults to 1 when no there are no existing
+ * labels.
+ */
 export async function newUserLabelId(): Promise<number> {
   const userLabels = await collectUserLabels();
   let newId = 1;
