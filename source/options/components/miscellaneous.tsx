@@ -39,6 +39,14 @@ function FeatureDescription({
     );
   }
 
+  if (feature === MiscellaneousFeature.ShowTopicAuthor) {
+    return (
+      <p class="description">
+        Always show the topic author's username in the topic listing.
+      </p>
+    );
+  }
+
   if (feature === MiscellaneousFeature.TopicInfoIgnore) {
     return (
       <p class="description">

@@ -1,0 +1,8 @@
+.topic[data-trx-show-topic-author] .topic-info-source {
+  .topic-icon {
+    // Instead of adding a margin-right to the user link we add it to the topic
+    // favicon so when there are user labels the margin still spaces things out
+    // as intended.
+    margin-left: 0.2rem;
+  }
+}

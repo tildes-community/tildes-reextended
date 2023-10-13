@@ -24,6 +24,7 @@ import {
   runHideVotesFeature,
   runMarkdownToolbarFeature,
   runThemedLogoFeature,
+  runShowTopicAuthorFeature,
   runTopicInfoIgnore,
   runUnignoreAllButtonFeature,
   runUsernameColorsFeature,
@@ -180,6 +181,10 @@ async function initialize() {
       isLoggedIn
     ) {
       runHideOwnUsernameFeature();
+    }
+
+    if (miscEnabled.value.has(MiscellaneousFeature.ShowTopicAuthor)) {
+      runShowTopicAuthorFeature();
     }
 
     if (
