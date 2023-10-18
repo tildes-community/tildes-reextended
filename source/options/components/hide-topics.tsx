@@ -144,14 +144,21 @@ export class HideTopicsSetting extends Component<SettingProps, State> {
         ? "unsaved-changes"
         : "";
 
+      const disableValueInput = [HideTopicMatcher.VotedOnTopic].includes(
+        predicate.matcher,
+      );
+
       return (
         <div class={`has-save-status hide-topics-editor ${hasUnsavedChanges}`}>
           <select class="styled-select" onChange={matcherHandler}>
             {matcherOptions}
           </select>
           <input
+            disabled={disableValueInput}
             type="text"
-            placeholder="Value to match"
+            placeholder={
+              disableValueInput ? "No value needed" : "Value to match"
+            }
             value={predicate.value}
             onInput={valueHandler}
           />
@@ -213,6 +220,11 @@ export class HideTopicsSetting extends Component<SettingProps, State> {
               applied to the topic author. For example if you set a "Hide
               Topics" user labels matcher and then add a user label to someone
               with "Hide Topics" as the text, their topics will be hidden.
+            </li>
+
+            <li>
+              <b>Voted On Topic</b> will match any topic that you have voted on
+              and hide it. You do not have to put in a value for this matcher.
             </li>
           </ul>
         </details>

@@ -54,6 +54,10 @@
       border: 1px solid var(--save-status-color);
       color: var(--foreground);
       padding: 8px;
+
+      &[disabled] {
+        filter: grayscale(100%);
+      }
     }
 
     select {

@@ -11,6 +11,7 @@ import {
   pluralize,
   querySelector,
   querySelectorAll,
+  userIsLoggedIn,
 } from "../../utilities/exports.js";
 
 /**
@@ -58,6 +59,7 @@ function hideTopic(topic: HTMLElement) {
 export async function runHideTopicsFeature(
   userLabels: UserLabelsData,
 ): Promise<void> {
+  const isLoggedIn = userIsLoggedIn();
   const predicates = await fromStorage(Feature.HideTopics);
 
   // Select all topics not already handled by TRX.
@@ -70,6 +72,7 @@ export async function runHideTopicsFeature(
   const domainPredicates = [];
   const titlePredicates = [];
   const userPredicates = new Set();
+  let votedOnTopicEnabled = false;
 
   for (const predicate of predicates) {
     const {matcher, value} = predicate.value;
@@ -96,6 +99,11 @@ export async function runHideTopicsFeature(
           }
         }
 
+        break;
+      }
+
+      case Matcher.VotedOnTopic: {
+        votedOnTopicEnabled = true;
         break;
       }
 
@@ -136,6 +144,16 @@ export async function runHideTopicsFeature(
       topic.querySelector<HTMLAnchorElement>(".topic-title a")!.href,
     );
     if (domainPredicates.some((value) => url.hostname.includes(value))) {
+      hide(topic);
+      continue;
+    }
+
+    // Fourth check whether the topic has been voted on.
+    if (
+      isLoggedIn &&
+      votedOnTopicEnabled &&
+      topic.querySelector(".btn-used.topic-voting") !== null
+    ) {
       hide(topic);
       continue;
     }

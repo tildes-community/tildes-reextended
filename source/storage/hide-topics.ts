@@ -10,6 +10,7 @@ export enum HideTopicMatcher {
   TildesUsernameEquals = "tildes-username-equals",
   TitleIncludes = "title-includes",
   UserLabelEquals = "user-label-equals",
+  VotedOnTopic = "voted-on-topic",
 }
 
 /**
