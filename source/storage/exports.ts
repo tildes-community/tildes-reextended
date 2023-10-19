@@ -64,6 +64,13 @@ export const storageValues = {
     value: new Set([MiscellaneousFeature.CommentAnchorFix]),
     storage: browser.storage.sync,
   }),
+  [Data.OnSiteNewLabel]: createValue({
+    deserialize: (input) => JSON.parse(input) as boolean,
+    serialize: (input) => JSON.stringify(input),
+    key: Data.OnSiteNewLabel,
+    value: true,
+    storage: browser.storage.sync,
+  }),
   [Data.Version]: createValue({
     deserialize: (input) => JSON.parse(input) as string,
     serialize: (input) => JSON.stringify(input),

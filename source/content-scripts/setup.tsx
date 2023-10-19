@@ -156,9 +156,11 @@ async function initialize() {
   }
 
   if (enabledFeatures.value.has(Feature.UserLabels)) {
+    const onSiteNewLabelEnabled = await fromStorage(Data.OnSiteNewLabel);
     components.userLabels = (
       <UserLabelsFeature
         anonymizeUsernamesEnabled={anonymizeUsernamesEnabled}
+        onSiteNewLabelEnabled={onSiteNewLabelEnabled.value}
         userLabels={userLabels}
       />
     );

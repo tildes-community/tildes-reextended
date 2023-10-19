@@ -16,6 +16,7 @@ import {
 
 type Props = {
   anonymizeUsernamesEnabled: boolean;
+  onSiteNewLabelEnabled: boolean;
   userLabels: UserLabelsData;
 };
 
@@ -59,7 +60,7 @@ export class UserLabelsFeature extends Component<Props, State> {
   };
 
   addLabelsToUsernames = (elements: HTMLElement[], onlyID?: number): number => {
-    const {userLabels} = this.props;
+    const {onSiteNewLabelEnabled, userLabels} = this.props;
     const inTopicListing = document.querySelector(".topic-listing") !== null;
 
     // Sort the labels by priority or alphabetically, so 2 labels with the same
@@ -103,7 +104,7 @@ export class UserLabelsFeature extends Component<Props, State> {
           [+]
         </span>
       );
-      if (!inTopicListing && onlyID === undefined) {
+      if (onSiteNewLabelEnabled && !inTopicListing && onlyID === undefined) {
         const addLabelPlaceholder = document.createElement("span");
         element.after(addLabelPlaceholder);
         render(addLabel, element.parentElement!, addLabelPlaceholder);
@@ -111,6 +112,7 @@ export class UserLabelsFeature extends Component<Props, State> {
 
       if (userLabels.length === 0 && onlyID === undefined) {
         if (
+          onSiteNewLabelEnabled &&
           inTopicListing &&
           (element.nextElementSibling === null ||
             !element.nextElementSibling.className.includes("trx-user-label"))

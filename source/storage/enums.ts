@@ -36,6 +36,7 @@ export enum Data {
   KnownGroups = "known-groups",
   LatestActiveFeatureTab = "latest-active-feature-tab",
   MiscellaneousEnabledFeatures = "miscellaneous-enabled-features",
+  OnSiteNewLabel = "on-site-new-label",
   RandomizeUsernameColors = "randomize-username-colors",
   Version = "data-version",
 }
