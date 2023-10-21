@@ -48,6 +48,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2023-07-01"),
+    lastUpdated: new Date("2023-10-22"),
     index: 0,
     key: Feature.HideTopics,
     title: "Hide Topics",
@@ -76,7 +77,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2023-07-16"),
-    lastUpdated: new Date("2023-09-24"),
+    lastUpdated: new Date("2023-10-22"),
     index: 0,
     key: Feature.Miscellaneous,
     title: "Miscellaneous",
@@ -91,6 +92,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2019-11-10"),
+    lastUpdated: new Date("2023-10-22"),
     index: 0,
     key: Feature.UserLabels,
     title: "User Labels",
