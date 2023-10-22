@@ -13,7 +13,7 @@ export function createManifest(browser: string): Manifest.WebExtensionManifest {
     manifest_version: Number.NaN,
     name: "Tildes ReExtended",
     description: "The principal enhancement suite for Tildes.",
-    version: "2.3.0",
+    version: "2.4.0",
     permissions: ["downloads", "storage", "*://tildes.net/*"],
     options_ui: {
       page: "options/index.html",
