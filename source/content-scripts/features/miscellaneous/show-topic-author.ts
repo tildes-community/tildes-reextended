@@ -38,6 +38,11 @@ function showTopicAuthor(): number {
       continue;
     }
 
+    if (author.toLowerCase() === "tildes") {
+      // Skip the automatically posted topics from the Tildes system account.
+      continue;
+    }
+
     topicInfoSource.insertAdjacentElement(
       "afterbegin",
       createElementFromString(
