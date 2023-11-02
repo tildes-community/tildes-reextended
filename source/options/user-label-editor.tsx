@@ -58,15 +58,15 @@ class App extends Component<Props, State> {
     );
 
     const id = await newUserLabelId();
-    userLabels.push(
-      await createValueUserLabel({
-        color: "#ff00ff",
-        id,
-        priority: 0,
-        text: "New Label",
-        username: existingUserLabel?.value.username ?? newLabelUsername,
-      }),
-    );
+    const userLabel = await createValueUserLabel({
+      color: "#ff00ff",
+      id,
+      priority: 0,
+      text: "New Label",
+      username: existingUserLabel?.value.username ?? newLabelUsername,
+    });
+    await userLabel.save();
+    userLabels.push(userLabel);
     unsavedUserLabelIds.add(id);
     this.setState({unsavedUserLabelIds, userLabels});
   };
