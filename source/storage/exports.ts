@@ -13,6 +13,7 @@ import {collectUserLabels} from "./user-label.js";
 export * from "./anonymize-usernames.js";
 export * from "./enums.js";
 export * from "./hide-topics.js";
+export * from "./markdown-toolbar.js";
 export * from "./username-color.js";
 export * from "./user-label.js";
 
