@@ -21,7 +21,7 @@ export type MarkdownSnippet = {
   /** The name of the snippet to be shown in the toolbar. */
   name: string;
 
-  /** The position */
+  /** The position of the snippet in the toolbar. */
   position: number;
 };
 
@@ -179,9 +179,9 @@ export async function collectMarkdownSnippets(): Promise<
 }
 
 /**
- * Create a new user label ID by getting the current highest existing ID in
- * storage and adding 1 to it. Defaults to 1 when no there are no existing
- * labels.
+ * Create a new Markdown snippet ID by getting the current highest existing ID
+ * in storage and adding 1 to it. Defaults to 1 when no there are no existing
+ * snippets.
  */
 export async function newMarkdownSnippetId(): Promise<number> {
   const snippets = await collectMarkdownSnippets();
