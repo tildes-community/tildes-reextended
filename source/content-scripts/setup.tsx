@@ -9,6 +9,7 @@ import {
   Data,
   Feature,
   MiscellaneousFeature,
+  collectMarkdownSnippets,
   fromStorage,
 } from "../storage/exports.js";
 import {
@@ -106,8 +107,9 @@ async function initialize() {
   }
 
   if (enabledFeatures.value.has(Feature.MarkdownToolbar) && isLoggedIn) {
-    observerFeatures.push(() => {
-      runMarkdownToolbarFeature();
+    observerFeatures.push(async () => {
+      const snippets = await collectMarkdownSnippets();
+      runMarkdownToolbarFeature(snippets);
     });
   }
 
