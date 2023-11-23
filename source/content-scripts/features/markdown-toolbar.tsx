@@ -10,7 +10,9 @@ export function runMarkdownToolbarFeature(
   snippets: Array<Value<MarkdownSnippet>>,
 ) {
   const count = addToolbarsToTextareas(snippets);
-  log(`Markdown Toolbar: Initialized for ${count} textareas.`);
+  if (count > 0) {
+    log(`Markdown Toolbar: Initialized for ${count} textareas.`);
+  }
 }
 
 function addToolbarsToTextareas(
