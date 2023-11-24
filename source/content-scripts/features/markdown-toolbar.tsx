@@ -157,7 +157,12 @@ function insertSnippet(props: Required<Props>) {
     cursorIndex -= MarkdownSnippetMarker.SelectedCursor.length;
   }
 
+  if (cursorIndex === -1) {
+    cursorIndex = 0;
+  }
+
   let cursorPosition = cursorIndex;
+  const snippetLength = markdown.length;
 
   // If any text has been selected, include it.
   if (selectionStart !== selectionEnd) {
@@ -174,6 +179,12 @@ function insertSnippet(props: Required<Props>) {
     textarea.value.slice(0, selectionStart) +
     markdown +
     textarea.value.slice(selectionEnd);
+
+  if (cursorPosition === 0) {
+    // If no <cursor> marker was used in the snippet, then put the cursor at the
+    // end of the snippet.
+    cursorPosition = snippetLength;
+  }
 
   textarea.selectionEnd = selectionEnd + cursorPosition;
 }
