@@ -1,0 +1,177 @@
+@use "button";
+
+.markdown-toolbar-editor {
+  h2 {
+    margin-bottom: 4px;
+  }
+
+  .info {
+    border: 1px solid var(--blue);
+    margin-bottom: 4px;
+    padding: 8px;
+  }
+
+  .form-markdown {
+    border: 1px solid var(--blue);
+    margin-bottom: 4px;
+    padding: 8px;
+
+    header {
+      align-items: center;
+      display: flex;
+    }
+
+    select {
+      background-color: var(--background-primary);
+      border: 1px solid var(--foreground);
+      color: var(--foreground);
+      margin-left: 4px;
+      margin-right: auto;
+      padding: 8px;
+    }
+
+    textarea {
+      background-color: var(--background-primary);
+      border: 1px solid var(--foreground);
+      color: var(--foreground);
+      height: 12rem;
+      padding: 4px;
+      width: 100%;
+    }
+
+    .btn {
+      background-color: transparent;
+      border: none;
+      color: var(--blue);
+      padding: 8px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &[disabled] {
+        cursor: not-allowed;
+        filter: grayscale(100%);
+      }
+
+      &.active {
+        border-bottom: 3px solid var(--blue);
+      }
+    }
+
+    .tab.tab-markdown-mode {
+      align-items: center;
+      border-bottom: 1px solid var(--foreground);
+      display: inline-flex;
+      flex-wrap: wrap;
+      list-style: none;
+      margin-bottom: 4px;
+      margin-top: 4px;
+      padding: 0;
+
+      & + a {
+        margin-left: auto;
+      }
+    }
+  }
+
+  .snippets-title {
+    align-items: center;
+    display: flex;
+    margin-bottom: 8px;
+    margin-top: 8px;
+
+    h2 {
+      margin-right: auto;
+    }
+  }
+
+  .snippet-usage-guide {
+    code {
+      background-color: var(--background-primary);
+    }
+
+    p {
+      margin-bottom: 4px;
+    }
+
+    ul {
+      margin-left: 2rem;
+
+      &:not(:last-child) {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  .add-new-snippet,
+  .apply-and-reload-snippets {
+    @include button.button;
+  }
+
+  .add-new-snippet {
+    margin-right: 8px;
+  }
+
+  .snippet-editor {
+    --save-status-color: var(--blue);
+
+    border: 1px solid var(--save-status-color);
+    margin-top: 8px;
+    padding: 8px;
+
+    &.unsaved-changes {
+      --save-status-color: var(--yellow);
+    }
+
+    &.to-be-removed {
+      --save-status-color: var(--red);
+    }
+
+    input,
+    textarea {
+      background-color: var(--background-primary);
+      border: 1px solid var(--blue);
+      color: var(--foreground);
+      padding: 8px;
+    }
+
+    .top-controls {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 6rem auto max-content max-content;
+      margin-bottom: 8px;
+    }
+
+    .snippet-enabled,
+    .snippet-in-dropdown {
+      border: 1px solid var(--blue);
+      padding: 8px;
+    }
+
+    .snippet-markdown {
+      height: 12rem;
+      margin-bottom: 8px;
+      width: 100%;
+    }
+
+    .snippet-remove,
+    .snippet-save {
+      @include button.button;
+    }
+
+    .snippet-save {
+      --button-accent: var(--yellow);
+
+      margin-right: 8px;
+    }
+
+    .snippet-remove {
+      &.to-be-removed {
+        --button-color: var(--foreground);
+
+        color: var(--background-primary);
+      }
+    }
+  }
+}

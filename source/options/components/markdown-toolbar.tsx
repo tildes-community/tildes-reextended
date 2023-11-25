@@ -15,11 +15,12 @@ export function MarkdownToolbarSetting(props: SettingProps): JSX.Element {
         />
         /spoilerbox syntax. If you have text selected, the Markdown will be
         inserted around your text.
-        <br />A full list of the snippets is available{" "}
-        <Link
-          url="https://gitlab.com/tildes-community/tildes-reextended/-/issues/12"
-          text="on GitLab"
-        />
+        <br />
+        You can edit the available snippets and their position in the toolbar
+        using the{" "}
+        <a href="/options/markdown-toolbar-editor.html">
+          Markdown Toolbar Editor
+        </a>
         .
       </p>
     </Setting>

@@ -78,6 +78,7 @@ const options: esbuild.BuildOptions = {
   },
   entryPoints: [
     path.join(sourceDir, "background/setup.ts"),
+    path.join(sourceDir, "options/markdown-toolbar-editor.tsx"),
     path.join(sourceDir, "options/setup.tsx"),
     path.join(sourceDir, "options/user-label-editor.tsx"),
     path.join(sourceDir, "content-scripts/setup.tsx"),
