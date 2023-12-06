@@ -11,8 +11,8 @@ function addUnignoreAllButton(): boolean {
   // Only add the button when we're on the ignore list page and the ignore list
   // isn't empty.
   if (
-    window.location.pathname !== "/ignored_topics" &&
-    document.querySelector("main > .empty") === null
+    window.location.pathname !== "/ignored_topics" ||
+    document.querySelector("main > .empty") !== null
   ) {
     return false;
   }
