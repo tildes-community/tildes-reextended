@@ -153,9 +153,9 @@ class App extends Component<Props, State> {
                   toolbar.
                 </li>
                 <li>
-                  <b>Display in the "More..." dropdown</b>, with this enabled
-                  the snippet will be placed in the "More..." dropdown following
-                  the same sorting rules as normal.
+                  <b>Dropdown</b>, with this enabled the snippet will be placed
+                  in the "More..." dropdown following the same sorting rules as
+                  normal.
                 </li>
                 <li>
                   <b>Snippet (Markdown)</b>, the snippet text itself in
@@ -388,7 +388,7 @@ class SnippetEditor extends Component<SnippetEditorProps, SnippetEditorState> {
           </label>
 
           <label class="snippet-in-dropdown">
-            Display in the "More..." dropdown{" "}
+            Dropdown{" "}
             <input
               type="checkbox"
               checked={inDropdown}
