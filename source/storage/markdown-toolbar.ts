@@ -23,6 +23,9 @@ export type MarkdownSnippet = {
 
   /** The position of the snippet in the toolbar. */
   position: number;
+
+  /** The keyboard shortcut for this snippet. */
+  shortcut?: string;
 };
 
 /**

@@ -226,6 +226,7 @@ type SnippetEditorState = {
   markdown: MarkdownSnippet["markdown"];
   name: MarkdownSnippet["name"];
   position: MarkdownSnippet["position"];
+  shortcut: MarkdownSnippet["shortcut"];
   toBeRemoved: boolean;
 };
 
@@ -233,7 +234,8 @@ class SnippetEditor extends Component<SnippetEditorProps, SnippetEditorState> {
   constructor(props: SnippetEditorProps) {
     super(props);
 
-    const {enabled, inDropdown, markdown, name, position} = props.snippet.value;
+    const {enabled, inDropdown, markdown, name, position, shortcut} =
+      props.snippet.value;
 
     this.state = {
       enabled,
@@ -242,6 +244,7 @@ class SnippetEditor extends Component<SnippetEditorProps, SnippetEditorState> {
       markdown,
       name,
       position,
+      shortcut,
       toBeRemoved: false,
     };
   }
@@ -277,14 +280,22 @@ class SnippetEditor extends Component<SnippetEditorProps, SnippetEditorState> {
 
   save = async () => {
     let {snippet} = this.props;
-    const {enabled, inDropdown, markdown, name, position, toBeRemoved} =
-      this.state;
+    const {
+      enabled,
+      inDropdown,
+      markdown,
+      name,
+      position,
+      shortcut,
+      toBeRemoved,
+    } = this.state;
 
     snippet.value.enabled = enabled;
     snippet.value.inDropdown = inDropdown;
     snippet.value.markdown = markdown;
     snippet.value.name = name;
     snippet.value.position = position;
+    snippet.value.shortcut = shortcut;
 
     const isBuiltin = snippet.value.id < 0;
     if (isBuiltin || toBeRemoved) {
@@ -327,6 +338,7 @@ class SnippetEditor extends Component<SnippetEditorProps, SnippetEditorState> {
       markdown,
       name,
       position,
+      shortcut,
       toBeRemoved,
     } = this.state;
 
@@ -373,6 +385,17 @@ class SnippetEditor extends Component<SnippetEditorProps, SnippetEditorState> {
             value={name}
             onInput={(event) => {
               onEdit(event, "name");
+            }}
+          />
+
+          <input
+            class="snippet-shortcut"
+            placeholder="Shortcut"
+            title="Shortcut"
+            type="text"
+            value={shortcut}
+            onInput={(event) => {
+              onEdit(event, "shortcut");
             }}
           />
 
