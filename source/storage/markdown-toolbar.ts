@@ -217,3 +217,42 @@ export function sortSnippets(
     return position;
   });
 }
+
+/** A processed {@linkcode MarkdownSnippet} shortcut string. */
+export type ProcessedSnippetShortcut = {
+  /** Whether the ALT key is required for this shortcut. */
+  alt: boolean;
+
+  /** Whether the CTRL key is required for this shortcut. */
+  ctrl: boolean;
+
+  /** Whether the SHIFT key is required for this shortcut. */
+  shift: boolean;
+
+  /** The main key to trigger the shortcut. */
+  key: string;
+};
+
+/**
+ * Process a {@linkcode MarkdownSnippet} shortcut string.
+ *
+ * The expected structure of a shortcut string is modifier keys in any order
+ * separated by a `+` and the main key on the end. For example `ALT+CTRL+B` is
+ * valid but `ALT+B+CTRL` is not. The casing of the letters is not relevant.
+ *
+ * This function performs no validation on the string and simply returns any
+ * input as-is. In the `ALT+B+CTRL` example, `CTRL` is what would be returned as
+ * the main key.
+ */
+export function processSnippetShortcut(
+  shortcut: string,
+): ProcessedSnippetShortcut {
+  const components = shortcut.toLowerCase().split("+");
+
+  return {
+    alt: components.includes("alt"),
+    ctrl: components.includes("ctrl"),
+    shift: components.includes("shift"),
+    key: components[components.length - 1].toLowerCase(),
+  } satisfies ProcessedSnippetShortcut;
+}
