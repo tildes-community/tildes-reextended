@@ -125,7 +125,7 @@ function SnippetDropdown(props: Props) {
   );
 }
 
-function insertSnippet(props: Required<Props>) {
+function insertSnippet(props: Omit<Required<Props>, "allSnippets">) {
   const {textarea, snippet} = props;
   const {selectionStart, selectionEnd} = textarea;
 
