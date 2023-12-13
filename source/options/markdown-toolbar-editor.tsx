@@ -149,6 +149,15 @@ class App extends Component<Props, State> {
                   toolbar.
                 </li>
                 <li>
+                  <b>Shortcut</b>, an optional keyboard shortcut that will
+                  insert the snippet when the combination of keys is pressed. A
+                  shortcut is defined as a list of optional modifier keys and a
+                  single final main key separated by plus signs, for example{" "}
+                  <code>CTRL+ALT+S</code>. The available modifier keys are ALT,{" "}
+                  CTRL and SHIFT. The modifier keys can be in any order however
+                  the final key must come at the end.
+                </li>
+                <li>
                   <b>Enable</b>, whether the snippet should be added to the
                   toolbar.
                 </li>
