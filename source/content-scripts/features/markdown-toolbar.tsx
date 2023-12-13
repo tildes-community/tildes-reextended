@@ -3,14 +3,47 @@ import {render} from "preact";
 import {log, querySelectorAll} from "../../utilities/exports.js";
 import {
   type MarkdownSnippet,
+  type ProcessedSnippetShortcut,
   MarkdownSnippetMarker,
+  processSnippetShortcut,
 } from "../../storage/exports.js";
+
+/** Type shorthand for a snippet with its processed shortcut. */
+type ProcessedSnippetTuple = [Value<MarkdownSnippet>, ProcessedSnippetShortcut];
 
 export function runMarkdownToolbarFeature(
   snippets: Array<Value<MarkdownSnippet>>,
 ) {
   const count = addToolbarsToTextareas(snippets);
   if (count > 0) {
+    // Process all the snippet shortcuts outside of the keydown handler so we
+    // don't have to process them on every keydown event.
+    const snippetsWithProcessedShortcuts: ProcessedSnippetTuple[] = snippets
+      // Exclude snippets that don't have shortcuts defined.
+      .filter((snippet) => snippet.value.shortcut !== undefined)
+      // Map the result as a tuple of the snippet and the processed shortcut.
+      .map(
+        (snippet) =>
+          [
+            snippet,
+            processSnippetShortcut(snippet.value.shortcut!),
+          ] satisfies ProcessedSnippetTuple,
+      );
+
+    // Only add the keydown listener if it hasn't already been added and if
+    // there are any snippets with shortcuts to listen for.
+    if (
+      !document.body.dataset.trxMarkdownToolbarKeydownListening &&
+      snippetsWithProcessedShortcuts.length > 0
+    ) {
+      document.addEventListener("keydown", async (event: KeyboardEvent) => {
+        await keyDownHandler(event, snippetsWithProcessedShortcuts);
+      });
+
+      document.body.dataset.trxMarkdownToolbarKeydownListening = "true";
+      log("Markdown Toolbar: Listening for keyboard shortcuts.");
+    }
+
     log(`Markdown Toolbar: Initialized for ${count} textareas.`);
   }
 }
@@ -187,4 +220,49 @@ function insertSnippet(props: Omit<Required<Props>, "allSnippets">) {
   }
 
   textarea.selectionEnd = selectionEnd + cursorPosition;
+}
+
+/**
+ * The global handler for the `keydown` event.
+ *
+ * Keydown is chosen over keypress or keyup because it can be used to prevent
+ * the browser's keyboard shortcuts using `event.preventDefault()`.
+ */
+async function keyDownHandler(
+  event: KeyboardEvent,
+  snippets: ProcessedSnippetTuple[],
+): Promise<void> {
+  const textarea = event.target;
+
+  // Markdown toolbars are only ever added for `<textarea>` elements, if the
+  // user is typing in a different input field we don't want to check for
+  // anything.
+  if (!(textarea instanceof HTMLTextAreaElement)) {
+    return;
+  }
+
+  const [key, alt, ctrl, shift] = [
+    event.key.toLowerCase(),
+    event.altKey,
+    event.ctrlKey,
+    event.shiftKey,
+  ];
+
+  for (const [snippet, shortcut] of snippets) {
+    if (
+      shortcut.key === key &&
+      shortcut.alt === alt &&
+      shortcut.ctrl === ctrl &&
+      shortcut.shift === shift
+    ) {
+      // Prevent browser keyboard shortcuts like `CTRL+S` from triggering.
+      event.preventDefault();
+
+      insertSnippet({
+        snippet,
+        textarea,
+      });
+      break;
+    }
+  }
 }
