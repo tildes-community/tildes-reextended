@@ -65,9 +65,10 @@ export class AutocompleteFeature extends Component<Props, State> {
   }
 
   globalInputHandler = (event: CompositionEvent | KeyboardEvent) => {
-    const activeElement = document.activeElement as HTMLElement;
+    const textarea = event.target;
+
     // Only add the autocompletes to textareas.
-    if (activeElement.tagName !== "TEXTAREA") {
+    if (!(textarea instanceof HTMLTextAreaElement)) {
       return;
     }
 
@@ -80,13 +81,17 @@ export class AutocompleteFeature extends Component<Props, State> {
       const dataAttribute = `data-trx-autocomplete-${target}`;
 
       const key = event instanceof KeyboardEvent ? event.key : event.data;
-      if (key === prefix && !activeElement.getAttribute(dataAttribute)) {
-        activeElement.setAttribute(dataAttribute, "true");
-        activeElement.addEventListener("keyup", (event) => {
-          this.textareaInputHandler(event, prefix, target, values);
+      if (key === prefix && !textarea.getAttribute(dataAttribute)) {
+        textarea.setAttribute(dataAttribute, "true");
+        textarea.addEventListener("keyup", (event) => {
+          if (!(event.target instanceof HTMLTextAreaElement)) {
+            return;
+          }
+
+          this.textareaInputHandler(event.target, prefix, target, values);
         });
 
-        this.textareaInputHandler(event, prefix, target, values);
+        this.textareaInputHandler(textarea, prefix, target, values);
       }
     };
 
@@ -95,12 +100,11 @@ export class AutocompleteFeature extends Component<Props, State> {
   };
 
   textareaInputHandler = (
-    event: CompositionEvent | KeyboardEvent,
+    textarea: HTMLTextAreaElement,
     prefix: string,
     target: string,
     values: Set<string>,
   ) => {
-    const textarea = event.target as HTMLTextAreaElement;
     const text = textarea.value;
 
     // If the prefix isn't in the textarea, return early.
@@ -129,7 +133,9 @@ export class AutocompleteFeature extends Component<Props, State> {
 
     // Find all the values that match the input using `includes`.
     const matches = new Set<string>(
-      [...values].filter((value) => value.includes(input.toLowerCase())),
+      [...values].filter((value) =>
+        value.toLowerCase().includes(input.toLowerCase()),
+      ),
     );
 
     // If there are no matches, return early.
