@@ -4,19 +4,45 @@ import {type UserLabelsData} from "../../storage/exports.js";
 import {log, querySelectorAll} from "../../utilities/exports.js";
 
 type Props = {
+  /**
+   * Whether the Anonymize Usernames feature is enabled, in which case this
+   * feature needs to handle collecting usernames a little differently.
+   */
   anonymizeUsernamesEnabled: boolean;
+
+  /** The list of known groups to use for the group autocompletions. */
   knownGroups: Set<string>;
+
+  /**
+   * All the User Labels the user has saved to use for additional username
+   * completions.
+   */
   userLabels: UserLabelsData;
 };
 
 type State = {
+  /** All the groups without leading tildes. */
   groups: Set<string>;
+
+  /** Whether the group autocompletion list is hidden or not. */
   groupsHidden: boolean;
+
+  /** The current set of group matches. */
   groupsMatches: Set<string>;
+
+  /** The position where the group autocompletion list should be shown. */
   groupsPosition: Offset | undefined;
+
+  /** All the usernames without leading @-symbols. */
   usernames: Set<string>;
+
+  /** Whether the username autocompletion list is hidden or not. */
   usernamesHidden: boolean;
+
+  /** The current set of username matches. */
   usernamesMatches: Set<string>;
+
+  /** The position where the username autocompletion list should be shown. */
   usernamesPosition: Offset | undefined;
 };
 
@@ -29,17 +55,16 @@ export class AutocompleteFeature extends Component<Props, State> {
       value.startsWith("~") ? value.slice(1) : value,
     );
 
-    // Get all the usernames on the page without their leading @s, and get
-    // all the usernames from the saved user labels.
-    const usernameElements = querySelectorAll<HTMLElement>(".link-user");
     const usernames = [
-      ...usernameElements.map((value) => {
+      // Get all the usernames on the page without their leading @-symbols.
+      ...querySelectorAll<HTMLElement>(".link-user").map((value) => {
         if (props.anonymizeUsernamesEnabled) {
           return (value.dataset.trxUsername ?? "<unknown>").toLowerCase();
         }
 
         return value.textContent!.replace(/^@/, "").toLowerCase();
       }),
+      // Get all the usernames from the saved User Labels.
       ...props.userLabels.map(({value}) => value.username),
     ].sort((a, b) => a.localeCompare(b));
 
@@ -54,7 +79,6 @@ export class AutocompleteFeature extends Component<Props, State> {
       usernamesPosition: undefined,
     };
 
-    // Add a keydown listener for the entire page.
     document.addEventListener("keydown", this.globalInputHandler);
     document.addEventListener("compositionupdate", this.globalInputHandler);
 
@@ -64,6 +88,12 @@ export class AutocompleteFeature extends Component<Props, State> {
     );
   }
 
+  /**
+   * The global input handler for `keydown` and `compositionupdate` events.
+   *
+   * See https://gitlab.com/tildes-community/tildes-reextended/-/issues/31 for
+   * why we also need to listen for `compositionupdate`.
+   */
   globalInputHandler = (event: CompositionEvent | KeyboardEvent) => {
     const textarea = event.target;
 
@@ -80,7 +110,9 @@ export class AutocompleteFeature extends Component<Props, State> {
     ) => {
       const dataAttribute = `data-trx-autocomplete-${target}`;
 
+      // Get the key that was pressed.
       const key = event instanceof KeyboardEvent ? event.key : event.data;
+
       if (key === prefix && !textarea.getAttribute(dataAttribute)) {
         textarea.setAttribute(dataAttribute, "true");
         textarea.addEventListener("keyup", (event) => {
@@ -99,6 +131,7 @@ export class AutocompleteFeature extends Component<Props, State> {
     createHandler("@", "usernames", this.state.usernames);
   };
 
+  /** The input handler for any `<textarea>` elements. */
   textareaInputHandler = (
     textarea: HTMLTextAreaElement,
     prefix: string,
@@ -124,14 +157,15 @@ export class AutocompleteFeature extends Component<Props, State> {
     // what the user is currently typing.
     const input = text.slice(prefixIndex + prefix.length, position);
 
-    // If there is any whitespace in the input or there is no input at all,
-    // return early. Usernames cannot have whitespace in them.
-    if (/\s/.test(input) || input === "") {
+    // If there is any whitespace in the input, return early. Usernames and
+    // groups cannot have whitespace in them which means that the user has
+    // finished typing what the autocomplete should handle.
+    if (/\s/.test(input)) {
       this.hide(target);
       return;
     }
 
-    // Find all the values that match the input using `includes`.
+    // Find any values that match using case-insensitive includes.
     const matches = new Set<string>(
       [...values].filter((value) =>
         value.toLowerCase().includes(input.toLowerCase()),
@@ -150,6 +184,7 @@ export class AutocompleteFeature extends Component<Props, State> {
     this.update(target, matches);
   };
 
+  /** Update the available matches. */
   update = (target: string, matches: Set<string>) => {
     if (target === "groups") {
       this.setState({
@@ -162,6 +197,7 @@ export class AutocompleteFeature extends Component<Props, State> {
     }
   };
 
+  /** Show the autocomplete list in the given position. */
   show = (target: string, position: Offset) => {
     if (target === "groups") {
       this.setState({
@@ -176,6 +212,7 @@ export class AutocompleteFeature extends Component<Props, State> {
     }
   };
 
+  /** Hide the autocomplete list. */
   hide = (target: string) => {
     if (target === "groups") {
       this.setState({groupsHidden: true});
@@ -185,7 +222,7 @@ export class AutocompleteFeature extends Component<Props, State> {
   };
 
   render() {
-    // Create the list of groups and usernames.
+    // Create the `<li>` elements for groups and usernames.
     const groups = [...this.state.groupsMatches].map((value) => (
       <li>~{value}</li>
     ));
@@ -193,11 +230,11 @@ export class AutocompleteFeature extends Component<Props, State> {
       <li>@{value}</li>
     ));
 
-    // Create the CSS class whether or not to hide the autocomplete.
+    // Figure out which lists are hidden.
     const groupsHidden = this.state.groupsHidden ? "trx-hidden" : "";
     const usernamesHidden = this.state.usernamesHidden ? "trx-hidden" : "";
 
-    // Create the position for the group and usernames autocomplete.
+    // Calculate the position for the `<ul>` elements.
     const groupsLeft = this.state.groupsPosition?.left ?? 0;
     const groupsTop =
       (this.state.groupsPosition?.top ?? 0) +
