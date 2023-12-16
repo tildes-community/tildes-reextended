@@ -1,8 +1,9 @@
 import {log, querySelector} from "../../utilities/exports.js";
 
 export function runThemedLogoFeature() {
-  themedLogo();
-  log("Themed Logo: Initialized.");
+  if (themedLogo()) {
+    log("Themed Logo: Initialized.");
+  }
 }
 
 const tildesLogo = `
@@ -19,7 +20,12 @@ const tildesLogo = `
 </svg>
 `;
 
-function themedLogo() {
+function themedLogo(): boolean {
+  const siteHeader = querySelector<HTMLElement>(".site-header-logo");
+  if (siteHeader.dataset.trxThemedLogo === "true") {
+    return false;
+  }
+
   let themedLogo = tildesLogo;
   for (const customProperty of tildesLogo.match(/var\(--.+\)/g) ?? []) {
     let color = window
@@ -33,6 +39,7 @@ function themedLogo() {
   }
 
   const encodedSvg = encodeURIComponent(themedLogo);
-  const siteHeader = querySelector<HTMLElement>(".site-header-logo");
+  siteHeader.dataset.trxThemedLogo = "true";
   siteHeader.style.backgroundImage = `url("data:image/svg+xml,${encodedSvg}")`;
+  return true;
 }
