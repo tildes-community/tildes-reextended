@@ -33,6 +33,12 @@ type State = {
   /** The position where the group autocompletion list should be shown. */
   groupsPosition: Offset | undefined;
 
+  /** The currently highlighted match index of the active list. */
+  highlightedIndex: number;
+
+  /** Whether the user is currently typing in an autocomplete section. */
+  typingInAutocomplete: boolean;
+
   /** All the usernames without leading @-symbols. */
   usernames: Set<string>;
 
@@ -44,6 +50,27 @@ type State = {
 
   /** The position where the username autocompletion list should be shown. */
   usernamesPosition: Offset | undefined;
+};
+
+/** All the properties we need to handle `<textarea>` input. */
+type TextareaInputProps = {
+  /** Which key is being pressed. */
+  key: string;
+
+  /** The prefix for the autocomplete to detect. */
+  prefix: "~" | "@";
+
+  /** Whether SHIFT is being pressed. */
+  shift: boolean;
+
+  /** The list of values we are targetting. */
+  target: "groups" | "usernames";
+
+  /** The `<textarea>` element. */
+  textarea: HTMLTextAreaElement;
+
+  /** The current set of values to match against. */
+  values: Set<string>;
 };
 
 export class AutocompleteFeature extends Component<Props, State> {
@@ -73,6 +100,8 @@ export class AutocompleteFeature extends Component<Props, State> {
       groupsHidden: true,
       groupsMatches: new Set(groups),
       groupsPosition: undefined,
+      highlightedIndex: 0,
+      typingInAutocomplete: false,
       usernames: new Set(usernames),
       usernamesHidden: true,
       usernamesMatches: new Set(usernames),
@@ -102,42 +131,63 @@ export class AutocompleteFeature extends Component<Props, State> {
       return;
     }
 
+    // Get the key that was pressed.
+    const [key, shift] =
+      event instanceof KeyboardEvent
+        ? [event.key, event.shiftKey]
+        : [event.data, false];
+
+    if (this.state.typingInAutocomplete && ["Enter", "Tab"].includes(key)) {
+      // If the user is typing with an autocomplete list active then prevent
+      // certain keys from taking effect, like Tab moving the focus away.
+      event.preventDefault();
+    }
+
     // Helper function to create autocompletes with.
     const createHandler = (
-      prefix: string,
-      target: string,
-      values: Set<string>,
+      prefix: TextareaInputProps["prefix"],
+      target: TextareaInputProps["target"],
+      values: TextareaInputProps["values"],
     ) => {
       const dataAttribute = `data-trx-autocomplete-${target}`;
 
-      // Get the key that was pressed.
-      const key = event instanceof KeyboardEvent ? event.key : event.data;
-
       if (key === prefix && !textarea.getAttribute(dataAttribute)) {
         textarea.setAttribute(dataAttribute, "true");
-        textarea.addEventListener("keyup", (event) => {
-          if (!(event.target instanceof HTMLTextAreaElement)) {
-            return;
-          }
-
-          this.textareaInputHandler(event.target, prefix, target, values);
+        textarea.addEventListener("keyup", (innerEvent) => {
+          this.textareaInputHandler({
+            key: innerEvent.key,
+            prefix,
+            shift: innerEvent.shiftKey,
+            target,
+            textarea,
+            values,
+          });
         });
 
-        this.textareaInputHandler(textarea, prefix, target, values);
+        this.textareaInputHandler({
+          key,
+          prefix,
+          shift,
+          target,
+          textarea,
+          values,
+        });
       }
     };
 
     createHandler("~", "groups", this.state.groups);
     createHandler("@", "usernames", this.state.usernames);
+
+    if (["~", "@"].includes(key)) {
+      // When an autocomplete is first started manually set that we're typing
+      // in it.
+      this.setState({typingInAutocomplete: true});
+    }
   };
 
   /** The input handler for any `<textarea>` elements. */
-  textareaInputHandler = (
-    textarea: HTMLTextAreaElement,
-    prefix: string,
-    target: string,
-    values: Set<string>,
-  ) => {
+  textareaInputHandler = (props: TextareaInputProps) => {
+    const {key, prefix, shift, target, textarea, values} = props;
     const text = textarea.value;
 
     // If the prefix isn't in the textarea, return early.
@@ -161,7 +211,13 @@ export class AutocompleteFeature extends Component<Props, State> {
     // groups cannot have whitespace in them which means that the user has
     // finished typing what the autocomplete should handle.
     if (/\s/.test(input)) {
-      this.hide(target);
+      if (key === " " || key === "Backspace") {
+        // If Space or Backspace were pressed and there was nothing between the
+        // prefix and current cursor position then it means we don't want to
+        // continue showing the autocomplete list.
+        this.hide(target);
+      }
+
       return;
     }
 
@@ -178,14 +234,63 @@ export class AutocompleteFeature extends Component<Props, State> {
       return;
     }
 
-    // Otherwise make sure the list is shown in the correct place and also
-    // has all the new matches.
-    this.show(target, offset(textarea));
-    this.update(target, matches);
+    let {highlightedIndex} = this.state;
+    if (key === "Enter") {
+      // Grab the highlighted match.
+      const highlightedMatch = Array.from(matches)[highlightedIndex];
+      if (highlightedMatch === undefined) {
+        log(
+          `Autocomplete: Attempted to enter undefined match with index ${highlightedIndex}`,
+          true,
+        );
+        return;
+      }
+
+      // Then insert it into the textarea.
+      textarea.value =
+        // First grab the existing text up to and including the current prefix.
+        text.slice(0, prefixIndex + prefix.length) +
+        // Then add the highlighted match.
+        highlightedMatch +
+        // And finally add the existing text where the cursor was positioned.
+        text.slice(position);
+      this.hide(target);
+      highlightedIndex = 0;
+
+      // Set the cursor position to the end of the autocompleted match.
+      const newPosition = prefixIndex + prefix.length + highlightedMatch.length;
+      textarea.selectionStart = newPosition;
+      textarea.selectionEnd = newPosition;
+    } else if (key === "Tab") {
+      if (shift) {
+        // If shift is being pressed move the highlight back up.
+        highlightedIndex -= 1;
+      } else {
+        // Otherwise with just tab being pressed move it down.
+        highlightedIndex += 1;
+      }
+    } else {
+      // When any other key is pressed make sure the list is shown in the
+      // correct place and also has all the new matches.
+      this.show(target, offset(textarea));
+      this.update(target, matches);
+    }
+
+    // Make sure the highlighted index is never set out of bounds.
+    if (highlightedIndex < 0) {
+      highlightedIndex = matches.size - 1;
+    } else if (highlightedIndex >= matches.size) {
+      highlightedIndex = 0;
+    }
+
+    this.setState({highlightedIndex});
   };
 
   /** Update the available matches. */
-  update = (target: string, matches: Set<string>) => {
+  update = (
+    target: TextareaInputProps["target"],
+    matches: TextareaInputProps["values"],
+  ) => {
     if (target === "groups") {
       this.setState({
         groupsMatches: matches,
@@ -198,36 +303,46 @@ export class AutocompleteFeature extends Component<Props, State> {
   };
 
   /** Show the autocomplete list in the given position. */
-  show = (target: string, position: Offset) => {
+  show = (target: TextareaInputProps["target"], position: Offset) => {
     if (target === "groups") {
       this.setState({
         groupsHidden: false,
         groupsPosition: position,
+        typingInAutocomplete: true,
       });
     } else if (target === "usernames") {
       this.setState({
         usernamesHidden: false,
         usernamesPosition: position,
+        typingInAutocomplete: true,
       });
     }
   };
 
   /** Hide the autocomplete list. */
-  hide = (target: string) => {
+  hide = (target: TextareaInputProps["target"]) => {
     if (target === "groups") {
-      this.setState({groupsHidden: true});
+      this.setState({
+        groupsHidden: true,
+        typingInAutocomplete: false,
+      });
     } else if (target === "usernames") {
-      this.setState({usernamesHidden: true});
+      this.setState({
+        usernamesHidden: true,
+        typingInAutocomplete: false,
+      });
     }
   };
 
   render() {
+    const {groupsMatches, highlightedIndex, usernamesMatches} = this.state;
+
     // Create the `<li>` elements for groups and usernames.
-    const groups = [...this.state.groupsMatches].map((value) => (
-      <li>~{value}</li>
+    const groups = [...groupsMatches].map((value, index) => (
+      <li class={highlightedIndex === index ? "highlighted" : ""}>~{value}</li>
     ));
-    const usernames = [...this.state.usernamesMatches].map((value) => (
-      <li>@{value}</li>
+    const usernames = [...usernamesMatches].map((value, index) => (
+      <li class={highlightedIndex === index ? "highlighted" : ""}>@{value}</li>
     ));
 
     // Figure out which lists are hidden.
