@@ -39,5 +39,7 @@ export enum Data {
   MiscellaneousEnabledFeatures = "miscellaneous-enabled-features",
   OnSiteNewLabel = "on-site-new-label",
   RandomizeUsernameColors = "randomize-username-colors",
+  ThemesList = "themes-list",
+  ThemesListUpdatedDate = "themes-list-updated-date",
   Version = "data-version",
 }

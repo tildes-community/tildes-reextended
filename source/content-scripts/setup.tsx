@@ -1,6 +1,7 @@
 import {type JSX, render} from "preact";
 import {
   extractGroups,
+  extractThemes,
   initializeGlobals,
   log,
   userIsLoggedIn,
@@ -43,6 +44,13 @@ async function initialize() {
   // them without having to change the hardcoded values.
   const usesKnownGroups = new Set<Feature>([Feature.Autocomplete]);
   const knownGroups = await fromStorage(Data.KnownGroups);
+
+  // Similarly to the known groups, any features that use the list of themes
+  // should be added here.
+  const usesThemesList = new Set<Feature>([]);
+  const themesList = await fromStorage(Data.ThemesList);
+  const themesListUpdatedDate = await fromStorage(Data.ThemesListUpdatedDate);
+
   const userLabels = await fromStorage(Feature.UserLabels);
 
   const isLoggedIn = userIsLoggedIn();
@@ -61,6 +69,24 @@ async function initialize() {
     if (extractedGroups !== undefined) {
       knownGroups.value = new Set(extractedGroups);
       await knownGroups.save();
+    }
+  }
+
+  // Only update the list of themes when it has been more than 24 hours since we
+  // last updated and any of the features that use it are enabled.
+  if (
+    Date.now() - themesListUpdatedDate.value.getTime() > 24 * 60 * 60 * 1000 &&
+    Array.from(usesThemesList).some((feature) =>
+      enabledFeatures.value.has(feature),
+    )
+  ) {
+    const themes = extractThemes();
+    if (themes !== undefined) {
+      themesList.value = themes;
+      await themesList.save();
+      themesListUpdatedDate.value = new Date();
+      await themesListUpdatedDate.save();
+      log("Updated locally saved themes list.");
     }
   }
 
