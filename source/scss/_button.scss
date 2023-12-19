@@ -1,5 +1,5 @@
 @mixin button {
-  --button-color: var(--blue);
+  --button-color: var(--save-status-color, var(--blue));
   --button-color-alt: var(--dark-blue);
 
   background-color: var(--button-color);

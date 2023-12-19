@@ -12,6 +12,7 @@ export enum Feature {
   MarkdownToolbar = "markdown-toolbar",
   Miscellaneous = "miscellaneous-features",
   ThemedLogo = "themed-logo",
+  ThemeSwitcher = "theme-switcher",
   UserLabels = "user-labels",
   UsernameColors = "username-colors",
 }

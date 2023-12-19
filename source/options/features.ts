@@ -9,6 +9,7 @@ import {
   JumpToNewCommentSetting,
   MarkdownToolbarSetting,
   MiscellaneousSetting,
+  ThemeSwitcherSetting,
   ThemedLogoSetting,
   UserLabelsSetting,
   UsernameColorsSetting,
@@ -82,6 +83,13 @@ export const features: FeatureData[] = [
     key: Feature.Miscellaneous,
     title: "Miscellaneous",
     component: MiscellaneousSetting,
+  },
+  {
+    availableSince: new Date("2023-12-24"),
+    index: 0,
+    key: Feature.ThemeSwitcher,
+    title: "Theme Switcher",
+    component: ThemeSwitcherSetting,
   },
   {
     availableSince: new Date("2022-02-27"),

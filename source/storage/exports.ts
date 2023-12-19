@@ -28,6 +28,23 @@ export type HideVotesData = {
 };
 
 /**
+ * The data stored for the Theme Switcher feature.
+ */
+export type ThemeSwitcherData = {
+  /** The hour to switch to theme A. */
+  hourA: string;
+
+  /** The hour to switch to theme B. */
+  hourB: string;
+
+  /** The value of the theme from the theme selector for the first theme. */
+  themeA: string;
+
+  /** The value of the theme from the theme selector for the second theme. */
+  themeB: string;
+};
+
+/**
  * All storage {@link Value}s stored in WebExtension storage.
  */
 export const storageValues = {
@@ -131,6 +148,18 @@ export const storageValues = {
       otherTopics: false,
       ownComments: true,
       ownTopics: true,
+    },
+    storage: browser.storage.sync,
+  }),
+  [Feature.ThemeSwitcher]: createValue<ThemeSwitcherData>({
+    deserialize: (input) => JSON.parse(input) as ThemeSwitcherData,
+    serialize: (input) => JSON.stringify(input),
+    key: Feature.ThemeSwitcher,
+    value: {
+      hourA: "09:00",
+      hourB: "21:00",
+      themeA: "white",
+      themeB: "black",
     },
     storage: browser.storage.sync,
   }),

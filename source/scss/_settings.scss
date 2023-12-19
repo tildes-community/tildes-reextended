@@ -157,10 +157,15 @@
     }
   }
 
+  .styled-text-input,
   .styled-select {
     background-color: var(--background-primary);
     border: 1px solid var(--save-status-color, var(--blue));
     color: var(--foreground);
     padding: 8px;
+  }
+
+  .margin-bottom-8 {
+    margin-bottom: 8px;
   }
 }
