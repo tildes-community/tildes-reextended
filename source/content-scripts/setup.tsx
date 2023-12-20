@@ -48,7 +48,7 @@ async function initialize() {
 
   // Similarly to the known groups, any features that use the list of themes
   // should be added here.
-  const usesThemesList = new Set<Feature>([]);
+  const usesThemesList = new Set<Feature>([Feature.ThemeSwitcher]);
   const themesList = await fromStorage(Data.ThemesList);
   const themesListUpdatedDate = await fromStorage(Data.ThemesListUpdatedDate);
 
