@@ -30,6 +30,7 @@ import {
   runTopicInfoIgnore,
   runUnignoreAllButtonFeature,
   runUsernameColorsFeature,
+  runThemeSwitcherFeature,
 } from "./features/exports.js";
 
 async function initialize() {
@@ -137,6 +138,10 @@ async function initialize() {
       const snippets = await collectMarkdownSnippets();
       runMarkdownToolbarFeature(snippets);
     });
+  }
+
+  if (enabledFeatures.value.has(Feature.ThemeSwitcher)) {
+    await runThemeSwitcherFeature();
   }
 
   if (enabledFeatures.value.has(Feature.ThemedLogo)) {

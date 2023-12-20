@@ -11,6 +11,7 @@ export * from "./miscellaneous/hide-own-username.js";
 export * from "./miscellaneous/show-topic-author.js";
 export * from "./miscellaneous/topic-info-ignore.js";
 export * from "./miscellaneous/unignore-all-button.js";
+export * from "./theme-switcher.js";
 export * from "./themed-logo.js";
 export * from "./user-labels.js";
 export * from "./username-colors.js";

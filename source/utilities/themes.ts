@@ -17,3 +17,19 @@ export function extractThemes(): Array<[string, string]> | undefined {
     (theme.textContent ?? "<unknown>").trim(),
   ]);
 }
+
+/**
+ * Set the theme class on the `<body>` element and remove any other existing
+ * theme classes.
+ */
+export function setBodyThemeClass(theme: string): void {
+  for (const value of Array.from(document.body.classList)) {
+    if (!value.startsWith("theme-")) {
+      continue;
+    }
+
+    document.body.classList.remove(value);
+  }
+
+  document.body.classList.add(`theme-${theme}`);
+}
