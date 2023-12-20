@@ -71,6 +71,8 @@ export class ThemeSwitcherSetting extends Component<SettingProps, State> {
       <Setting {...this.props}>
         <p class="info">
           Automatically switch between two themes at certain times of the day.
+          <br />
+          The expected format for times is <code>HH:MM</code>.
         </p>
 
         <button
