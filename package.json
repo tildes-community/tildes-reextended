@@ -6,6 +6,7 @@
     "@holllo/webextension-storage": "^0.2.0",
     "caret-pos": "^2.0.0",
     "debounce": "^1.2.1",
+    "fast-diff": "^1.3.0",
     "modern-normalize": "^2.0.0",
     "platform": "^1.3.6",
     "preact": "^10.15.1",
