@@ -25,3 +25,10 @@ export async function hashSha256(input: string): Promise<string> {
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("");
 }
+
+/**
+ * Capitalize the input string by making the first character in it uppercase.
+ */
+export function capitalize(input: string): string {
+  return input[0].toUpperCase() + input.slice(1);
+}
