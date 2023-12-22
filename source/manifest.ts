@@ -6,9 +6,13 @@ import {type Manifest} from "webextension-polyfill";
  * Creates the WebExtension manifest based on the browser target.
  *
  * @param browser The browser target ("firefox" or "chromium").
+ * @param dev Is this for development or production.
  * @returns The WebExtension manifest.
  */
-export function createManifest(browser: string): Manifest.WebExtensionManifest {
+export function createManifest(
+  browser: string,
+  dev: boolean,
+): Manifest.WebExtensionManifest {
   const manifest: Manifest.WebExtensionManifest = {
     manifest_version: Number.NaN,
     name: "Tildes ReExtended",
@@ -28,6 +32,13 @@ export function createManifest(browser: string): Manifest.WebExtensionManifest {
       },
     ],
   };
+
+  if (dev) {
+    // Add the localhost permissions in development so TRX can run on a locally
+    // hosted Tildes.
+    manifest.permissions!.push("*://localhost/*");
+    manifest.content_scripts![0].matches.push("https://*.localhost/*");
+  }
 
   const icons: Manifest.IconPath = {
     128: "tildes-reextended.png",

@@ -35,7 +35,7 @@ const sourceDir = toAbsolutePath("../source");
 await fsp.mkdir(outDir, {recursive: true});
 
 // Write the WebExtension manifest file.
-const manifest = createManifest(browser);
+const manifest = createManifest(browser, dev);
 await fsp.writeFile(
   path.join(outDir, "manifest.json"),
   JSON.stringify(manifest),
