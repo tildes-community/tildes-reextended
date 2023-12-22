@@ -26,6 +26,7 @@ export enum MiscellaneousFeature {
   HideOwnUsername = "hide-own-username",
   ShowTopicAuthor = "show-topic-author",
   TopicInfoIgnore = "topic-info-ignore",
+  TopicLogEnhancements = "topic-log-enhancements",
   UnignoreAllButton = "unignore-all-button",
 }
 

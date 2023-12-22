@@ -28,6 +28,7 @@ import {
   runThemedLogoFeature,
   runShowTopicAuthorFeature,
   runTopicInfoIgnore,
+  runTopicLogEnhancementsFeature,
   runUnignoreAllButtonFeature,
   runUsernameColorsFeature,
   runThemeSwitcherFeature,
@@ -227,6 +228,10 @@ async function initialize() {
       isLoggedIn
     ) {
       runTopicInfoIgnore();
+    }
+
+    if (miscEnabled.value.has(MiscellaneousFeature.TopicLogEnhancements)) {
+      runTopicLogEnhancementsFeature();
     }
 
     if (

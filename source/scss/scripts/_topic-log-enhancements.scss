@@ -1,0 +1,53 @@
+[data-trx-topic-log-enhancements] {
+  --entry-spacing: 4px;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--entry-spacing);
+
+  .topic-log-entry {
+    border-left: 1px solid var(--border-color);
+    margin: 0;
+    margin-top: var(--entry-spacing);
+    padding-left: var(--entry-spacing);
+  }
+
+  .trx-topic-log-diff {
+    &-from,
+    &-to {
+      &::before {
+        align-items: center;
+        display: inline-flex;
+        font-family: monospace;
+        font-size: large;
+        font-weight: bold;
+        justify-content: center;
+        margin-right: var(--entry-spacing);
+      }
+    }
+
+    &-from::before {
+      color: var(--error-color);
+      content: "-";
+    }
+
+    &-to::before {
+      color: var(--success-color);
+      content: "+";
+    }
+
+    &-delete,
+    &-insert {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    &-delete {
+      color: var(--error-color);
+    }
+
+    &-insert {
+      color: var(--success-color);
+    }
+  }
+}

@@ -56,6 +56,15 @@ function FeatureDescription({
     );
   }
 
+  if (feature === MiscellaneousFeature.TopicLogEnhancements) {
+    return (
+      <p class="description">
+        Enhance the topic log entries by adding text diffs, links and layout
+        adjustments. Also automatically expands the topic log.
+      </p>
+    );
+  }
+
   if (feature === MiscellaneousFeature.UnignoreAllButton) {
     return (
       <p class="description">
