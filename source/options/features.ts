@@ -35,6 +35,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2020-10-03"),
+    lastUpdated: new Date("2023-12-24"),
     index: 0,
     key: Feature.Autocomplete,
     title: "Autocomplete",
@@ -71,6 +72,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2019-11-12"),
+    lastUpdated: new Date("2023-12-24"),
     index: 0,
     key: Feature.MarkdownToolbar,
     title: "Markdown Toolbar",
@@ -78,7 +80,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2023-07-16"),
-    lastUpdated: new Date("2023-10-22"),
+    lastUpdated: new Date("2023-12-24"),
     index: 0,
     key: Feature.Miscellaneous,
     title: "Miscellaneous",
@@ -93,6 +95,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2022-02-27"),
+    lastUpdated: new Date("2023-12-24"),
     index: 0,
     key: Feature.ThemedLogo,
     title: "Themed Logo",
@@ -100,7 +103,7 @@ export const features: FeatureData[] = [
   },
   {
     availableSince: new Date("2019-11-10"),
-    lastUpdated: new Date("2023-10-22"),
+    lastUpdated: new Date("2023-12-24"),
     index: 0,
     key: Feature.UserLabels,
     title: "User Labels",
