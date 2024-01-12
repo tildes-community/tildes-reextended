@@ -53,7 +53,7 @@ export const migrations: Array<Migration<string>> = [
       enabledFeatures.value.clear();
       for (const [key, value] of Object.entries(data.features)) {
         if (value) {
-          const snakeCasedKey = key.replace(/([A-Z])/g, "-$1").toLowerCase();
+          const snakeCasedKey = key.replaceAll(/([A-Z])/g, "-$1").toLowerCase();
           if (Object.values(Feature).includes(snakeCasedKey as Feature)) {
             enabledFeatures.value.add(snakeCasedKey as Feature);
           } else {

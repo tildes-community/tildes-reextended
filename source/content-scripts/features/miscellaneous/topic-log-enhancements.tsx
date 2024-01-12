@@ -39,7 +39,7 @@ function applyEnhancements(): number {
     }
 
     // Remove any excess whitespace.
-    text = text.replace(/\s+/g, " ").trim();
+    text = text.replaceAll(/\s+/, " ").trim();
 
     // Remove the editor's name too as we already have that.
     text = text.slice(text.indexOf(" ") + 1);
@@ -166,7 +166,7 @@ function transformText(text: string): TransformedText {
     );
 
     if (removed !== undefined) {
-      const tags = removed.replace(/'/g, "").split(", ");
+      const tags = removed.replaceAll("'", "").split(", ");
       spans.push(
         ...tags.map((tag) => (
           <>
@@ -180,7 +180,7 @@ function transformText(text: string): TransformedText {
     }
 
     if (added !== undefined) {
-      const tags = added.replace(/'/g, "").split(", ");
+      const tags = added.replaceAll("'", "").split(", ");
       spans.push(
         ...tags.map((tag) => (
           <>

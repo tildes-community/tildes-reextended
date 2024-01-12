@@ -82,7 +82,7 @@ export class UserLabelsFeature extends Component<Props, State> {
     });
 
     for (const element of elements) {
-      let username: string = element.textContent!.replace(/@/g, "");
+      let username: string = element.textContent!.replaceAll("@", "");
 
       if (this.props.anonymizeUsernamesEnabled) {
         username = element.dataset.trxUsername ?? username;

@@ -135,8 +135,8 @@ export class HideTopicsSetting extends Component<SettingProps, State> {
       const matcherOptions = Object.values(HideTopicMatcher).map((key) => (
         <option selected={predicate.matcher === key} value={key}>
           {key
-            .replace(/-/g, " ")
-            .replace(/(\b[a-z])/gi, (character) => character.toUpperCase())}
+            .replaceAll("-", " ")
+            .replaceAll(/(\b[a-z])/gi, (character) => character.toUpperCase())}
         </option>
       ));
 

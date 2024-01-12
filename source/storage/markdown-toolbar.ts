@@ -253,6 +253,6 @@ export function processSnippetShortcut(
     alt: components.includes("alt"),
     ctrl: components.includes("ctrl"),
     shift: components.includes("shift"),
-    key: components[components.length - 1],
+    key: components.at(-1),
   } satisfies ProcessedSnippetShortcut;
 }

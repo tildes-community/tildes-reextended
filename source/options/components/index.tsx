@@ -1,5 +1,4 @@
 import {Component, type ComponentChildren, type JSX} from "preact";
-// eslint-disable-next-line n/file-extension-in-import
 import {useContext} from "preact/hooks";
 import {AppContext} from "../context.js";
 import {type Feature} from "../../storage/exports.js";

@@ -41,7 +41,7 @@ async function generateReplacements(
   data: AnonymizeUsernamesData,
 ): Promise<Record<string, string>> {
   const usernames = new Set(
-    elements.map((element) => usernameFromElement(element).replace(/@/g, "")),
+    elements.map((element) => usernameFromElement(element).replaceAll("@", "")),
   );
 
   const replacements: Record<string, string> = {};

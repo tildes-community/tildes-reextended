@@ -47,8 +47,8 @@ export class AnonymizeUsernamesSetting extends Component<SettingProps, State> {
     const replacementTypeOptions = Object.values(ReplacementType).map((key) => (
       <option selected={key === replacementType} value={key}>
         {key
-          .replace(/-/g, " ")
-          .replace(/(\b[a-z])/gi, (character) => character.toUpperCase())}
+          .replaceAll("-", " ")
+          .replaceAll(/(\b[a-z])/gi, (character) => character.toUpperCase())}
       </option>
     ));
 

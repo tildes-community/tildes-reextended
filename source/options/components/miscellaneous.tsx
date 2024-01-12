@@ -126,8 +126,10 @@ export class MiscellaneousSetting extends Component<SettingProps, State> {
               onClick={clickHandler}
             />
             {feature
-              .replace(/-/g, " ")
-              .replace(/(\b[a-z])/gi, (character) => character.toUpperCase())}
+              .replaceAll("-", " ")
+              .replaceAll(/(\b[a-z])/gi, (character) =>
+                character.toUpperCase(),
+              )}
           </label>
           <FeatureDescription feature={feature} />
         </li>

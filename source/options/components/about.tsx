@@ -54,6 +54,7 @@ async function importFileHandler(event: Event): Promise<void> {
     reader.abort();
   });
 
+  // eslint-disable-next-line unicorn/prefer-blob-reading-methods
   reader.readAsText(fileList[0]);
 }
 
