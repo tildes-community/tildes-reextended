@@ -98,3 +98,33 @@ BROWSER="chromium" NODE_ENV="production" makers pack
 makers zip-source
 ```
 </details>
+
+## Firefox for Android
+
+* See also the [Extension Workshop](https://extensionworkshop.com/documentation/develop/developing-extensions-for-firefox-for-android/) documentation.
+
+### Setup
+
+On the Android device:
+
+1. Install [Firefox for Android Nightly](https://play.google.com/store/apps/details?id=org.mozilla.fenix).
+2. Enable Android's developer options by going to the "Build Number" section in your settings and tapping on it repeatedly until it says "You are now a developer".
+3. Enable USB debugging in the newly enabled Developer Options.
+4. Attach to the computer using USB, allow USB debugging when prompted.
+5. Open Firefox Nightly and in the settings page enable "Remote debugging via USB."
+
+On the development computer:
+
+1. Open a terminal and run `adb devices`, when prompted on your phone allow remote debugging.
+2. Copy the ID and set it in your terminal `export ADB_DEVICE="..."`.
+3. Grant Firefox Nightly the read external storage permission:
+
+```txt
+adb shell pm grant org.mozilla.fenix android.permission.READ_EXTERNAL_STORAGE
+```
+
+### Tasks
+
+Now you should be able to use any of the available `cargo-make` tasks for development by setting `TARGET="firefox-android"`. For example to install the extension into Firefox Nightly and reload on changes `TARGET="firefox-android" makers dev` can be used.
+
+This should open Firefox Nightly on your Android device and prompt you to install the extension. If it opens Firefox on your desktop you will also be able to use USB debugging in the `about:debugging#/setup` page.
