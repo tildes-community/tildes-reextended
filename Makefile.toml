@@ -1,3 +1,20 @@
+# Set TARGET using duckscript rather than the usual `env_not_set` way as there's
+# currently a potential bug with using decode maps and conditions.
+# https://github.com/sagiegurari/cargo-make/issues/1018
+env_scripts = ["""
+#!@duckscript
+
+target = get_env TARGET
+if is_empty ${target}
+  browser = get_env BROWSER
+  if eq ${browser} "firefox"
+    set_env TARGET "firefox-desktop"
+  else
+    set_env TARGET ${browser}
+  end
+end
+"""]
+
 [env]
 # Set BROWSER="firefox" if not already defined.
 # All browser targets are defined in `source/types.d.ts` as a global `$browser`.
@@ -62,10 +79,16 @@ args = ["install", "--silent"]
 [tasks.run]
 clear = true
 command = "pnpm"
-# Set --target explicitly, since web-ext for some reason doesn't use the target
-# set in the configuration file. https://github.com/mozilla/web-ext/issues/1862
-env = { TARGET = { source = "${BROWSER}", default_value = "${BROWSER}", mapping = { "firefox" = "firefox-desktop" } } }
-args = ["web-ext", "run", "--target=${TARGET}", "--config=build/web-ext-${BROWSER}.json"]
+args = [
+  "web-ext",
+  "run",
+  # Set --target explicitly, since web-ext for some reason doesn't use the target
+  # set in the configuration file. https://github.com/mozilla/web-ext/issues/1862
+  "--target=${TARGET}",
+  "--config=build/web-ext-${BROWSER}.json",
+  "--adb-device=${ADB_DEVICE}",
+  "--firefox-apk=org.mozilla.fenix"
+]
 
 # Alias for `WATCH=true makers build`.
 [tasks.watch]
